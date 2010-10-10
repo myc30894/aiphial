@@ -5,37 +5,37 @@
 
 package me.uits.aiphial.imaging.runner
 
-import org.clapper.argot.ArgotParser
+
 import java.awt.image.BufferedImage
 import me.uits.aiphial.imaging.SegmentatorAdapter
-import org.clapper.argot.ArgotConverters._
+
 import ru.nickl.meanShift.direct.filter.SimpleMSFilter
 
 import scala.collection.JavaConversions.asIterable
-
+import com.beust.jcommander.Parameter;
 import scalarunner.Tools._
 
-class NaiveMSCli(parser: ArgotParser) {
+class NaiveMSCli() {
 
-  val coloRange = parser.option[Float](List("cr", "colorRange"), "size",
-                                    "TODO")
+  @Parameter(names = Array("-cr"), description = "colorRange")
+  var coloRange = 7
 
-  val spatialRange = parser.option[Short](List("sr", "spatialRange"), "size",
-                                    "TODO")
+  @Parameter(names = Array("-sr"), description = "spatialRange")
+  var spatialRange = 2
 
-  val minreg = parser.option[Int](List("mr", "minreg"), "size",
-                                    "TODO")
+  @Parameter(names = Array("-mr"), description = "minreg")
+  var minreg = 0
 
 
   def process(image:BufferedImage):BufferedImage={
 
     val ifilter = new SimpleMSFilter{
-      setColorRange(coloRange.value.getOrElse(7))
-      setSquareRange(spatialRange.value.getOrElse(2) )
+      setColorRange(coloRange)
+      setSquareRange(spatialRange.toShort)
     }
 
     val is  = new ru.nickl.meanShift.direct.segmentator.SimpleSegmentator(ifilter){
-      setMinRegionSize(minreg.value.getOrElse(0))
+      setMinRegionSize(minreg)
 
     }
 

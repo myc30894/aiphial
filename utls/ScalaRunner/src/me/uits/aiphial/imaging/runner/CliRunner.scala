@@ -2,11 +2,13 @@
 
 package me.uits.aiphial.imaging.runner
 
-import org.github.scopt.OptionParser
-import org.clapper.argot._
+
+import com.beust.jcommander.JCommander
+import com.beust.jcommander.JCommanderFactory
+import com.beust.jcommander.ParameterException
 import java.io.File
 import javax.imageio.ImageIO
-import org.clapper.argot.ArgotConverters._
+
 
 object CliRunner {
 
@@ -14,62 +16,47 @@ object CliRunner {
    * @param args the command line arguments
    */
   def main(args: Array[String]): Unit = {
-
-//    var inputfile:String = null;
-//    var outfile:String = "out.bmp";
-//    var method:String = null;
-//
-//
-//    val parser = new OptionParser("aiphial-cli") {
-//      opt("i", "input", "<file>", "input image filename", {v: String => inputfile = v})
-//      opt("o", "output", "<file>", "cluster imagefilename", {v: String => outfile = v})
-//      opt("m", "method", "xyz is a boolean property", {v: String => method = v})
-//      keyValueOpt("p", "param", "<paramname>", "<paramvalue>", "method-dependant parametrs",
-//                  {(key: String, value: String) => { println(key+"->"+value)} })
-//      //arg("<singlefile>", "<singlefile> is an argument", {v: String => config.whatnot = v})
-//      // arglist("<file>...", "arglist allows variable number of arguments",
-//      //   {v: String => config.files = (v :: config.files).reverse })
-//    }
-//    if (parser.parse(args)) {
-//
-//      println(inputfile+", "+outfile+","+ method);
-//
-//
-//    }
-//    else {
-//      // arguments are bad, usage message will have been displayed
-//    }
-
-    val parser = new ArgotParser("cooltool", preUsage=Some("Version 1.0"))
     
-   
 
-    val outfile = parser.option[String](List("o", "output"), "filename",
-                                        "cluster image filename")
-
-    val inputfile = parser.option[String](List("i", "iterations"), "filename",
-                                          "input image filename")
-
-    val method = parser.option[String](List("m", "method"), "methodname",
-                                       "clustering method name")
-
+    val maindata = new MainData()
+    val ns = new NaiveMSCli()
     
-    val method0 = parser.option[String](List("m", "method"), "methodname",
-                                       "clustering method name")
-   
+    val jc = JCommanderFactory.createWithArgs(Array(maindata,ns))
+    
+    try{
+    
 
-    val clusterer = new NaiveMSCli(parser)
+      jc.parse(args:_*);
+    
+      val srcimg = ImageIO.read(new File(maindata.inputfile))
 
-    parser.parse(args)
+      val resimage = ns.process(srcimg)
 
-    println(inputfile.value+", "+outfile.value+","+ method.value +","+method0.value  );
- 
-    val srcimg = ImageIO.read(new File(inputfile.value.get))
+      ImageIO.write(resimage, "png", new File(maindata.outfile+".png"))
 
-    val resimage = clusterer.process(srcimg)
-
-    ImageIO.write(resimage, "png", new File("out00000.png"))
+    }
+    catch{
+      
+      case ex:ParameterException => {
+          System.err.println(ex.getLocalizedMessage);
+          jc.usage()
+        }
+      
+      
+    }
 
   }
+
+
+}
+
+ import com.beust.jcommander.Parameter;
+class MainData()
+{
+    @Parameter(names = Array("-i"), description = " input file name", required = true)
+    var inputfile:String = "../../images/smallgisto.jpg";
+
+    @Parameter(names = Array("-o"), description = " output file name")
+    var outfile:String = "out";
 
 }
