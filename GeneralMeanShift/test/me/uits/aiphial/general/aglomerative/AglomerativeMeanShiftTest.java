@@ -114,7 +114,7 @@ public class AglomerativeMeanShiftTest extends AbstractMeanShiftClustererTest
         instance.addIterationListener(new IterationListener<NDimPoint>()
         {
 
-            public void IterationDone(Collection<Cluster<NDimPoint>> clusters)
+            public void IterationDone(Collection<? extends Cluster<NDimPoint>> clusters)
             {
                 System.out.println(System.currentTimeMillis()-startime+" cc=" + clusters.size());
             }

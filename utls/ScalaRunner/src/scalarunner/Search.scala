@@ -230,7 +230,7 @@ object Search{
 
   def main0(args: Array[String]): Unit = {
 
-    type CC = java.util.Collection[Cluster[LuvPoint]]
+    type CC = java.util.Collection[_<:Cluster[LuvPoint]]
 
     implicit def ClusterToRegion(cluster: Cluster[LuvPoint]) = new Region(cluster)
 

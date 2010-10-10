@@ -28,5 +28,5 @@ import me.uits.aiphial.general.dataStore.NDimPoint;
 public interface IterationListener<T extends NDimPoint>
 {
 
-    public void IterationDone(Collection<Cluster<T>> clusters);
+    public void IterationDone(Collection<? extends Cluster<T>> clusters);
 }

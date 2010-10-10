@@ -61,7 +61,7 @@ object Tools {
 
 
 
-  type CC = java.util.Collection[Cluster[LuvPoint]]
+  type CC = java.util.Collection[_<:Cluster[LuvPoint]]
 
   implicit def ClusterToRegion(cluster: Cluster[LuvPoint]) = new Region(cluster)
 
