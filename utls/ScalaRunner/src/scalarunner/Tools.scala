@@ -114,4 +114,34 @@ object Tools {
 
     }
 
+   def getFormatByName(filename:String):Option[String]={
+
+    val ext = filename.drop(filename.lastIndexOf(".")+1)
+
+    ImageIO.getWriterFormatNames().find(_.compareToIgnoreCase(ext)==0)
+   }
+
+  def makeIndexedName(filename0:String, index:Int):String={
+
+    val filename = filename0.drop(filename0.lastIndexOf(File.separator)+1) // new File(filename0).getName
+
+    val ld = filename.lastIndexOf(".")
+
+    val (name, ext) = if(ld>0)filename.splitAt(ld) else (filename,"")
+    
+    name + index + ext
+    
+  }
+
+  def measureTime(f: =>Any):Long={
+    val start = System.currentTimeMillis
+    f
+    System.currentTimeMillis-start
+  }
+
+  def logTime(f: =>Any):Unit={
+  println("elapsed time= "+measureTime(f))
+
+  }
+
 }

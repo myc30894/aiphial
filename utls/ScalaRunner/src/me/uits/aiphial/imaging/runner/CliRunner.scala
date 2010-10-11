@@ -1,4 +1,23 @@
-
+/*
+ *
+ * This file is part of Aiphial.
+ *
+ * Copyright (c) 2010 Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 
 package me.uits.aiphial.imaging.runner
 
@@ -12,34 +31,48 @@ import javax.imageio.ImageIO
 
 object CliRunner {
 
+  val comands = List(new AgloMSCli, new NaiveMSCli)
   /**
    * @param args the command line arguments
    */
   def main(args: Array[String]): Unit = {
-    
+   
+   
+    val jc = JCommanderFactory.createWithArgs(new Object)
 
-    val maindata = new MainData()
-    val ns = new NaiveMSCli()
-    
-    val jc = JCommanderFactory.createWithArgs(Array(maindata,ns))
+    val aggloms = new AgloMSCli
+
+    for(c <- comands)
+        jc.addCommand(c.name, c)
     
     try{
     
 
       jc.parse(args:_*);
-    
-      val srcimg = ImageIO.read(new File(maindata.inputfile))
 
-      val resimage = ns.process(srcimg)
+      comands.find(jc.getParsedCommand == _.name) match {      
+        case Some(c) => c.process;
+        case None => jc.usage();
+      }
 
-      ImageIO.write(resimage, "png", new File(maindata.outfile+".png"))
 
+//      if(jc.getParsedCommand == aggloms.name)
+//        {
+//          aggloms.process
+//        }
+//        else
+//          {
+//            jc.usage()
+//          }
     }
     catch{
       
       case ex:ParameterException => {
-          System.err.println(ex.getLocalizedMessage);
-          jc.usage()
+          System.out.println(ex.getLocalizedMessage);
+          if(jc.getParsedCommand!=null)
+          jc.usage(jc.getParsedCommand)
+        else
+          jc.usage
         }
       
       
