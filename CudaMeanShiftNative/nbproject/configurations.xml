@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="69">
+  <logicalFolder name="root" displayName="root" projectFiles="true">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <itemPath>nbcudawa.h</itemPath>
+      <itemPath>ru_nickl_meanshift_direct_cuda_NativeCudaMSFilter.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <itemPath>main.cu</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="2">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>GNU|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>/usr/local/cuda/include</pElem>
+            <pElem>/usr/include</pElem>
+            <pElem>/usr/local/include</pElem>
+            <pElem>/home/nickl/apps/NVIDIA_GPU_Computing_SDK/C/common/inc</pElem>
+            <pElem>/home/nickl/apps/jdk1.6/include</pElem>
+            <pElem>/home/nickl/apps/jdk1.6/include/linux</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>/usr/local/cuda/include</pElem>
+            <pElem>/usr/include</pElem>
+            <pElem>/usr/local/include</pElem>
+            <pElem>/home/nickl/apps/jdk1.6/include</pElem>
+            <pElem>/home/nickl/apps/jdk1.6/include/linux</pElem>
+            <pElem>/home/nickl/apps/NVIDIA_GPU_Computing_SDK/C/common/inc</pElem>
+          </incDir>
+        </ccTool>
+      </compileType>
+    </conf>
+    <conf name="Release" type="2">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>CUDA|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>/usr/local/cuda/include</pElem>
+            <pElem>/usr/include</pElem>
+            <pElem>/usr/local/include</pElem>
+            <pElem>/home/nick/NVIDIA_GPU_Computing_SDK/C/common/inc</pElem>
+            <pElem>/home/nickl/apps/jdk1.6.0_14/include</pElem>
+            <pElem>/home/nickl/apps/jdk1.6.0_14/include/linux</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>/usr/local/cuda/include</pElem>
+            <pElem>/usr/include</pElem>
+            <pElem>/usr/local/include</pElem>
+            <pElem>/home/nick/NVIDIA_GPU_Computing_SDK/C/common/inc</pElem>
+            <pElem>/home/nickl/apps/jdk1.6.0_14/include</pElem>
+            <pElem>/home/nickl/apps/jdk1.6.0_14/include/linux</pElem>
+          </incDir>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+      </compileType>
+    </conf>
+  </confs>
+</configurationDescriptor>

@@ -1,0 +1,50 @@
+$unsupported = {GSMIPyRuner, meanShiftAppl, GMSPy}
+
+$deprecated = $unsupported + meanShift
+
+===== before publication =====
+
+* rename GMS, GMSImages, GMSImagesExt, ScalaRunner packages to me.uits.aiphial
+
+* mark meanShift as deprecated and keep old packages names
+
+* check what projects depends on HungarianMethod Library and push GPL3 license in header for others push LGPL. Dont put license headers in $deprecated
+
+===== maybe after publication =====
+
+* create executable console application to run samples
+
+* test on Windows
+
+* review Scalarunner project. maybe it better to replace it with sample scripts
+
+===== after publication =====
+
+* remove $unsupported from main branch but keep it in repository history
+
+* add extended samples and some docs
+
+===== long term =====
+
+* write documentation
+
+* remove GMSImagesExt dependancy on HungarianMethod Library and unite GMSImagesExt with GMSImages into mixed Java/Scala project under LGPL
+
+* write usable crossplatform buildfiles
+
+* do something with Native(CUDA) part. maybe port to Java/ScalaCL
+
+
+==========================================================
+
+Wiki plan:
+
+- introduction (what lib contains)
+- structure (what each subproject stands for)
+-- third part libraries
+- licensing
+- building from source (there are no general-purpose build scripts yet except generated from netbeans. But manualy project building should not be a very complicated task if dont touch CUDA-part)
+- samples (using command line-tool)
+
+
+
