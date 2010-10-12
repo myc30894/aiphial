@@ -115,8 +115,8 @@ object Search{
 //     msc.setInitialClusterer(new SegmentatorAdapter(growingSegmentator))
 
 
-    val ifilter = new NativeCudaMSFilter{
-    //val ifilter = new SimpleMSFilter{
+    //val ifilter = new NativeCudaMSFilter{
+    val ifilter = new SimpleMSFilter{
       setColorRange(7)
       setSquareRange(2)
     }

@@ -76,11 +76,11 @@ object Segmentation {
     val h = srcimg.getHeight();
     val w = srcimg.getWidth();    
     
-//    val a = new FastMSFilter(){
-//          setDiffColor(10)
-//          setDiffSquare(3)
-//    }
-    val a = new NativeCudaMSFilter()
+    val a = new FastMSFilter(){
+          setDiffColor(10)
+          setDiffSquare(3)
+    }
+//    val a = new NativeCudaMSFilter()
 
 
     val t = 2
