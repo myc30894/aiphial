@@ -11,6 +11,8 @@ package com.beust.jcommander;
  */
 public class JCommanderFactory {
     public static JCommander createWithArgs(Object cmdLineArgs) {
-        return new JCommander(cmdLineArgs);
+        JCommander jCommander = new JCommander(cmdLineArgs);
+        jCommander.addConverterFactory(new FloatConverterFactory());
+        return jCommander;
     }
 }

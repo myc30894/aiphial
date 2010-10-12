@@ -1,11 +1,7 @@
-$unsupported = {GSMIPyRuner, meanShiftAppl, GMSPy}
 
-$deprecated = $unsupported + meanShift
-
+$deprecated = meanShift
 
 ===== after publication =====
-
-* remove $unsupported from main branch but keep it in repository history
 
 * add extended samples and some docs
 
@@ -15,7 +11,7 @@ $deprecated = $unsupported + meanShift
 
 * remove GMSImagesExt dependancy on HungarianMethod Library and unite GMSImagesExt with GMSImages into mixed Java/Scala project under LGPL
 
-* write usable crossplatform buildfiles
+* write usable crossplatform buildfiles (mb Maven)
 
 * do something with Native(CUDA) part. maybe port to Java/ScalaCL
 
