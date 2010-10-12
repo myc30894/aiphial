@@ -2,21 +2,6 @@ $unsupported = {GSMIPyRuner, meanShiftAppl, GMSPy}
 
 $deprecated = $unsupported + meanShift
 
-===== before publication =====
-
-* rename GMS, GMSImages, GMSImagesExt, ScalaRunner packages to me.uits.aiphial
-
-* mark meanShift as deprecated and keep old packages names
-
-* check what projects depends on HungarianMethod Library and push GPL3 license in header for others push LGPL. Dont put license headers in $deprecated
-
-===== maybe after publication =====
-
-* create executable console application to run samples
-
-* test on Windows
-
-* review Scalarunner project. maybe it better to replace it with sample scripts
 
 ===== after publication =====
 
