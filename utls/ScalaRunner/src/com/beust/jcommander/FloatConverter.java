@@ -22,7 +22,7 @@ public class FloatConverter extends BaseConverter<Float> {
     try {
       return Float.parseFloat(value);
     } catch(NumberFormatException ex) {
-      throw new ParameterException(getErrorString(value, "a long"));
+      throw new ParameterException(getErrorString(value, "a float"));
     }
   }
 

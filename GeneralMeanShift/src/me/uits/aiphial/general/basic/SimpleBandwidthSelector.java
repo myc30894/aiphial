@@ -30,13 +30,20 @@ import me.uits.aiphial.general.dataStore.NDimPoint;
 import static me.uits.aiphial.general.basic.Utls.getSpaceSize;
 
 /**
- *
+ * Class that automatically selects a bandwidth(window)
+ * for mean-shift clustering from data
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
 public class SimpleBandwidthSelector
 {
 
 
+    /**
+     * automatically selects a bandwidth(window)
+     * for mean-shift clustering from data
+     * @param ds - the source data
+     * @return n-dimensional point, a bandwidth(window)
+     */
     public Float[] getBandwidth(DataStore<? extends NDimPoint> ds)
     {
         List<? extends NDimPoint> pointsList = ds.asList();
@@ -81,51 +88,4 @@ public class SimpleBandwidthSelector
 
     }
 
-    
-    /*
-    public Float[] getBandwidth(DataStore<? extends NDimPoint> ds)
-    {
-    List<? extends NDimPoint> points = ds.asList();
-
-    Float[][] arrays= new Float[points.get(0).size()][points.size()];
-
-    int j=0;
-    for (NDimPoint nDimPoint : points)
-    {
-
-    for (int i = 0; i < nDimPoint.size(); i++)
-    {
-    arrays[i][j] = nDimPoint.get(i);
-    }
-
-    j++;
-    }
-
-
-    Float[] result = new Float[points.get(0).size()];
-
-    for (int i = 0; i < result.length; i++)
-    {
-    result[i] = estimate(arrays[i])*points.get(0).size()*40;
-    }
-
-    return result;
-    }
-
-    private Float estimate(Float[] line)
-    {
-
-    Arrays.sort(line);
-
-    Float sum = 0f;
-
-    for (int i = 0; i < line.length-1; i++)
-    {
-    sum+=line[i+1]-line[i];
-    }
-
-    return (sum/line.length);
-
-    }
-     */
 }

@@ -28,11 +28,14 @@ import me.uits.aiphial.general.dataStore.NDimPoint;
 import me.uits.aiphial.general.dataStore.SimpleNDimPoint;
 
 /**
- *
+ * class of utility static methods
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
 public class Utls {
 
+    /**
+     * calculates euclidian distance between points
+     */
     public   static   float distance(NDimPoint shiftedPoint, NDimPoint nDimPoint)
     {
 
@@ -56,6 +59,11 @@ public class Utls {
         Float max;
     }
 
+    /**
+     * calculates the dimension of the hyper-parallelepiped bounding the given points
+     * @param collection of given points
+     * @return dimension of the bounding hyper-parallelepiped
+     */
     public static  Float[] getSpaceSize(Collection<? extends NDimPoint> l)
     {
         final NDimPoint firstpoint = l.iterator().next();
@@ -88,6 +96,9 @@ public class Utls {
         return spaceDims;
     }
 
+    /**
+     * @return center of mass of weighted points
+     */
     public static NDimPoint getAvragePoint(Collection<? extends NDimPoint> withinWindow)
     {
         Float[] averageData = new Float[withinWindow.iterator().next().getDimensions()];

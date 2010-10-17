@@ -25,13 +25,21 @@ import me.uits.aiphial.general.basic.Clusterer;
 import me.uits.aiphial.general.dataStore.NDimPoint;
 
 /**
- *
+ * Interface for clusterers that have several steps and result could be obtained on each step
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
 public interface MultistepClusterer<T extends NDimPoint> extends Clusterer<T> {
 
+    /**
+     * add listener that would be notified when one clustering step is done
+     * @param iterationListener
+     */
     void addIterationListener(IterationListener<T> iterationListener);
 
+    /**
+     * remove listener
+     * @param iterationListener
+     */
     void removeIterationListener(IterationListener<T> iterationListener);
 
 }

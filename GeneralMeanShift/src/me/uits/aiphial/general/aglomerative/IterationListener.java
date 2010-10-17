@@ -25,6 +25,10 @@ import java.util.Collection;
 import me.uits.aiphial.general.basic.Cluster;
 import me.uits.aiphial.general.dataStore.NDimPoint;
 
+/**
+ * Imterface for listeners of multistep clusterers
+ * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
+ */
 public interface IterationListener<T extends NDimPoint>
 {
 

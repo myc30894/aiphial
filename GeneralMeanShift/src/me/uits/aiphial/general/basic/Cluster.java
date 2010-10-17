@@ -28,7 +28,7 @@ import me.uits.aiphial.general.dataStore.NDimPoint;
 import me.uits.aiphial.general.dataStore.SimpleNDimPoint;
 
 /**
- *
+ * Cluster, a collection of points that were united after clusterization because of similarity
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
 public class Cluster<T extends NDimPoint> extends ArrayList<T>{
@@ -52,11 +52,19 @@ public class Cluster<T extends NDimPoint> extends ArrayList<T>{
 
     private NDimPoint basinOfAttraction;
 
+    /**
+     * returns the characteristic point of this cluster (center of cluster)
+     * @return
+     */
     public NDimPoint getBasinOfAttraction()
     {
         return basinOfAttraction;
     }
 
+    /**
+     * sets the characteristic point of this cluster (center of cluster)
+     * @param basinOfAttraction
+     */
     public void setBasinOfAttraction(NDimPoint basinOfAttraction)
     {
         this.basinOfAttraction = basinOfAttraction;

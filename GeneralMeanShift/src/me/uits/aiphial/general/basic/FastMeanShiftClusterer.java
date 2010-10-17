@@ -29,7 +29,9 @@ import me.uits.aiphial.general.dataStore.NDimPoint;
 import me.uits.aiphial.general.dataStore.SimpleNDimPoint;
 
 /**
- *
+ * Fast mean-shift clusterer assuming that nearest points
+ * in source data would become members of same clusters.
+ * Faster but less accurate.
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
 public class FastMeanShiftClusterer<T extends NDimPoint> extends MeanShiftClusterer<T> implements IMeanShiftClusterer<T>
@@ -112,11 +114,20 @@ public class FastMeanShiftClusterer<T extends NDimPoint> extends MeanShiftCluste
 
     }
 
+    /**
+     * @return speedup factor
+     */
     public int getSpeedUpFactor()
     {
         return speedUpFactor;
     }
 
+    /**
+     * Set the speedup factors.
+     * higher value will increase speed but reduce quality.
+     * default value is 10
+     * @param speedUpFactor
+     */
     public void setSpeedUpFactor(int speedUpFactor)
     {
         this.speedUpFactor = speedUpFactor;

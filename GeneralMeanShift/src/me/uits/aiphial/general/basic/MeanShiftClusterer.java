@@ -33,7 +33,7 @@ import me.uits.aiphial.general.dataStore.SimpleNDimPoint;
 import static me.uits.aiphial.general.basic.Utls.distance;
 
 /**
- *
+ * Base (naive) implementation of mean-shift clusterer
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
 public class MeanShiftClusterer<T extends NDimPoint> extends MeanShiftClustererOld<T> implements IMeanShiftClusterer<T>

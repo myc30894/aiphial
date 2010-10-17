@@ -27,17 +27,27 @@ import java.util.List;
 import me.uits.aiphial.general.dataStore.NDimPoint;
 import me.uits.aiphial.general.dataStore.SimpleNDimPoint;
 import static me.uits.aiphial.general.basic.Utls.distance;
-
+/**
+ * A characteristic point of the cluster, a center of cluster
+ * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
+ */
 public class Bof<T extends NDimPoint> extends SimpleNDimPoint
 {
 
+    //TODO remove it, cluster already contains it
     public List<T> points = new ArrayList<T>();
-
+/**
+ * @param calkBofA  - a characteristic point of the cluster, a center of cluster
+ */
     public Bof(NDimPoint calkBofA)
     {
         super(calkBofA);
     }
-    
+/**
+ *
+ * @param calkBofA - a characteristic point of the cluster, a center of cluster
+ * @param points - other points of the cluster
+ */
     public Bof(NDimPoint calkBofA, List<T> points)
     {
         super(calkBofA);

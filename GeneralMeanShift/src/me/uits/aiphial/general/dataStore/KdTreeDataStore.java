@@ -33,7 +33,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * kd-trees-based data storage implementation. Based on savarese kd-tree library
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
 public class KdTreeDataStore <T extends NDimPoint> implements  DataStore<T> {

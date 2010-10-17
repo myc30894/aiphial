@@ -34,7 +34,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
- *
+ * Data storage which is based on TreeMaps within TreeMaps
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
 @SuppressWarnings("unchecked")

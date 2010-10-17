@@ -26,15 +26,26 @@ import me.uits.aiphial.general.dataStore.DataStore;
 import me.uits.aiphial.general.dataStore.NDimPoint;
 
 /**
- *
+ * base interface to clusterers of {@link NDimPoint}
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
 public interface Clusterer<T extends NDimPoint> {
 
+    /**
+     * run clusterization
+     */
     void doClustering();
 
+    /**
+     * return list of resulting clusters
+     * @return return list of resulting clusters or undefined if clusterization was not performed
+     */
     List<? extends Cluster<T>> getClusters();
 
+    /**
+     * set initial data to be clusterizated
+     * @param dataStore
+     */
     void setDataStore(DataStore<? extends T> dataStore);
 
 }

@@ -22,5 +22,11 @@
                 <id>jar</id>
             </reference>
         </references>
+        <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+            <word>clusterer</word>
+            <word>clusterers</word>
+            <word>clusterization</word>
+            <word>multistep</word>
+        </spellchecker-wordlist>
     </configuration>
 </project>

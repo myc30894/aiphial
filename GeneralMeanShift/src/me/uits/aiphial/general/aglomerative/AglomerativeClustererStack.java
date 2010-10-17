@@ -36,7 +36,9 @@ import me.uits.aiphial.general.dataStore.DefaultDataStoreFactory;
 import me.uits.aiphial.general.dataStore.NDimPoint;
 
 /**
- *
+ * Class to build agglomerative clusterers from other clusterers by connecting them into sequence.
+ * This means that results of clustering with first clusterer would be an the input data to second clusterers
+ * end so on.
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
 public class AglomerativeClustererStack<T extends NDimPoint> extends AbstractAglomerativeClusterer<T> implements Clusterer<T>
@@ -101,6 +103,10 @@ public class AglomerativeClustererStack<T extends NDimPoint> extends AbstractAgl
     }
 
     // <editor-fold defaultstate="collapsed" desc="gettersandsetters">
+    /**
+     * set the first clusterer in seq
+     * @param initialClusterer - the first clusterer in seq
+     */
     public void setInitialClusterer(Clusterer<T> initialClusterer)
     {
         if (this.initialClusterer != null)
@@ -110,12 +116,19 @@ public class AglomerativeClustererStack<T extends NDimPoint> extends AbstractAgl
 
         this.initialClusterer = initialClusterer;
     }
-
+/**
+ *
+ * @return the first clusterer in seq
+ */
     public Clusterer<T> getInitialClusterer()
     {
         return initialClusterer;
     }
 
+    /**
+     * add a clusterer to seq
+     * @param clusterer
+     */
     public void addClustererToQueue(Clusterer<NDimPoint> clusterer)
     {
         if (initialClusterer == null)
@@ -137,7 +150,10 @@ public class AglomerativeClustererStack<T extends NDimPoint> extends AbstractAgl
 
     };
 
-
+    /**
+     * add a multistep(agglomerative) clusterer to seq
+     * @param clusterer
+     */
     public void addExtendingClustererToQueue(MultistepClusterer<T> clusterer)
     {
 

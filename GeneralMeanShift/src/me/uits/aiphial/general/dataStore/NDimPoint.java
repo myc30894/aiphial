@@ -24,17 +24,31 @@ package me.uits.aiphial.general.dataStore;
 import com.savarese.spatial.Point;
 
 /**
- *
+ * Multidimension point. A unit that could be clustered
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
 public interface NDimPoint extends Point<Float> {
 
+    /**
+     * return value at i-th dimension
+     */
     Float getCoord(int i);
 
+    /**
+     * set value at i-th dimension
+     */
     void setCoord(int i, Float v);
 
+    /**
+     * returns a number of dimensions for this point
+     * @return a number of dimensions for this point
+     */
     int getDimensions();
 
+    /**
+     * returns a weight of this point (usally returns 1). This is needed for some algorithms
+     * @return
+     */
     float getWeight();
 
 }

@@ -33,7 +33,7 @@ import me.uits.aiphial.general.dataStore.DefaultDataStoreFactory;
 import me.uits.aiphial.general.dataStore.NDimPoint;
 
 /**
- *
+ * A base class for all agglomerative clusterers
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
 public abstract class AbstractAglomerativeClusterer<T extends NDimPoint> implements Clusterer<T>, MultistepClusterer<T> {
@@ -63,6 +63,10 @@ public abstract class AbstractAglomerativeClusterer<T extends NDimPoint> impleme
         return result0;
     }
 
+    /**
+     * returns the factory that is used to create datastories to store data between each step of clusterization
+     * @return the factory that is used to create datastories to store data between each step of clusterization
+     */
     public DataStoreFactory getDataStoreFactory()
     {
         return dataStoreFactory;
@@ -83,7 +87,11 @@ public abstract class AbstractAglomerativeClusterer<T extends NDimPoint> impleme
             return new Bof<BT>(cluster.getBasinOfAttraction(), cluster);
         }
     }
-
+    
+    /**
+     * sets a factory that would be used to create datastories to store data between each step of clusterization
+     * @param dataStoreFactory a factory that would be used to create datastories to store data between each step of clusterization
+     */
     public void setDataStoreFactory(DataStoreFactory dataStoreFactory)
     {
         this.dataStoreFactory = dataStoreFactory;

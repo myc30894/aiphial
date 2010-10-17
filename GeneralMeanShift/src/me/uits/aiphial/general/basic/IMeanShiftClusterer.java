@@ -26,11 +26,14 @@ import me.uits.aiphial.general.dataStore.DataStore;
 import me.uits.aiphial.general.dataStore.NDimPoint;
 
 /**
- *
+ * Base interface for all mean-shift based clusterers
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
 public interface IMeanShiftClusterer<T extends NDimPoint> extends Clusterer<T> {
 
+      /**
+     * @param window n-dimensional window to search nearest points within
+     */
     public void setWindow(Float... window);
 
 }

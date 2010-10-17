@@ -33,9 +33,10 @@ import me.uits.aiphial.general.dataStore.SimpleNDimPoint;
 import static me.uits.aiphial.general.basic.Utls.distance;
 
 /**
- *
+ * Old base (naive) implementation of mean-shift clusterer
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
+//TODO maybe remove it once it is "old"
 public class MeanShiftClustererOld<T extends NDimPoint> implements IMeanShiftClusterer<T>
 {
 
@@ -145,7 +146,7 @@ public class MeanShiftClustererOld<T extends NDimPoint> implements IMeanShiftClu
     
 
     /**
-     * @return the minDistance
+     * @return the minimum distance between points in order to be considered identical
      */
     public float getMinDistance()
     {
@@ -153,7 +154,7 @@ public class MeanShiftClustererOld<T extends NDimPoint> implements IMeanShiftClu
     }
 
     /**
-     * @param minDistance the minDistance to set
+     * @param minDistance the minimum distance between points in order to be considered identical
      */
     public void setMinDistance(float minDistance)
     {
@@ -167,7 +168,7 @@ public class MeanShiftClustererOld<T extends NDimPoint> implements IMeanShiftClu
     }
 
     /**
-     * @return the dataStoreFactory
+     * @return the dataStore Factory that is used to produce data storages for resulting data
      */
     public DataStoreFactory getDataStoreFactory()
     {
@@ -175,7 +176,8 @@ public class MeanShiftClustererOld<T extends NDimPoint> implements IMeanShiftClu
     }
 
     /**
-     * @param dataStoreFactory the dataStoreFactory to set
+     * @param dataStoreFactory - the dataStore Factory
+     * that would be used to produce data storages for resulting data
      */
     public void setDataStoreFactory(DataStoreFactory dataStoreFactory)
     {

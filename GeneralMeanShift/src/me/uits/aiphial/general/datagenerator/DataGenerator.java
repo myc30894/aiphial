@@ -28,7 +28,7 @@ import me.uits.aiphial.general.dataStore.NDimPoint;
 import me.uits.aiphial.general.dataStore.SimpleNDimPoint;
 
 /**
- *
+ * N-dim points data generator based on multiple Gaussian distribution.
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
 public class DataGenerator {
