@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 package me.uits.aiphial.imaging;
 
 import java.awt.Rectangle;
@@ -40,7 +39,7 @@ import me.uits.aiphial.imaging.LuvPoint;
 import static java.lang.Math.*;
 
 /**
- *
+ * Class to determinate which point is assigned to which cluster and visa-versa
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
 public class ClustersMap
@@ -56,18 +55,28 @@ public class ClustersMap
     Map<Region, Collection<LuvPoint>> bounary8map;
     Map<Region, Collection<LuvPoint>> bounary4map;
 
-
+    /**
+     * @param x lowest x-coordinate of image plane
+     * @param y lowest y-coordinate of image plane
+     * @param width width of image plane
+     * @param height height of image plane
+     * @param add - size of additional border buffer
+     */
     public ClustersMap(int x, int y, int width, int height, int add)
     {
-        this.sx = x-add;
-        this.sy = y-add;
-        this.width = width+add;
-        this.height = height+add;
-        array = new Region[this.width-sx][this.height-sy];
+        this.sx = x - add;
+        this.sy = y - add;
+        this.width = width + add;
+        this.height = height + add;
+        array = new Region[this.width - sx][this.height - sy];
         //points = new LuvPoint[width][height];
         pointsMap = new PointsMap(x, y, width, height, add);
     }
 
+    /**
+     * @param width width of image plane
+     * @param height height of image plane
+     */
     public ClustersMap(int width, int height)
     {
         this(0, 0, width, height, 1);
@@ -77,12 +86,15 @@ public class ClustersMap
     {
 
         Rectangle r = ImgUtls.getBoundingRect(cluster);
-        ClustersMap clustersMap = new ClustersMap(r.x+r.width+1, r.y+r.height+1);
+        ClustersMap clustersMap = new ClustersMap(r.x + r.width + 1, r.y + r.height + 1);
         clustersMap.buildMap(Arrays.asList(cluster));
         return clustersMap;
     }
 
-
+    /**
+     * adds clusters to the map
+     * @param clusters
+     */
     public void buildMap(Iterable<Region> clusters)
     {
         int count = 0;
@@ -93,7 +105,7 @@ public class ClustersMap
             count++;
             for (LuvPoint point : cluster)
             {
-                array[point.getX()-sx][point.getY()-sy] = cluster;
+                array[point.getX() - sx][point.getY() - sy] = cluster;
                 //points[point.getX()][point.getY()] = point;
                 pointsMap.putAt(point.getX(), point.getY(), point);
             }
@@ -116,26 +128,54 @@ public class ClustersMap
         }
     }
 
+    /**
+     * returns the cluster which given point is assigned to
+     * @param point
+     * @return
+     */
     public Cluster getAt(LuvPoint point)
     {
         return getAt(point.getX(), point.getY());
     }
 
+    /**
+     * returns the cluster which given point is assigned to
+     * @param point
+     * @return
+     */
     public Cluster getAt(int x, int y)
     {
-        return array[x-sx][y-sy];
+        return array[x - sx][y - sy];
     }
 
+    /**
+     * returns point by given coordinates
+     * @param x
+     * @param y
+     * @return
+     */
     public LuvPoint getPointAt(int x, int y)
     {
         return pointsMap.getAt(x, y);
     }
 
+    /**
+     * returns cluster boundary consists of points that have
+     * non-this-cluster points in 8-neighborhood
+     * @param cluster
+     * @return
+     */
     public Collection<LuvPoint> get8Boundary(Cluster cluster)
     {
         return Collections.unmodifiableCollection(bounary8map.get(cluster));
     }
 
+    /**
+     * returns cluster boundary consists of points that have
+     * non-this-cluster points in 4-neighborhood
+     * @param cluster
+     * @return
+     */
     public Collection<LuvPoint> get4Boundary(Cluster cluster)
     {
         return Collections.unmodifiableCollection(bounary4map.get(cluster));
@@ -168,6 +208,14 @@ public class ClustersMap
         return boundary;
     }
 
+    /**
+     *
+     * @param point
+     * @param cluster
+     * @return true if this point have points in 8-neighborhood
+     * which are not assigned to given cluster
+     * otherwise false
+     */
     public boolean isOnBoundary(LuvPoint point, Cluster cluster)
     {
 
@@ -183,9 +231,17 @@ public class ClustersMap
 
     }
 
+    /**
+     *
+     * @param point
+     * @param cluster
+     * @return true if this point have points in 4-neighborhood
+     * which are not assigned to given cluster
+     * otherwise false
+     */
     public boolean isOn4Boundary(LuvPoint point, Cluster cluster)
     {
-        int i =0;
+        int i = 0;
         for (LuvPoint p : pointsMap.get4Nearest(point))
         {
             if (getAt(p.getX(), p.getY()) != cluster)
@@ -194,11 +250,20 @@ public class ClustersMap
             }
             i++;
         }
-        if(i<4) return true;
+        if (i < 4)
+        {
+            return true;
+        }
 
         return false;
     }
 
+    /**
+     *
+     * @param cluster
+     * @param point
+     * @return points from 8-neighborhood of given point which are members of given cluster
+     */
     public Collection<LuvPoint> get8NearestWithinCluster(Region cluster, LuvPoint point)
     {
         Collection<LuvPoint> result = new ArrayList<LuvPoint>(8);
@@ -214,16 +279,31 @@ public class ClustersMap
         return result;
     }
 
+    /**
+     * @param point
+     * @return points from 8-neighborhood of given point
+     */
     public Iterable<LuvPoint> get8Nearest(LuvPoint point)
     {
         return pointsMap.get8Nearest(point);
     }
 
+    /**
+     *
+     * @param point
+     * @return points from 4-neighborhood of given point
+     */
     public Iterable<LuvPoint> get4Nearest(LuvPoint point)
     {
         return pointsMap.get4Nearest(point);
     }
 
+    /**
+     *
+     * @param cluster
+     * @return counterclockwise ordered sequence of points
+     * which are on the boundary of given cluster
+     */
     public Contour getOrderedBoundary(Region cluster)
     {
 
@@ -235,6 +315,12 @@ public class ClustersMap
 
     }
 
+    /**
+     *
+     * @param cluster
+     * @return counterclockwise ordered sequences of points which are on
+     * the boundary of given cluster
+     */
     public Collection<Contour> getOrderedBoundaries(Region cluster)
     {
 

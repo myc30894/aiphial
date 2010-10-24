@@ -37,7 +37,9 @@ import static java.lang.Math.max;
 import static java.lang.Math.abs;
 
 /**
- *
+ * DataStore implementation specialized for LuvPoints.
+ * Assumes that points form a non-sparse matrix, so two-dimensional search could be implemented easily.
+ * Naturally this is an Image presentation as a dataStore
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
 public class LuvDataStore implements DataStore<LuvPoint>

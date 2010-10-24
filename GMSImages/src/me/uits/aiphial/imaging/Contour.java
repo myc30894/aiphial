@@ -24,7 +24,7 @@ package me.uits.aiphial.imaging;
 import java.util.List;
 
 /**
- *
+ * Represents a region boundary. Ordered continuous sequence of adjacent points on the boundary of cluster
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
 public class Contour extends CircleList<LuvPoint> {

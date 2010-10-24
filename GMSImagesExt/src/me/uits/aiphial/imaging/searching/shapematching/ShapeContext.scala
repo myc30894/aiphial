@@ -33,7 +33,10 @@ import scala.collection.JavaConversions.asIterable
 //import java.lang.{Iterable => JavaItb}
 //import java.util.{Iterator => JavaItr}
 
-
+/**
+ * class that representates shape context for given contuor.
+ * Shape context is usable to compare contuor shapes
+ */
 class ShapeContext protected(points: Contour, val maxDistance: Float) {
   import ShapeContext._
 
@@ -133,10 +136,22 @@ class ShapeContext protected(points: Contour, val maxDistance: Float) {
 trait PointContext {
   def array: Array[Array[Int]]
 
+  /**
+   * general funtion to caluclare reduce funtion for
+   * shape contexts histogram beans
+   */
   def reduceBins(apoint: PointContext, op: (Int, Int) => Double): Double
 
-  def euclideanReduce(b1: PointContext) = Math.sqrt(this.reduceBins(b1, {(a: Int, b: Int) => (a - b) * (a - b)}))
+  /**
+   * calculates euclidian distance between
+   * shape contexts histogram beans
+   */
+  def euclideanReduce(b1: PointContext) = math.sqrt(this.reduceBins(b1, {(a: Int, b: Int) => (a - b) * (a - b)}))
 
+  /**
+   * calculates hi square distance between
+   * shape contexts histogram beans
+   */
   def hiSqTestReduce(b1: PointContext) = 0.5*(this.reduceBins(b1, {
     (a: Int, b: Int) =>
       if(a!=0 && b!=0)
@@ -144,6 +159,9 @@ trait PointContext {
       else 0
   }))
 
+  /**
+   * returns the point for which this context is calculated
+   */
   def point: LuvPoint
 }
 
@@ -151,12 +169,19 @@ trait PointContext {
 
 
 object ShapeContext {
-  
+  /**
+   * creates Shape Context for given contuor with given historgam bins number
+   * max distance will be calculated automaticly
+   */
   def apply(points: Contour, num: Int):ShapeContext = {
     val norm = ShapeContext.normalizeTo(points, num)
     new ShapeContext(norm, ShapeContext.getMaxDistance(norm))
   }
 
+  /**
+   * creates Shape Context for given contuor with given historgam bins number and
+   * precalculated max distance for better performance
+   */
    def apply(points: Contour, num: Int, maxDistance: Float):ShapeContext = {
     new ShapeContext (ShapeContext.normalizeTo(points, num), maxDistance)
   }

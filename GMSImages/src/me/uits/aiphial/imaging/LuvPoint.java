@@ -25,7 +25,7 @@ import ru.nickl.meanShift.direct.LUV;
 import me.uits.aiphial.general.dataStore.NDimPoint;
 
 /**
- *
+ * LUV-color with x,y-coordinates
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
 public class LuvPoint implements NDimPoint

@@ -27,20 +27,33 @@ import me.uits.aiphial.general.basic.Cluster;
 import me.uits.aiphial.general.dataStore.NDimPoint;
 
 /**
- *
+ * Cluster of luvpoints which assumes that points are adjacent
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
 public class Region extends Cluster<LuvPoint>{
 
+    /**
+     * creates region from given cluster
+     * @param cluster
+     */
     public Region(Cluster<LuvPoint> cluster) {
         super(cluster.getBasinOfAttraction(), cluster);
     }
 
+    /**
+     * creates region from given cluster with given center
+     * @param avragePoint
+     * @param points
+     */
     public Region(NDimPoint avragePoint, Collection<LuvPoint> points) {
         super(avragePoint, points);
     }
 
 
+    /**
+     * returns counterclockwise-ordered contour for this region
+     * @return
+     */
     public Contour getContour()
     {
         return new BugInnerBO(ClustersMap.fromOneCluster(this)).getOrderedBoundary(this);

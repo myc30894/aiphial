@@ -26,13 +26,24 @@ import me.uits.aiphial.imaging.LuvPoint;
 import me.uits.aiphial.imaging.Region;
 
 /**
- *
+ * base interface for region comparers. each instance of
+ * this class keeps a pattern and compares region with it
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
 public interface RegionComparer {
 
+    /**
+     * returns distance between regions. Zero value means that given region is equal to pattern.
+     * Lager values means more difference between pattern and given regions
+     * @param cluster
+     * @return
+     */
     double compareCluster(Region cluster);
 
+    /**
+     * sets pattern to compare with
+     * @param pattern
+     */
     void setPattern(Region pattern);
 
 }

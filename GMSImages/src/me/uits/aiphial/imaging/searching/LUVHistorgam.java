@@ -27,7 +27,7 @@ import me.uits.aiphial.general.basic.Cluster;
 import me.uits.aiphial.imaging.LuvPoint;
 
 /**
- *
+ * class that incapsulates luv histogram and allows to compare them
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
 public class LUVHistorgam
@@ -48,6 +48,11 @@ public class LUVHistorgam
     };
     private static final int SEGMENTSCOUNT = 10;
 
+    /**
+     * creates luv histogram for given points
+     * @param cluster
+     * @return
+     */
     public static LUVHistorgam build(Iterable<LuvPoint> cluster)
     {
 
@@ -110,6 +115,11 @@ public class LUVHistorgam
         }
     }
 
+    /**
+     * returns euclidian distance between histogram
+     * @param a
+     * @return
+     */
     public double distcompare(LUVHistorgam a)
     {
         if (this.segments.length != a.segments.length)

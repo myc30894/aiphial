@@ -73,6 +73,9 @@ object Search{
 
   val nnom = 80
 
+  /**
+   * creates shape context for region represented by image with transparate non-region points
+   */
   def ScFromImage(filename: BufferedImage) = {
     val cluster1 = asRegion(luvDArraytoLuvPoints(ImageToLuvDArray(filename)))
     val orderedBoundary = ClustersMap.fromOneCluster(cluster1).getOrderedBoundary(cluster1)

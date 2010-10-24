@@ -24,6 +24,8 @@ package me.uits.aiphial.imaging;
 import java.util.*;
 
 /**
+ * Collection implements a Circle List. This means that iterator
+ * from arbitrary element iterates over all elements.
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
 public class CircleList<T> implements Collection<T> {
@@ -76,6 +78,11 @@ public class CircleList<T> implements Collection<T> {
         return true;
     }
 
+    /**
+     * Creates iterator from first occurrence of given element
+     * @param elem
+     * @return
+     */
     public CircleListIterator iterator(T elem) {
         Item<T> founded = findItem(elem);
 

@@ -36,16 +36,26 @@ import me.uits.aiphial.general.basic.Cluster;
 import me.uits.aiphial.general.dataStore.NDimPoint;
 
 /**
- *
+ * Image utilities
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
 public class ImgUtls
 {
 
+    /**
+     * converts buffered image to matrix of LUV points
+     * @param orig
+     * @return
+     */
     public static LUV[][] ImageToLuvDArray(BufferedImage orig) {
         return new LUVConverter().toLUVDArray(orig);
     }
-    
+
+    /**
+     * creates a Regions Collection from LUVPoint clusters collection by creating a Region from each cluster
+     * @param clusters
+     * @return
+     */
     public static Collection<Region> asRegions(Collection<Cluster<LuvPoint>> clusters){
 
         ArrayList<Region> result = new ArrayList<Region>(clusters.size());
@@ -57,6 +67,11 @@ public class ImgUtls
         return result;
     }
 
+    /**
+     * Calculates the minimal axis-parallel rectangular that bounds given points
+     * @param cluster
+     * @return
+     */
     public static Rectangle getBoundingRect(Collection<LuvPoint> cluster)
     {
         int xmin;
@@ -91,6 +106,13 @@ public class ImgUtls
         return new Rectangle(xmin, ymin, xmax - xmin, ymax - ymin);
     }
 
+    /**
+     * get subimage that contains given Region
+     * @param originalImg
+     * @param cluster
+     * @return subimage that contains given Region
+     * or null if there are no bounding rects for given Region
+     */
     public static BufferedImage getBoundingImage(BufferedImage originalImg, Region cluster)
     {
         Rectangle boundingRect = getBoundingRect(cluster);
@@ -104,6 +126,13 @@ public class ImgUtls
 
     }
 
+    /**
+     * Creates Image that consists of points from given region.
+     * Other points from bounding rectangular are filled with transparent color
+     * @param originalImg
+     * @param cluster
+     * @return
+     */
     public static BufferedImage getClusterImage(BufferedImage originalImg, Region cluster)
     {
         Rectangle boundingRect = getBoundingRect(cluster);
@@ -127,6 +156,11 @@ public class ImgUtls
 
     }
 
+    /**
+     * creates collection of LuvPoint points from LUV matrix
+     * @param darray
+     * @return
+     */
     public static Collection<LuvPoint> luvDArraytoLuvPoints(LUV[][] darray)
     {
         int height = darray.length;
@@ -153,6 +187,11 @@ public class ImgUtls
         return result;
     }
 
+    /**
+     * converts collection of points to a Region
+     * @param points
+     * @return
+     */
     public static Region asRegion(Collection<LuvPoint> points)
     {
         if(points instanceof Region) return (Region) points;
@@ -182,6 +221,13 @@ public class ImgUtls
 
     }
 
+    /**
+     * Creates image that consists of points from regions. Regions colors are taken from regions basins of attractions
+     * @param width image height
+     * @param height image width
+     * @param clusters
+     * @return
+     */
     static BufferedImage paintRegions(int width, int height, Collection<Region> clusters)
     {
 
@@ -201,28 +247,35 @@ public class ImgUtls
 
         return new LUVConverter().LUVArrayToBufferedImage(array);
 
-//    array = [[None] * width for i in range(height)]
-//
-//    for cluster in clusters:
-//        cl = cluster.getBasinOfAttraction()
-//        cp = LUV(cl.getCoord(2),cl.getCoord(3),cl.getCoord(4))
-//        for lp in cluster:
-//            array[lp.y][lp.x] = cp
-//
-//
-//    resultImage = LUVConverter().LUVArrayToBufferedImage(array)
     }
 
+    /**
+     * reads image from file and converts it to LuvPoints Collection
+     * @param filename
+     * @return
+     * @throws IOException
+     */
     public static Collection<LuvPoint> readImageAsLUVCollection(final String filename) throws IOException
     {
         return ImgUtls.luvDArraytoLuvPoints(readImageAsLuvArray(filename));
     }
 
+    /**
+     * converts image LuvPoints Collection
+     * @param orig
+     * @return
+     * @throws IOException
+     */
     public static Collection<LuvPoint> imageAsLUVPointCollection(final BufferedImage orig) throws IOException
     {
         return ImgUtls.luvDArraytoLuvPoints(ImageToLuvDArray(orig));
     }
-
+/**
+ * reads image from file and converts it to LUV matrix
+ * @param filename
+ * @return
+ * @throws IOException
+ */
     public static LUV[][] readImageAsLuvArray(final String filename) throws IOException
     {
         BufferedImage orig = ImageIO.read(new File(filename));

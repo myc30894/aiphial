@@ -35,7 +35,10 @@ import scala.collection.JavaConversions.asIterable
 
 object Matching {
 
-
+/**
+ * matches two shape contexts with shapes cyclic method.
+ * @return tuple contains distance value and list of matched points pairs
+ */
   def cyclicMatch(t: ShapeContext, asc: ShapeContext): (Double, List[(LuvPoint, LuvPoint)]) = {
 
     import scala.collection.mutable.HashMap
@@ -68,6 +71,10 @@ object Matching {
     (minkey, map.get(minkey).get)
   }
 
+  /**
+ * matches two shape contexts with shapes hungarian method.
+ * @return tuple contains distance value and list of matched points pairs
+ */
   def hungarianMatch(a: ShapeContext, b: ShapeContext): (Double, List[(LuvPoint, LuvPoint)]) = {
 
 

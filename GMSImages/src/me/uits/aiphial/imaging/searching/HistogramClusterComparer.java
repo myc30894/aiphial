@@ -31,7 +31,7 @@ import me.uits.aiphial.imaging.LuvPoint;
 import me.uits.aiphial.imaging.Region;
 
 /**
- *
+ * Region comparer that compares regions Luv-Histograms
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
 public class HistogramClusterComparer implements RegionComparer

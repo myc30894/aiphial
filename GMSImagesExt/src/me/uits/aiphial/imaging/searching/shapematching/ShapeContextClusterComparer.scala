@@ -30,6 +30,10 @@ import me.uits.aiphial.imaging.searching.RegionComparer
 
 import scala.collection.JavaConversions.asIterable
 
+/**
+ * implementation of region comparer that uses shape contexts to
+ * to compare region forms.
+ */
 class ShapeContextClusterComparer extends RegionComparer {
   private val num = 100
 

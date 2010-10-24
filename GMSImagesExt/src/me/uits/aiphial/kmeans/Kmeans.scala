@@ -30,6 +30,7 @@ import me.uits.aiphial.general.dataStore.NDimPoint
 import scala.collection.JavaConversions.asIterable
 import scala.util.Random
 
+@deprecated("not implemented")
 class Kmeans(val k:Int = 3) extends Clusterer[NDimPoint] {
 
 

@@ -34,7 +34,7 @@ import me.uits.aiphial.general.basic.Cluster;
 import me.uits.aiphial.imaging.LuvPoint;
 
 /**
- *
+ * Extracts counterclockwise-ordered boundary points from region
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
 class BugInnerBO
@@ -48,6 +48,11 @@ class BugInnerBO
         this.clustersMap = clustersMap;
     }
 
+    /**
+     * Extracts collection of counterclockwise-ordered boundaries points from region
+     * @param cluster - the region
+     * @return
+     */
     public Collection<Contour> getOrderedBoundaryes(Region cluster)
     {
         if (this.cluster != null)
@@ -107,6 +112,12 @@ class BugInnerBO
         return countuors;
     }
 
+    /**
+     * Extracts counterclockwise-ordered boundary points from region.
+     * Result could not be adequate if there are more than one boundaries in region
+     * @param cluster - the region
+     * @return
+     */
     public Contour getOrderedBoundary(Region cluster)
     {
         Collection<Contour> orderedBoundaryes = getOrderedBoundaryes(cluster);

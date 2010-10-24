@@ -34,7 +34,8 @@ import me.uits.aiphial.general.dataStore.DataStore;
 import me.uits.aiphial.general.dataStore.NDimPoint;
 
 /**
- *
+ * Adapter class to use {@link ru.nickl.meanShift.direct.segmentator.Segmentator}
+ * as {@link me.uits.aiphial.general.basic.Clusterer}
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
 public class SegmentatorAdapter implements Clusterer<LuvPoint> {
@@ -88,11 +89,19 @@ public class SegmentatorAdapter implements Clusterer<LuvPoint> {
         //System.out.println("setting datastore is not implemented and do nothing, because segmentator has its own data");
     }
 
+    /**
+     * sets internal segmentator
+     * @param segmentator
+     */
     public void setSegmentator(Segmentator segmentator)
     {
         this.segmentator = segmentator;
     }
 
+    /**
+     * returns internal segmentator
+     * @return
+     */
     public Segmentator getSegmentator()
     {
         return segmentator;
