@@ -24,7 +24,7 @@ package scalarunner
 object RunAll {
 
   /**
-   * @param args the command line arguments
+   * something like a smoke-test
    */
   def main(args: Array[String]): Unit = {
     
@@ -40,6 +40,9 @@ object RunAll {
 
     println("Search.main0")
     Search.main0(args)
+
+    println("NaiveSegmentationSample.main")
+    NaiveSegmentationSample.main(args)
 
     println("Segmentation.main")
     Segmentation.main(args);
