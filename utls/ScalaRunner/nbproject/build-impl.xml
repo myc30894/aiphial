@@ -393,7 +393,6 @@ is divided into following sections:
         <ant antfile="${project.GMSImages}/build.xml" inheritall="false" target="jar"/>
         <ant antfile="${project.GMSImagesExt}/build.xml" inheritall="false" target="jar"/>
         <ant antfile="${project.GeneralMeanShift}/build.xml" inheritall="false" target="jar"/>
-        <ant antfile="${project.HungarianMethod}/build.xml" inheritall="false" target="jar"/>
         <ant antfile="${project.Savarese-Kdtrees}/build.xml" inheritall="false" target="jar"/>
         <ant antfile="${project.meanShift}/build.xml" inheritall="false" target="jar"/>
     </target>
@@ -710,7 +709,6 @@ is divided into following sections:
         <ant antfile="${project.GMSImages}/build.xml" inheritall="false" target="clean"/>
         <ant antfile="${project.GMSImagesExt}/build.xml" inheritall="false" target="clean"/>
         <ant antfile="${project.GeneralMeanShift}/build.xml" inheritall="false" target="clean"/>
-        <ant antfile="${project.HungarianMethod}/build.xml" inheritall="false" target="clean"/>
         <ant antfile="${project.Savarese-Kdtrees}/build.xml" inheritall="false" target="clean"/>
         <ant antfile="${project.meanShift}/build.xml" inheritall="false" target="clean"/>
     </target>
