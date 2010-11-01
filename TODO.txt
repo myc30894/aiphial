@@ -1,20 +1,11 @@
 
 $deprecated = meanShift
 
-===== after publication =====
-
-* add extended samples and some docs
-
 ===== long term =====
-
-* write documentation
-
-* remove GMSImagesExt dependancy on HungarianMethod Library and unite GMSImagesExt with GMSImages into mixed Java/Scala project under LGPL
 
 * write usable crossplatform buildfiles (mb Maven)
 
 * do something with Native(CUDA) part. maybe port to Java/ScalaCL
-
 
 ==========================================================
 
