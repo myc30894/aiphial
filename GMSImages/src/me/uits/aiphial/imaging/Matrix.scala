@@ -20,16 +20,17 @@ class Matrix[T](private val data:Array[Array[T]])(implicit Tmf:ClassManifest[T])
   )
 
 
-  def join[B,C](another:Matrix[B])(op:(T,B)=>C)(implicit mf:ClassManifest[C]) =  new Matrix[C](
+  def join[B,C](another:Matrix[B])(op:(T,B)=>C)(implicit mf:ClassManifest[C]) = { 
+    
+    require(this.height == another.height && this.width == another.width, "matrix must be the same size")
 
-    //require(this.height == another.height && this.width == another.width, "matrix must be the same size")
-
+    new Matrix[C](    
 
     for ( (a,b) <- this.data zip another.data )
       yield for ( (a1,b1) <- a zip b )
         yield op(a1,b1)
 
-  )
+  )}
 
   def reduce(f:(T,T)=> T) = data.flatten((a)=>a).reduceLeft(f)
 
@@ -54,15 +55,18 @@ class Matrix[T](private val data:Array[Array[T]])(implicit Tmf:ClassManifest[T])
   (implicit mf1:ClassManifest[A]):Matrix[A]=
   {
 
-    val res = Array.ofDim[A](this.height, this.width)
+    val res = Array.ofDim[A](this.height-mask.height+1, this.width-mask.width+1)
 
-    for(x <- 0 until height; y <- 0 until width)
+    for(x <- 0+mask.height/2 until height-mask.height/2; y <- 0+mask.width/2 until width-mask.width/2)
     {
-      val sbm = this.submatrix(x-mask.height/2, y-mask.width/2, x+mask.height/2, y+mask.width/2)
+      val sbm = this.submatrix(x-mask.height/2, y-mask.width/2, x+mask.height/2+1, y+mask.width/2+1)
 
-      println("setting"+x+","+y)
-      res(x)(y) = (sbm join mask)(f).reduce(reduce)
+      println(sbm)
+      println("setting"+(x-mask.height/2)+","+(y-mask.width/2))
+      res(x-mask.height/2)(y-mask.width/2) = (sbm join mask)(f).reduce(reduce)
 
+
+      
     }
 
     new Matrix(res)

@@ -150,8 +150,8 @@ class MatrixTest {
 
   }
 
-  @Test @Ignore
-  def mapmask1 = {
+  @Test 
+  def mapmask1():Unit = {
 
     val m1 = new Matrix(Array(
         Array(1,2,3,1,2),
@@ -169,10 +169,13 @@ class MatrixTest {
     )
 
     
-    println(m1.mapMask(mask)(_*_)(_+_))
-
-    assertTrue(false)
-
+    assertEquals("",m1.mapMask(mask)(_*_)(_+_),
+    new Matrix(
+      Array(
+        Array(19,30,39),
+        Array(22,24,28)
+      )
+    ))
   }
 
 
