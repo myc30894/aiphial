@@ -369,6 +369,35 @@ class MatrixTest {
 
   }
 
+  @Test
+  def rotate = {
+    val m = Matrix(Array(
+        Array(5,6,4),
+        Array(2,3,5)
+      ))
+
+    assertEquals(
+      Matrix(Array(
+          Array(4,5),
+          Array(6,3),
+          Array(5,2)
+        )),m.rotateCounterClockwise())
+    
+    assertEquals(
+      Matrix(Array(
+          Array(2,5),
+          Array(3,6),
+          Array(5,4)
+        )),m.rotateClockwise())
+    
+    assertEquals(
+      Matrix(Array(
+        Array(5,3,2),
+        Array(4,6,5)
+        )),m.rotateReflex())
+
+  }
+
 
 }
 

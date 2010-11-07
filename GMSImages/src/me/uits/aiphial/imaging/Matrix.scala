@@ -15,11 +15,11 @@ class Matrix[T] private (private val data:Array[Array[T]])(implicit Tmf:ClassMan
 
   def apply(x:Int, y:Int)=data(x)(y)
   
-  def map[B](f:T=>B)(implicit mf:ClassManifest[B]):Matrix[B]=new Matrix[B](    
+  def map[B](f:T=>B)(implicit mf:ClassManifest[B]):Matrix[B]=Matrix[B](    
     data.map(_.map(f))
   )
  
-  def mapWithIndex[B](f:(Int,Int,T)=>B)(implicit mf:ClassManifest[B]):Matrix[B] =   new Matrix(
+  def mapWithIndex[B](f:(Int,Int,T)=>B)(implicit mf:ClassManifest[B]):Matrix[B] = Matrix(
     Array.tabulate(this.height, this.width)
     ((x,y)=>f(x,y,this(x,y)))
   )
@@ -103,6 +103,31 @@ class Matrix[T] private (private val data:Array[Array[T]])(implicit Tmf:ClassMan
 
 
   def getWithinWindow(c:Tuple2[Int,Int],h:Int,w:Int):Matrix[T]= this.submatrix(c._1-(h-1)/2, c._2-(w-1)/2, c._1+h/2, c._2+w/2)
+
+  def rotateCounterClockwise():Matrix[T] = {
+    Matrix(
+      Array.tabulate(this.width,this.height)(
+        (x,y)=> this(y,this.width-1-x)
+      )
+    )
+  }
+
+  def rotateClockwise():Matrix[T] = {
+    Matrix(
+      Array.tabulate(this.width,this.height)(
+        (x,y)=> this(this.height-1-y,x)
+      )
+    )
+  }
+
+  def rotateReflex():Matrix[T] = {
+    Matrix(
+      Array.tabulate(this.height,this.width)(
+        (x,y)=> this(this.height-1-x,this.width-1-y)
+      )
+    )
+  }
+
 
 }
 

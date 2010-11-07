@@ -27,20 +27,33 @@ object MatrixSobel {
     ImageIO.write(matrixToImage(gray),"bmp",new File("out.bmp"));
 
 
-//    val xsobel = Matrix(Array(
-//        Array(-1,0,1),
-//        Array(-2,0,2),
-//        Array(-1,0,1)
-//      ))
-//
-//    val ysobel = Matrix(Array(
-//        Array(-1,0,1),
-//        Array(-2,0,2),
-//        Array(-1,0,1)
-//      ))
-//
-//    //gray.mapMask()
+    val xsobel = Matrix(Array(
+        Array(-1,0,1),
+        Array(-2,0,2),
+        Array(-1,0,1)
+      ))
 
+    val ysobel = xsobel.rotateClockwise
+
+
+    val gradient = gray.windowingMap(3,3)(
+      m=>
+      {
+        val s1 = m.join(xsobel)(_.l*_).reduce(_+_)
+        val s2 = m.join(ysobel)(_.l*_).reduce(_+_)
+
+        math.sqrt(s1*s1+s2*s2)
+      }
+    )
+
+    ImageIO.write(matrixToImage(
+
+        gradient.map(p => new LUV(p*2,0.,0.))
+
+
+      ),"bmp",new File("out_grad.bmp"));
+
+   
     
 
   }
