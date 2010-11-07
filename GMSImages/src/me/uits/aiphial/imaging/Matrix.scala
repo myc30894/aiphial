@@ -7,7 +7,7 @@ package me.uits.aiphial.imaging
 
 import java.util.Arrays
 
-class Matrix[T](private val data:Array[Array[T]])(implicit Tmf:ClassManifest[T]) {
+class Matrix[T] private (private val data:Array[Array[T]])(implicit Tmf:ClassManifest[T]) {
 
   val height = data.length
   val width = data(0).length
@@ -35,7 +35,8 @@ class Matrix[T](private val data:Array[Array[T]])(implicit Tmf:ClassManifest[T])
   def reduce(f:(T,T)=> T) = data.flatten((a)=>a).reduceLeft(f)
 
   def submatrix(x1:Int, y1:Int, x2:Int, y2:Int ) = new Matrix[T](
-    data.slice(x1, x2).map(_.slice(y1, y2)).toArray
+    //TODO: implement this as view (not complex)
+    data.slice(x1, x2+1).map(_.slice(y1, y2+1)).toArray
   )
 
   override def equals(arg0: Any) = arg0 match{
@@ -48,7 +49,7 @@ class Matrix[T](private val data:Array[Array[T]])(implicit Tmf:ClassManifest[T])
     case _ => false}
   
 
-  override def toString = data map (_.mkString("Array(", ",", ")")) mkString("Array(\n", ",\n", "\n)\n")
+  override def toString = data map (_.mkString("Array(", ",", ")")) mkString("Matrix(Array(\n", ",\n", "\n))\n")
 
 
   def mapMask[A,T2](mask:Matrix[T2])(f:(T,T2)=>A)(reduce:(A,A)=>A)
@@ -59,19 +60,29 @@ class Matrix[T](private val data:Array[Array[T]])(implicit Tmf:ClassManifest[T])
 
     for(x <- 0+mask.height/2 until height-mask.height/2; y <- 0+mask.width/2 until width-mask.width/2)
     {
-      val sbm = this.submatrix(x-mask.height/2, y-mask.width/2, x+mask.height/2+1, y+mask.width/2+1)
+      val sbm = this.submatrix(x-mask.height/2, y-mask.width/2, x+mask.height/2, y+mask.width/2)
 
-      println(sbm)
-      println("setting"+(x-mask.height/2)+","+(y-mask.width/2))
       res(x-mask.height/2)(y-mask.width/2) = (sbm join mask)(f).reduce(reduce)
-
-
       
     }
 
     new Matrix(res)
   }
 
+  def sliding(h:Int, w:Int):Stream[Matrix[T]]={
+    (for(x <- Stream.range(0+(h-1)/2,height-h/2); y <- Stream.range(0+(w-1)/2,width-w/2))
+      yield  this.submatrix(x-(h-1)/2, y-(w-1)/2, x+h/2, y+w/2)
+    )
+
+  }
+
+
+}
+
+
+object Matrix{
+
+       def apply[T](data:Array[Array[T]])(implicit Tmf:ClassManifest[T]) = new Matrix(data)
 
 
 }

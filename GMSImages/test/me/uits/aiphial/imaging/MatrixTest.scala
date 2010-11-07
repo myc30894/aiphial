@@ -21,14 +21,14 @@ class MatrixTest {
   @Test
   def equality = {
 
-    assertTrue(new Matrix(Array(
+    assertTrue(Matrix(Array(
           Array(1,2,3),
           Array(4,5,6),
           Array(7,8,9)
         )
       )
       ==
-      new Matrix(Array(
+      Matrix(Array(
           Array(1,2,3),
           Array(4,5,6),
           Array(7,8,9)
@@ -36,27 +36,27 @@ class MatrixTest {
       )
     )
 
-    assertTrue(new Matrix(Array(
+    assertTrue(Matrix(Array(
           Array(1,2,3),
           Array(4,5,6)
         )
       )
       ==
-      new Matrix(Array(
+      Matrix(Array(
           Array(1,2,3),
           Array(4,5,6)
         )
       )
     )
 
-    assertFalse(new Matrix(Array(
+    assertFalse(Matrix(Array(
           Array(1,5,3),
           Array(4,5,6),
           Array(7,8,9)
         )
       )
       ==
-      new Matrix(Array(
+      Matrix(Array(
           Array(1,2,3),
           Array(4,5,6),
           Array(7,8,9)
@@ -64,13 +64,13 @@ class MatrixTest {
       )
     )
 
-    assertFalse(new Matrix(Array(
+    assertFalse(Matrix(Array(
           Array(1,2,3),
           Array(4,5,6)
         )
       )
       ==
-      new Matrix(Array(
+      Matrix(Array(
           Array(1,2,3),
           Array(4,5,6),
           Array(7,8,9)
@@ -83,26 +83,26 @@ class MatrixTest {
   @Test
   def submatrix = {
       
-    val m = new Matrix(Array(
+    val m = Matrix(Array(
         Array(1,2,3),
         Array(4,5,6),
         Array(7,8,9)
       )     
     )
 
-    assertEquals("",m.submatrix(1, 1, 3, 3),new Matrix(Array(
+    assertEquals("",m.submatrix(1, 1, 2, 2),Matrix(Array(
           Array(5,6),
           Array(8,9)
         ) ))
 
-    assertEquals("",m.submatrix(0, 0, 3, 3),m)
+    assertEquals("",m.submatrix(0, 0, 2, 2),m)
 
-    assertEquals("",m.submatrix(0, 0, 2, 2),new Matrix(Array(
+    assertEquals("",m.submatrix(0, 0, 1, 1),Matrix(Array(
           Array(1,2),
           Array(4,5)
         ) ))
 
-    assertEquals("",m.submatrix(0, 1, 2, 3),new Matrix(Array(
+    assertEquals("",m.submatrix(0, 1, 1, 2),Matrix(Array(
           Array(2,3),
           Array(5,6)
         ) ))
@@ -113,13 +113,13 @@ class MatrixTest {
   @Test
   def join = {
 
-    val m1 = new Matrix(Array(
+    val m1 = Matrix(Array(
         Array(1,2,3),
         Array(4,5,6)
       )
     )
 
-    val m2 = new Matrix(Array(
+    val m2 = Matrix(Array(
         Array(1,1,2),
         Array(-3,-5,6)
       )
@@ -128,7 +128,7 @@ class MatrixTest {
     val sum = (m1 join m2)(_+_)
 
 
-    assertEquals("",sum,new Matrix(Array(
+    assertEquals("",sum,Matrix(Array(
           Array(2,3,5),
           Array(1,0,12)
         ) ))
@@ -138,7 +138,7 @@ class MatrixTest {
   @Test
   def reduce = {
 
-    val m1 = new Matrix(Array(
+    val m1 = Matrix(Array(
         Array(1,2,3),
         Array(4,5,6)
       )
@@ -153,7 +153,7 @@ class MatrixTest {
   @Test 
   def mapmask1():Unit = {
 
-    val m1 = new Matrix(Array(
+    val m1 = Matrix(Array(
         Array(1,2,3,1,2),
         Array(4,5,6,4,5),
         Array(1,2,3,5,9),
@@ -161,7 +161,7 @@ class MatrixTest {
       )
     )
 
-    val mask = new Matrix(Array(
+    val mask = Matrix(Array(
         Array( 1,-1, 0),
         Array( 2, 2,-1),
         Array( 1, 2, 1)
@@ -170,12 +170,116 @@ class MatrixTest {
 
     
     assertEquals("",m1.mapMask(mask)(_*_)(_+_),
-    new Matrix(
-      Array(
-        Array(19,30,39),
-        Array(22,24,28)
+                 Matrix(
+        Array(
+          Array(19,30,39),
+          Array(22,24,28)
+        )
+      ))
+  }
+
+  @Test
+  def  iterator = {
+
+    val m1 = Matrix(Array(
+        Array(1,2,3,1,2),
+        Array(4,5,6,4,5),
+        Array(1,2,3,5,9),
+        Array(4,5,6,3,7)
       )
-    ))
+    )
+
+    //println("sliding" + m1.sliding(2,3).mkString(",\n"))
+
+    assertEquals(Seq(
+        Matrix(Array(
+            Array(1,2,3),
+            Array(4,5,6)
+          ))
+        ,
+        Matrix(Array(
+            Array(2,3,1),
+            Array(5,6,4)
+          ))
+        ,
+        Matrix(Array(
+            Array(3,1,2),
+            Array(6,4,5)
+          ))
+        ,
+        Matrix(Array(
+            Array(4,5,6),
+            Array(1,2,3)
+          ))
+        ,
+        Matrix(Array(
+            Array(5,6,4),
+            Array(2,3,5)
+          ))
+        ,
+        Matrix(Array(
+            Array(6,4,5),
+            Array(3,5,9)
+          ))
+        ,
+        Matrix(Array(
+            Array(1,2,3),
+            Array(4,5,6)
+          ))
+        ,
+        Matrix(Array(
+            Array(2,3,5),
+            Array(5,6,3)
+          ))
+        ,
+        Matrix(Array(
+            Array(3,5,9),
+            Array(6,3,7)
+          ))), m1.sliding(2,3))
+
+
+
+    assertEquals(Seq(
+        Matrix(Array(
+            Array(1,2,3),
+            Array(4,5,6),
+            Array(1,2,3)
+          ))
+        ,
+        Matrix(Array(
+            Array(2,3,1),
+            Array(5,6,4),
+            Array(2,3,5)
+          ))
+        ,
+        Matrix(Array(
+            Array(3,1,2),
+            Array(6,4,5),
+            Array(3,5,9)
+          ))
+        ,
+        Matrix(Array(
+            Array(4,5,6),
+            Array(1,2,3),
+            Array(4,5,6)
+          ))
+        ,
+        Matrix(Array(
+            Array(5,6,4),
+            Array(2,3,5),
+            Array(5,6,3)
+          ))
+        ,
+        Matrix(Array(
+            Array(6,4,5),
+            Array(3,5,9),
+            Array(6,3,7)
+
+          ))), m1.sliding(3,3))
+
+    
+
+
   }
 
 
