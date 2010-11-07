@@ -20,17 +20,23 @@ class Matrix[T] private (private val data:Array[Array[T]])(implicit Tmf:ClassMan
   )
 
 
+  def mapWithIndex[B](f:(Int,Int,T)=>B)(implicit mf:ClassManifest[B]):Matrix[B] =   new Matrix(
+    Array.tabulate(this.height, this.width)
+    ((x,y)=>f(x,y,data(x)(y)))
+  )
+
+
   def join[B,C](another:Matrix[B])(op:(T,B)=>C)(implicit mf:ClassManifest[C]) = { 
     
     require(this.height == another.height && this.width == another.width, "matrix must be the same size")
 
     new Matrix[C](    
 
-    for ( (a,b) <- this.data zip another.data )
-      yield for ( (a1,b1) <- a zip b )
-        yield op(a1,b1)
+      for ( (a,b) <- this.data zip another.data )
+        yield for ( (a1,b1) <- a zip b )
+          yield op(a1,b1)
 
-  )}
+    )}
 
   def reduce(f:(T,T)=> T) = data.flatten((a)=>a).reduceLeft(f)
 
@@ -56,33 +62,48 @@ class Matrix[T] private (private val data:Array[Array[T]])(implicit Tmf:ClassMan
   (implicit mf1:ClassManifest[A]):Matrix[A]=
   {
 
-    val res = Array.ofDim[A](this.height-mask.height+1, this.width-mask.width+1)
-
-    for(x <- 0+mask.height/2 until height-mask.height/2; y <- 0+mask.width/2 until width-mask.width/2)
-    {
-      val sbm = this.submatrix(x-mask.height/2, y-mask.width/2, x+mask.height/2, y+mask.width/2)
-
-      res(x-mask.height/2)(y-mask.width/2) = (sbm join mask)(f).reduce(reduce)
-      
-    }
-
-    new Matrix(res)
-  }
-
-  def sliding(h:Int, w:Int):Stream[Matrix[T]]={
-    (for(x <- Stream.range(0+(h-1)/2,height-h/2); y <- Stream.range(0+(w-1)/2,width-w/2))
-      yield  this.submatrix(x-(h-1)/2, y-(w-1)/2, x+h/2, y+w/2)
+    Matrix(Array.tabulate(this.height-mask.height+1, this.width-mask.width+1)
+           ((x,y) =>   
+        getWithinWindow((x+mask.height/2, y+mask.width/2), mask.height, mask.width).
+        join(mask)(f).reduce(reduce)
+      )         
     )
 
   }
 
+//    def mapMask0[A,T2](mask:Matrix[T2])(f:(T,T2)=>A)(reduce:(A,A)=>A)
+//  (implicit mf1:ClassManifest[A]):Matrix[A]=
+//  {
+//    val res = Array.ofDim[A](this.height-mask.height+1, this.width-mask.width+1)
+//
+//    for(x <- 0+mask.height/2 until height-mask.height/2; y <- 0+mask.width/2 until width-mask.width/2)
+//    {
+//      val sbm = getWithinWindow((x, y), mask.height, mask.width)
+//
+//      res(x-mask.height/2)(y-mask.width/2) = (sbm join mask)(f).reduce(reduce)
+//    }
+//
+//    new Matrix(res)
+//  }
+
+  def sliding(h:Int, w:Int):Stream[Matrix[T]]=
+    for(x <- Stream.range(0+(h-1)/2,height-h/2); y <- Stream.range(0+(w-1)/2,width-w/2))
+      yield  getWithinWindow((x,y),h,w)
+
+
+  def slidingWithIndex(h:Int, w:Int):Stream[(Int,Int,Matrix[T])]=
+    for(x <- Stream.range(0+(h-1)/2,height-h/2); y <- Stream.range(0+(w-1)/2,width-w/2))
+      yield (x,y, getWithinWindow((x,y),h,w))
+
+
+  def getWithinWindow(c:Tuple2[Int,Int],h:Int,w:Int):Matrix[T]= this.submatrix(c._1-(h-1)/2, c._2-(w-1)/2, c._1+h/2, c._2+w/2)
 
 }
 
 
 object Matrix{
 
-       def apply[T](data:Array[Array[T]])(implicit Tmf:ClassManifest[T]) = new Matrix(data)
+  def apply[T](data:Array[Array[T]])(implicit Tmf:ClassManifest[T]) = new Matrix(data)
 
 
 }
