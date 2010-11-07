@@ -282,4 +282,8 @@ public class ImgUtls
         return  ImageToLuvDArray(orig);
     }
 
+    public static BufferedImage LuvArrayToBufferedImage(LUV[][] l){
+        return new LUVConverter().LUVArrayToBufferedImage(l);
+    }
+
 }

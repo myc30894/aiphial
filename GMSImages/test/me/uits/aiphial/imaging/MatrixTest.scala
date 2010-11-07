@@ -151,7 +151,7 @@ class MatrixTest {
   }
 
   @Test 
-  def mapmask1():Unit = {
+  def mapmask():Unit = {
 
     val m1 = Matrix(Array(
         Array(1,2,3,1,2),
@@ -177,6 +177,63 @@ class MatrixTest {
         )
       ))
   }
+
+  @Test
+  def windowingMap = {
+    val m1 = Matrix(Array(
+        Array(1,2,3,1,2),
+        Array(4,5,6,4,5),
+        Array(1,2,3,5,9),
+        Array(4,5,6,3,7)
+      )
+    )
+    assertEquals(Matrix(Array(
+          Array(5,6,6,5),
+          Array(5,6,6,9),
+          Array(5,6,6,9)
+        )
+      ),
+      m1.windowingMap(2,2)((m) =>  m.reduce(math.max(_, _))))
+
+  }
+
+  @Test
+  def  withinwindow = {
+    val m1 = Matrix(Array(
+        Array(1,2,3,1,2),
+        Array(4,5,6,4,5),
+        Array(1,2,3,5,9),
+        Array(4,5,6,3,7)
+      )
+    )
+
+    assertEquals(Matrix(Array(
+          Array(1,2),
+          Array(4,5)
+        )
+      ),
+      m1.getWithinWindow((0,0), 2, 2))
+
+    assertEquals(Matrix(Array(
+          Array(1,2,3),
+          Array(4,5,6),
+          Array(1,2,3)
+        )
+      ),
+      m1.getWithinWindow((1,1), 3, 3))
+
+    assertEquals(Matrix(Array(
+          Array(3,1,2),
+          Array(6,4,5),
+          Array(3,5,9)
+        )
+      ),
+      m1.getWithinWindow((1,3), 3, 3))
+
+
+  }
+
+
 
   @Test
   def  iterator = {
@@ -275,9 +332,39 @@ class MatrixTest {
             Array(3,5,9),
             Array(6,3,7)
 
-          ))), m1.sliding(3,3))
+          ))), m1.sliding(3,3))    
+  }
 
-    
+  @Test
+  def border = {
+
+    val m1 = Matrix(Array(
+        Array(1,2,3,1,2),
+        Array(4,5,6,4,5),
+        Array(1,2,3,5,9),
+        Array(4,5,6,3,7)
+      )
+    )
+
+    assertEquals(Matrix(Array(
+          Array(5,6,4),
+          Array(2,3,5)
+        )), m1.chopBorder(1,1))
+
+
+    assertEquals(Matrix(Array(
+          Array(5,5,5,5,5,5,5,5,5,5,5),
+          Array(5,5,5,5,5,5,5,5,5,5,5),
+          Array(5,5,5,1,2,3,1,2,5,5,5),
+          Array(5,5,5,4,5,6,4,5,5,5,5),
+          Array(5,5,5,1,2,3,5,9,5,5,5),
+          Array(5,5,5,4,5,6,3,7,5,5,5),
+          Array(5,5,5,5,5,5,5,5,5,5,5),
+          Array(5,5,5,5,5,5,5,5,5,5,5)  )
+      ), m1.addBorder(2,3,5))
+
+
+    assertEquals(m1.addBorder(3, 8, 0).chopBorder(3, 8),m1)
 
 
   }

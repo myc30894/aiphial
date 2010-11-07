@@ -18,11 +18,10 @@ class Matrix[T] private (private val data:Array[Array[T]])(implicit Tmf:ClassMan
   def map[B](f:T=>B)(implicit mf:ClassManifest[B]):Matrix[B]=new Matrix[B](    
     data.map(_.map(f))
   )
-
-
+ 
   def mapWithIndex[B](f:(Int,Int,T)=>B)(implicit mf:ClassManifest[B]):Matrix[B] =   new Matrix(
     Array.tabulate(this.height, this.width)
-    ((x,y)=>f(x,y,data(x)(y)))
+    ((x,y)=>f(x,y,this(x,y)))
   )
 
 
@@ -45,6 +44,27 @@ class Matrix[T] private (private val data:Array[Array[T]])(implicit Tmf:ClassMan
     data.slice(x1, x2+1).map(_.slice(y1, y2+1)).toArray
   )
 
+   def addBorder(hsize:Int,wsize:Int,fillvalue: T) = new Matrix[T](
+     Array.tabulate(this.height+2*hsize, this.width+2*wsize)
+     ((x,y) =>{
+      val sx = x-hsize;
+      val sy = y-wsize;
+      if(sx>=0 && sx < this.height && sy>=0 && sy < this.width)
+        this(sx,sy)
+      else
+        fillvalue
+     })
+  )
+
+  def chopBorder(hsize:Int,wsize:Int) = new Matrix[T](
+     Array.tabulate(this.height-2*hsize, this.width-2*wsize)
+     ((x,y) =>{
+      val sx = x+hsize;
+      val sy = y+wsize;
+        this(sx,sy)
+     })
+  )
+
   override def equals(arg0: Any) = arg0 match{
 
     case a: Matrix[T] => (a.data.length == this.data.length)  &&
@@ -57,34 +77,20 @@ class Matrix[T] private (private val data:Array[Array[T]])(implicit Tmf:ClassMan
 
   override def toString = data map (_.mkString("Array(", ",", ")")) mkString("Matrix(Array(\n", ",\n", "\n))\n")
 
+  def toArray:Array[Array[T]] = data;
 
   def mapMask[A,T2](mask:Matrix[T2])(f:(T,T2)=>A)(reduce:(A,A)=>A)
   (implicit mf1:ClassManifest[A]):Matrix[A]=
-  {
+    windowingMap(mask.height, mask.width)(_.join(mask)(f).reduce(reduce))
 
-    Matrix(Array.tabulate(this.height-mask.height+1, this.width-mask.width+1)
-           ((x,y) =>   
-        getWithinWindow((x+mask.height/2, y+mask.width/2), mask.height, mask.width).
-        join(mask)(f).reduce(reduce)
-      )         
+  def windowingMap[A](h:Int, w:Int)(f:Matrix[T]=>A)(implicit mf1:ClassManifest[A]):Matrix[A]= {
+        Matrix(Array.tabulate(this.height-h+1, this.width-w+1)
+           ((x,y) =>
+        f(getWithinWindow((x+(h-1)/2, y+(w-1)/2),h, w))
+      )
     )
 
   }
-
-//    def mapMask0[A,T2](mask:Matrix[T2])(f:(T,T2)=>A)(reduce:(A,A)=>A)
-//  (implicit mf1:ClassManifest[A]):Matrix[A]=
-//  {
-//    val res = Array.ofDim[A](this.height-mask.height+1, this.width-mask.width+1)
-//
-//    for(x <- 0+mask.height/2 until height-mask.height/2; y <- 0+mask.width/2 until width-mask.width/2)
-//    {
-//      val sbm = getWithinWindow((x, y), mask.height, mask.width)
-//
-//      res(x-mask.height/2)(y-mask.width/2) = (sbm join mask)(f).reduce(reduce)
-//    }
-//
-//    new Matrix(res)
-//  }
 
   def sliding(h:Int, w:Int):Stream[Matrix[T]]=
     for(x <- Stream.range(0+(h-1)/2,height-h/2); y <- Stream.range(0+(w-1)/2,width-w/2))
