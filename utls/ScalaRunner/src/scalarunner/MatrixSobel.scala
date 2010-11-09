@@ -10,10 +10,11 @@ import javax.imageio.ImageIO
 import me.uits.aiphial.imaging._
 import ru.nickl.meanShift.direct.LUV
 
+import Tools._
+
 object MatrixSobel {
 
-
-  def matrixToImage(m:Matrix[LUV]) = ImgUtls.LuvArrayToBufferedImage(m.toArray)
+ 
   /**
    * @param args the command line arguments
    */
@@ -53,8 +54,8 @@ object MatrixSobel {
 
       ),"bmp",new File("out_grad.bmp"));
 
-   
-    
+
+
 
   }
 

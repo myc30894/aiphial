@@ -25,6 +25,7 @@ import java.io.File
 
 import java.io.PrintWriter
 import javax.imageio.ImageIO
+import ru.nickl.meanShift.direct.LUV
 import ru.nickl.meanShift.direct.LUVConverter
 import ru.nickl.meanShift.direct.filter.FastMSFilter
 import ru.nickl.meanShift.direct.filter.MeanShiftFilterImageProcessor
@@ -38,14 +39,9 @@ import me.uits.aiphial.general.basic.Cluster
 import me.uits.aiphial.general.basic.MeanShiftClusterer
 import me.uits.aiphial.general.dataStore.KdTreeDataStore
 import me.uits.aiphial.general.dataStore.NDimPoint
-import me.uits.aiphial.imaging.ClustersMap
-import me.uits.aiphial.imaging.ImgUtls
-import me.uits.aiphial.imaging.ImgUtls._
-import me.uits.aiphial.imaging.LuvDataStore
-import me.uits.aiphial.imaging.LuvPoint
 
-import me.uits.aiphial.imaging.Region
-import me.uits.aiphial.imaging.SegmentatorAdapter
+import me.uits.aiphial.imaging._
+
 import me.uits.aiphial.imaging.searching.HistogramClusterComparer
 import scala.collection.mutable.ArrayBuffer
 
@@ -177,5 +173,7 @@ object Tools {
       println("elapsed time= "+measureTime(f))
 
     }
+
+  def matrixToImage(m:Matrix[LUV]) = ImgUtls.LuvArrayToBufferedImage(m.toArray)
 
    }
