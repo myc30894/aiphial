@@ -7,6 +7,20 @@ $deprecated = meanShift
 
 * do something with Native(CUDA) part. maybe port to Java/ScalaCL
 
+* create "lazy" version of matrix
+
+* rename matrix
+
+* remove meanShift-project, reimplement its funtions with Matrix
+
+* make Matrix compatible with DataStore
+
+* create JSON-s with Gabor (and mb any others) filters
+
+* unificate LUV and LUV point, make it scala and Matrix-compatible
+
+* make matrix DLUVArray-compatible, or remove DLUVArray at all
+
 ==========================================================
 
 Wiki plan:

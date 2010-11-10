@@ -24,6 +24,16 @@ class Matrix[T] private (private val data:Array[Array[T]])(implicit Tmf:ClassMan
     ((x,y)=>f(x,y,this(x,y)))
   )
 
+  def asOneLine = data.flatten((a)=>a)
+
+  def asOneLineWithIndex = for(x <- 0 until height; y <-0 until width) yield (x,y,this(x,y))
+
+  def foreach(f:((Int,Int,T))=>Any):Unit = for(x <- 0 until height; y <-0 until width) f(x,y,this(x,y))
+
+  @deprecated("not implemented, throwns an UnsupportedOperationException."+
+              " It is there only to make for-comprehension work")
+  def filter(f:((Int,Int,T))=>Boolean):Matrix[T] = throw new UnsupportedOperationException("filter is dummy")
+
 
   def join[B,C](another:Matrix[B])(op:(T,B)=>C)(implicit mf:ClassManifest[C]) = { 
     
@@ -37,7 +47,7 @@ class Matrix[T] private (private val data:Array[Array[T]])(implicit Tmf:ClassMan
 
     )}
 
-  def reduce(f:(T,T)=> T) = data.flatten((a)=>a).reduceLeft(f)
+  def reduce(f:(T,T)=> T) = asOneLine.reduceLeft(f)
 
   def submatrix(x1:Int, y1:Int, x2:Int, y2:Int ) = new Matrix[T](
     //TODO: implement this as view (not complex)
@@ -83,6 +93,8 @@ class Matrix[T] private (private val data:Array[Array[T]])(implicit Tmf:ClassMan
   (implicit mf1:ClassManifest[A]):Matrix[A]=
     windowingMap(mask.height, mask.width)(_.join(mask)(f).reduce(reduce))
 
+  def convolve(mask:Matrix[T])(implicit num:Numeric[T]) = mapMask(mask)(num.times(_, _))(num.plus(_, _))
+
   def windowingMap[A](h:Int, w:Int)(f:Matrix[T]=>A)(implicit mf1:ClassManifest[A]):Matrix[A]= {
         Matrix(Array.tabulate(this.height-h+1, this.width-w+1)
            ((x,y) =>
@@ -92,6 +104,7 @@ class Matrix[T] private (private val data:Array[Array[T]])(implicit Tmf:ClassMan
 
   }
 
+  
   def sliding(h:Int, w:Int):Stream[Matrix[T]]=
     for(x <- Stream.range(0+(h-1)/2,height-h/2); y <- Stream.range(0+(w-1)/2,width-w/2))
       yield  getWithinWindow((x,y),h,w)

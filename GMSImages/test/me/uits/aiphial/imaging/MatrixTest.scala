@@ -7,6 +7,7 @@ package me.uits.aiphial.imaging
 
 import org.junit._
 import Assert._
+import scala.collection.mutable.ArrayBuffer
 
 class MatrixTest {
 
@@ -135,6 +136,48 @@ class MatrixTest {
 
   }
 
+   @Test
+  def toLine = {
+
+    val m = Matrix(Array(
+        Array(1,2,3),
+        Array(4,5,6),
+        Array(7,8,9)
+      )
+    )
+
+    assertEquals("",Seq(1,2,3,4,5,6,7,8,9),m.asOneLine.toSeq)
+  }
+
+   @Test
+  def toLinewithindex = {
+
+    val m = Matrix(Array(
+        Array(1,2,3),
+        Array(4,5,6),
+        Array(7,8,9)
+      )
+    )
+
+    assertEquals("",Seq((0,0,1),(0,1,2),(0,2,3),(1,0,4),(1,1,5),(1,2,6),(2,0,7),(2,1,8),(2,2,9)),m.asOneLineWithIndex.toSeq)
+  }
+   @Test
+  def foreachTest = {
+
+    val m = Matrix(Array(
+        Array(1,2,3),
+        Array(4,5,6),
+        Array(7,8,9)
+      )
+    )
+
+    val ab = new ArrayBuffer[(Int,Int,Int)](9);
+
+    m.foreach((x,y,v)=> ab.append((x,y,v)))
+
+    assertEquals("",Seq((0,0,1),(0,1,2),(0,2,3),(1,0,4),(1,1,5),(1,2,6),(2,0,7),(2,1,8),(2,2,9)),ab)
+  }
+
   @Test
   def reduce = {
 
@@ -177,6 +220,35 @@ class MatrixTest {
         )
       ))
   }
+
+  @Test
+  def convolve():Unit = {
+
+    val m1 = Matrix(Array(
+        Array(1,2,3,1,2),
+        Array(4,5,6,4,5),
+        Array(1,2,3,5,9),
+        Array(4,5,6,3,7)
+      )
+    )
+
+    val mask = Matrix(Array(
+        Array( 1,-1, 0),
+        Array( 2, 2,-1),
+        Array( 1, 2, 1)
+      )
+    )
+
+
+    assertEquals("",m1.convolve(mask),
+                 Matrix(
+        Array(
+          Array(19,30,39),
+          Array(22,24,28)
+        )
+      ))
+  }
+
 
   @Test
   def windowingMap = {
