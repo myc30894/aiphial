@@ -22,17 +22,17 @@ object Textures {
   def main(args: Array[String]): Unit = {
 
 
-    val gaborMatrix = Gabor.garbormatrix.map(Matrix(_))
+    val gaborMatrix = Gabor.garborFiltres.map(Matrix(_))
 
 
-    val gaborimages = gaborMatrix.map(_.map( v=> new LUV(100*v,0.,0.)))
+    val gaborimages = gaborMatrix.map(_.map( v=> new LUV(50+100*v,0.,0.)))
 
-
+    
     for ( (mat,i) <- gaborimages zipWithIndex)
       {
          ImageIO.write(matrixToImage(mat),"bmp",new File("gab_"+i+".bmp"));
       }
-    
+
 
 
   }

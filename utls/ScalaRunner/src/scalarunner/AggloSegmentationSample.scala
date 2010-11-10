@@ -30,7 +30,7 @@ import me.uits.aiphial.general.dataStore.NDimPoint
 import me.uits.aiphial.imaging.ImgUtls
 import me.uits.aiphial.imaging.ImgUtls._
 import me.uits.aiphial.imaging.LuvPoint
-import scala.collection.JavaConversions.asIterable
+import scala.collection.JavaConversions.asScalaIterable
 import scala.math._
 
 import Tools._

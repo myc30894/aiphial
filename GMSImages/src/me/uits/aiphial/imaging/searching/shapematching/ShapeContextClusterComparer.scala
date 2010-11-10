@@ -28,7 +28,7 @@ import me.uits.aiphial.imaging.LuvPoint
 import me.uits.aiphial.imaging.Region
 import me.uits.aiphial.imaging.searching.RegionComparer
 
-import scala.collection.JavaConversions.asIterable
+import scala.collection.JavaConversions.asScalaIterable
 
 /**
  * implementation of region comparer that uses shape contexts to

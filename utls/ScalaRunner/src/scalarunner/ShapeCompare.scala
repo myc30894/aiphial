@@ -30,7 +30,7 @@ import me.uits.aiphial.imaging.LuvPoint
 
 import me.uits.aiphial.imaging.searching.shapematching.ShapeContext
 import me.uits.aiphial.imaging.searching.shapematching.Matching._
-import scala.collection.JavaConversions.asIterable
+import scala.collection.JavaConversions.asScalaIterable
 import scala.math._
 import java.awt.{Graphics2D, Color, BasicStroke, Polygon}
 

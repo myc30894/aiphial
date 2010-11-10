@@ -29,7 +29,7 @@ import me.uits.aiphial.imaging.SegmentatorAdapter
 
 import ru.nickl.meanShift.direct.filter.SimpleMSFilter
 
-import scala.collection.JavaConversions.asIterable
+import scala.collection.JavaConversions.asScalaIterable
 import com.beust.jcommander.{Parameter, Parameters};
 import scalarunner.Tools._
 

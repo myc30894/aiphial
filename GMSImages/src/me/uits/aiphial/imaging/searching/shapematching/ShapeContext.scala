@@ -26,10 +26,11 @@ import me.uits.aiphial.imaging.CircleList
 import me.uits.aiphial.imaging.Contour
 import me.uits.aiphial.imaging.LuvPoint
 import scala.collection.mutable.ArrayBuffer
-//import scala.math._
-import scala.Math._
+import scala.math._
 
-import scala.collection.JavaConversions.asIterable
+
+import scala.collection.JavaConversions.asScalaIterable
+import scala.collection.JavaConversions.asJavaIterable
 //import java.lang.{Iterable => JavaItb}
 //import java.util.{Iterator => JavaItr}
 
@@ -42,7 +43,7 @@ class ShapeContext protected(points: Contour, val maxDistance: Float) {
 
   val RBinCount = 5;
   val TetaBinCount = 12;
-  val maxTeta = 2 * Math.Pi;
+  val maxTeta = 2 * Pi;
 
   val pointContexts = new CircleList[PointContext](points map {p => new PContext(p)})
  
@@ -62,8 +63,8 @@ class ShapeContext protected(points: Contour, val maxDistance: Float) {
       val ta = tangentAngle(iterator)
 
       var cteta =  teta - ta
-      if(cteta<0) cteta+= 2*Math.Pi
-      if(cteta>=2*Math.Pi) cteta-= 2*Math.Pi
+      if(cteta<0) cteta+= 2*Pi
+      if(cteta>=2*Pi) cteta-= 2*Pi
 
 //              println("maxdistance="+maxDistance)
 //              println("r="+r)
@@ -85,9 +86,9 @@ class ShapeContext protected(points: Contour, val maxDistance: Float) {
       val r = sqrt(x * x + y * y)
       val teta = if (r==0) 0D
       else if(x>=0) asin(y/r)
-      else -asin(y/r)+Math.Pi
+      else -asin(y/r)+Pi
 
-      (r, teta + Math.Pi / 2)}
+      (r, teta + Pi / 2)}
 
     def tangentAngle(iterator: ShapeContext.this.points.CircleListIterator):Double={
      val next:LuvPoint = iterator.getNext

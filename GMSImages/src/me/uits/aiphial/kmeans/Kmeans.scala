@@ -27,7 +27,7 @@ import me.uits.aiphial.general.basic.Utls
 import me.uits.aiphial.general.dataStore.DataStore
 import me.uits.aiphial.general.dataStore.NDimPoint
 
-import scala.collection.JavaConversions.asIterable
+import scala.collection.JavaConversions.asScalaIterable
 import scala.util.Random
 
 @deprecated("not implemented")
