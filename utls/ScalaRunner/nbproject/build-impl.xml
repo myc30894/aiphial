@@ -389,7 +389,6 @@ is divided into following sections:
                 ===================
             -->
     <target depends="init" name="deps-jar" unless="no.deps">
-        <ant antfile="${project.CudaMeanShift}/build.xml" inheritall="false" target="jar"/>
         <ant antfile="${project.GMSImages}/build.xml" inheritall="false" target="jar"/>
         <ant antfile="${project.GeneralMeanShift}/build.xml" inheritall="false" target="jar"/>
         <ant antfile="${project.Savarese-Kdtrees}/build.xml" inheritall="false" target="jar"/>
@@ -704,7 +703,6 @@ is divided into following sections:
                 ===============
             -->
     <target depends="init" name="deps-clean" unless="no.deps">
-        <ant antfile="${project.CudaMeanShift}/build.xml" inheritall="false" target="clean"/>
         <ant antfile="${project.GMSImages}/build.xml" inheritall="false" target="clean"/>
         <ant antfile="${project.GeneralMeanShift}/build.xml" inheritall="false" target="clean"/>
         <ant antfile="${project.Savarese-Kdtrees}/build.xml" inheritall="false" target="clean"/>

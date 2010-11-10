@@ -31,7 +31,6 @@ import ru.nickl.meanShift.direct.filter.FastMSFilter
 import ru.nickl.meanShift.direct.filter.MeanShiftFilterImageProcessor
 import ru.nickl.meanShift.direct.filter.SimpleMSFilter
 import ru.nickl.meanShift.direct.segmentator.RegionGrowingSegmentator
-import ru.nickl.meanshift.direct.cuda.NativeCudaMSFilter
 import me.uits.aiphial.general.aglomerative.AglomerativeClustererStack
 import me.uits.aiphial.general.aglomerative.AglomerativeMeanShift
 import me.uits.aiphial.general.aglomerative.IterationListener

@@ -27,7 +27,13 @@ object RunAll {
    * something like a smoke-test
    */
   def main(args: Array[String]): Unit = {
-    
+
+
+    println("MatrixSobel.main")
+    MatrixSobel.main(args)
+
+    println("Textures.main")
+    Textures.main(args)
 
     println("ShapeCompare.main")
     ShapeCompare.main(args)
