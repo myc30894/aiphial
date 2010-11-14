@@ -5,7 +5,7 @@ $deprecated = meanShift
 
 * write usable crossplatform buildfiles (mb Maven)
 
-* do something with Native(CUDA) part. maybe port to Java/ScalaCL
+* maybe port something to Java/ScalaCL ?
 
 * create "lazy" version of matrix
 
@@ -15,7 +15,11 @@ $deprecated = meanShift
 
 * make Matrix compatible with DataStore
 
-* create JSON-s with Gabor (and mb any others) filters
+* create progresslistener to aggloclustering
+
+* add procent meter to command line
+
+* move command line to separate project
 
 * unificate LUV and LUV point, make it scala and Matrix-compatible
 

@@ -25,7 +25,7 @@ object FilterPainter {
     //val gaborMatrix = Gabor.gaborFiltres15.map(Matrix(_
 
 //    val gaborMatrix9 = Gabor.gaborFiltres9.map(Matrix(_))
-//    val gaborMatrix15 = Gabor.gaborFiltres15.map(Matrix(_))
+//    val gaborMatrix = Gabor.gaborFiltres15.map(Matrix(_))
 //
 //    val gaborMatrix = gaborMatrix9.map(_.addBorder(3, 3, 0))++gaborMatrix15
 

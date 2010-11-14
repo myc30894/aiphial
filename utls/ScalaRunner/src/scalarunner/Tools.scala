@@ -85,13 +85,16 @@ object Tools {
     }
   }
 
-  class Persentlogger(val step:Float = 0.01f) extends ProgressListener{
+  class Persentlogger(val step:Float = 0.01f, perc:Int = 0 ) extends ProgressListener{
     private var prev = Float.NegativeInfinity
+
+    val fs = "%2."+perc+"f"
+
     def onStepDone(v:Float) = {
       if(v-step>prev)
       {
         val tp = v * 100
-        println(tp.formatted("%2.0f")+"%")
+        println(tp.formatted(fs)+"%")
         prev = v
       }
       if(v>=1f)

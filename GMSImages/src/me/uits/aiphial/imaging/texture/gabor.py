@@ -232,13 +232,13 @@ if __name__ == "__main__":
 		filters.append(gaborFilterSimplified(2.7, (math.pi/4.0)*i, 0, 1, 1))
 
 
-	print "Array(" + ",\n\n".join([
-		 "Array(\n" +  ",\n".join([					   
-					   "Array(" + ",".join([str(l) for l in s ]) + ")"
+	print "[" + ",\n\n".join([
+		 "[\n" +  ",\n".join([
+					   "[" + ",".join([str(l) for l in s ]) + "]"
 					   for s in f					   
-					   ]) +"\n)"
+					   ]) +"\n]"
 		 for f in filters
-		 ]) +"\n)"
+		 ]) +"\n]"
 			
 			
 			

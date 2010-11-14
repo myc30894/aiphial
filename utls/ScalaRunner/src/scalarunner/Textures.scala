@@ -104,11 +104,6 @@ object Textures {
             ra(point.x)(point.y)= colors(i)
           }
 
-//          val step = 200./clusters.size
-//          for((cluster,i) <- clusters zipWithIndex; point <- cluster)
-//          {
-//            ra(point.x)(point.y)= new LUV(50,-100+i*step, 100-i*step)
-//          }
           ImageIO.write(ImgUtls.LuvArrayToBufferedImage(ra),"bmp",new File("textured_"+s+"_cc_"+clusters.size+".bmp"));
           s=s+1
         }})
