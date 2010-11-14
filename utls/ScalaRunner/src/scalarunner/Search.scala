@@ -149,7 +149,7 @@ object Search{
       setAutostopping(false)
       setMaxIterations(1000)
       setWindowMultiplier(0.2f)
-      addIterationListener({var v = 0.2f; (a: CC) => {this.setWindowMultiplier(v); v += 0.1f}})
+      addIterationListener({var v = 0.2f; (a: CCLP) => {this.setWindowMultiplier(v); v += 0.1f}})
     }
 
     msc.addExtendingClustererToQueue(amsc)
@@ -167,7 +167,7 @@ object Search{
     msc.addIterationListener({
         var t = System.currentTimeMillis()
         var i = 0
-        (a: CC) => {
+        (a: CCLP) => {
           println(a.size + " " + (System.currentTimeMillis() - t))
           ImageIO.write(paintClusters(w,h,a), "png", new File("out" + i + ".png"))
           t = System.currentTimeMillis()
@@ -189,7 +189,7 @@ object Search{
 
        var i2 = 0
 
-       (a: CC) => {
+       (a: CCLP) => {
          for (cluster <- a) {
            val v = cc.compareCluster(cluster)
            //vals.append(v)

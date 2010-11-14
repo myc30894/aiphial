@@ -88,7 +88,7 @@ object AgloSpeedTest {
         //val msp = createPureAglomerativeSegmentator(scaledimg)
 
         msp.addIterationListener({var s = 0;
-                                  (a:CC)=>{
+                                  (a:CCLP)=>{
             ImageIO.write(
               paintClusters(scaledimg.getWidth, scaledimg.getHeight, a),
               "bmp",
@@ -126,7 +126,7 @@ object AgloSpeedTest {
       setAutostopping(false)
       setMaxIterations(1000)
       setWindowMultiplier(0.2f)
-      addIterationListener({var v = 0.2f; (a: CC) => {this.setWindowMultiplier(v); v += 0.1f}})
+      addIterationListener({var v = 0.2f; (a: CCLP) => {this.setWindowMultiplier(v); v += 0.1f}})
     }
 
 
@@ -150,7 +150,7 @@ object AgloSpeedTest {
 
     private[this] var i2 = 0
 
-    def IterationDone(a: CC) {
+    def IterationDone(a: CCLP) {
 
       for (cluster <- a) {
         val v = cc.compareCluster(cluster)
@@ -217,7 +217,7 @@ object AgloSpeedTest {
       setAutostopping(false)
       setMaxIterations(1000)
       setWindowMultiplier(0.2f)
-      addIterationListener({var v = 0.2f; (a: CC) => {this.setWindowMultiplier(v); v += 0.1f}})
+      addIterationListener({var v = 0.2f; (a: CCLP) => {this.setWindowMultiplier(v); v += 0.1f}})
     }
 
     msc.addExtendingClustererToQueue(amsc)

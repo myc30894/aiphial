@@ -7,6 +7,7 @@ package scalarunner
 
 import java.io.File
 import javax.imageio.ImageIO
+import me.uits.aiphial.general.aglomerative.AglomerativeMeanShift
 import me.uits.aiphial.general.basic.MeanShiftClusterer
 import me.uits.aiphial.general.basic.SimpleBandwidthSelector
 import me.uits.aiphial.general.dataStore.DataStore
@@ -36,11 +37,10 @@ object Textures {
 
     val gaborMatrix = Gabor.garborFiltres.map(Matrix(_))
 
-
-    //val imagemtx = Matrix(ImgUtls.readImageAsLuvArray("../../images/DSCN4909s400.bmp")).map(_.l)
+//    val imagemtx = Matrix(ImgUtls.readImageAsLuvArray("../../images/DSCN4909s400.bmp")).map(_.l)
     
-    val imagemtx = Matrix(ImgUtls.readImageAsLuvArray("../..//images/sand100.png")).map(_.l)
-    
+ //   val imagemtx = Matrix(ImgUtls.readImageAsLuvArray("../..//images/sand100.png")).map(_.l)
+     val imagemtx = Matrix(ImgUtls.readImageAsLuvArray("../..//images/twotex.png")).map(_.l)
 
     println("finished")
     println("applying filters...")
@@ -59,71 +59,57 @@ object Textures {
     println("initializating clusterer...")
 
     class TextonePoint(val data:scala.collection.mutable.Seq[Double], val x:Int, val y:Int ) extends NDimPoint{
-      
-      override def getCoord(i:Int) = data(i).floatValue
-      
-      override def setCoord(i:Int,v:java.lang.Float):Unit  = data(i) = v.doubleValue
-    
-      override def getDimensions = data.length
-      
-      override def getWeight = 1f
-      
+      override def getCoord(i:Int) = data(i).floatValue      
+      override def setCoord(i:Int,v:java.lang.Float):Unit  = data(i) = v.doubleValue    
+      override def getDimensions = data.length      
+      override def getWeight = 1f      
     }
 
 
     val dataStore = DefaultDataStoreFactory.get().createDataStore[TextonePoint](appliedGabors.length)
-
     for((x,y,v) <- gaborsInOne)
     {
       dataStore.add(new TextonePoint(v,x,y))
     }
 
+    val msc0 = new MeanShiftClusterer[NDimPoint]();
+    msc0.setMinDistance(3)
 
-    val clusterer = new MeanShiftClusterer[TextonePoint]()
+    val amsc = new AglomerativeMeanShift[TextonePoint](msc0){
+      setAutostopping(false)
+      setMaxIterations(1000)
+      setWindowMultiplier(0.2f)
+      addIterationListener({var v = 0.2f; (a: Any) => {this.setWindowMultiplier(v); v += 0.1f}})
+    }
 
-    
-    clusterer.setDataStore(dataStore)
+    amsc.setDataStore(dataStore)
 
-    clusterer.setMinDistance(1f)
+    amsc.addIterationListener({var s = 0;
+                               (clusters:CC[TextonePoint])=>{
+          println("step "+s+" finished, cluster count="+clusters.size)
 
-    val bs = new SimpleBandwidthSelector()
-    val obw = bs.getBandwidth(dataStore)
+          val ra = Array.ofDim[LUV](f.height,f.width)
 
-    println("original bw="+obw.mkString("[",",","]"))
+          val colors = genRandomColors(clusters.size)
 
-    val sbw = obw.map(v=>float2Float(v * 0.5f))
+          for((cluster,i) <- clusters zipWithIndex; point <- cluster)
+          {
+            ra(point.x)(point.y)= colors(i)
+          }
 
-    println("chosen bw="+sbw.mkString("[",",","]"))
-
-    clusterer.setWindow(sbw:_*)
-
+//          val step = 200./clusters.size
+//          for((cluster,i) <- clusters zipWithIndex; point <- cluster)
+//          {
+//            ra(point.x)(point.y)= new LUV(50,-100+i*step, 100-i*step)
+//          }
+          ImageIO.write(ImgUtls.LuvArrayToBufferedImage(ra),"bmp",new File("textured_"+s+"_cc_"+clusters.size+".bmp"));
+          s=s+1
+        }})
 
     println("finished")
     println("clustering...")
 
-    clusterer.doClustering()
-
-
-    println("finished")
-    println("writing results...")
-
-
-    val clusters = clusterer.getClusters()
-    
-    println("number of clusters = "+clusters.size)
-
-    val ra = Array.ofDim[LUV](f.height,f.width)
-
-    //val ra = Array.tabulate[LUV](f.height,f.width)((x,y) => new LUV(imagemtx(x,y),0,0))
-
-    val step = 200./clusters.size
-
-    for((cluster,i) <- clusters zipWithIndex; point <- cluster)
-    {
-      ra(point.x)(point.y)= new LUV(50,-100+i*step, 100-i*step)
-    }
-
-    ImageIO.write(ImgUtls.LuvArrayToBufferedImage(ra),"bmp",new File("textured.bmp"));
+    amsc.doClustering()
 
     println("finished")
 

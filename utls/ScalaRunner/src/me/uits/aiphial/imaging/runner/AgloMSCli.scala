@@ -101,7 +101,7 @@ class AgloMSCli extends CliCommand {
     val msp = createSegmentatorForImage(srcimg)
 
     msp.addIterationListener({var s = 0;
-                              (a:CC)=>{
+                              (a:CCLP)=>{
               
           val fname = makeIndexedName(outFilesName,s)
           val file = new File(fname)
@@ -135,7 +135,7 @@ class AgloMSCli extends CliCommand {
       setAutostopping(false)
       setMaxIterations(1000)
       setWindowMultiplier(windowsMultiplier)
-      addIterationListener({var v = windowsMultiplier; (a: CC) => {this.setWindowMultiplier(v); v += windowsMultiplierStep}})
+      addIterationListener({var v = windowsMultiplier; (a: CCLP) => {this.setWindowMultiplier(v); v += windowsMultiplierStep}})
     }
 
 
@@ -196,7 +196,7 @@ class AgloMSCli extends CliCommand {
       setMaxIterations(1000)
       setWindowMultiplier(windowsMultiplier)
       addIterationListener({var v = windowsMultiplier;
-                            (a: CC) => {this.setWindowMultiplier(v); v += windowsMultiplierStep}})
+                            (a: CCLP) => {this.setWindowMultiplier(v); v += windowsMultiplierStep}})
     }
 
     msc.addExtendingClustererToQueue(amsc)

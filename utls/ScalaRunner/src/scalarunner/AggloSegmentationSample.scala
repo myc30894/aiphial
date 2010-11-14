@@ -58,7 +58,7 @@ object AggloSegmentationSample {
       setWindowMultiplier(0.2f)
       // an iteration listener that would increment window multiplier on each step
       // to provide additional agglomeretivity :)
-      addIterationListener({var v = 0.2f; (a: CC) => {this.setWindowMultiplier(v); v += 0.1f}})
+      addIterationListener({var v = 0.2f; (a: CCLP) => {this.setWindowMultiplier(v); v += 0.1f}})
     }
 
     // create a datastore and add all points from image to it
@@ -73,7 +73,7 @@ object AggloSegmentationSample {
     // add an iteration listener that would write to image file
     // results of each step of the agglomerative clustering
     amsc.addIterationListener({var s = 0;
-                              (a:CC)=>{
+                              (a:CCLP)=>{
           ImageIO.write(
             paintClusters(srcimg.getWidth, srcimg.getHeight, a),
             "bmp",

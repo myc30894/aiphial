@@ -42,6 +42,7 @@ import me.uits.aiphial.general.dataStore.NDimPoint
 import me.uits.aiphial.imaging._
 
 import me.uits.aiphial.imaging.searching.HistogramClusterComparer
+import scala.collection.immutable.NumericRange
 import scala.collection.mutable.ArrayBuffer
 
 import me.uits.aiphial.imaging.searching.shapematching.ShapeContext
@@ -51,6 +52,7 @@ import scala.math._
 import java.awt.image.BufferedImage
 import java.awt.{Graphics2D, Color, BasicStroke, Polygon}
 import scala.runtime.RichDouble
+import scala.util.Random
 
 object Tools {
 
@@ -59,13 +61,15 @@ object Tools {
   /**
    * short name for collection of Clusers
    */
-  type CC = java.util.Collection[_<:Cluster[LuvPoint]]
+  type CCLP = CC[LuvPoint]
+
+  type CC[T <: NDimPoint] = java.util.Collection[_<:Cluster[T]]
 
   implicit def ClusterToRegion(cluster: Cluster[LuvPoint]) = new Region(cluster)
 
-  implicit def lambdaToItearationListener(funk: CC => Unit): IterationListener[LuvPoint] = {
-    new IterationListener[LuvPoint]() {
-      def IterationDone(a: CC) {
+  implicit def lambdaToItearationListener[T <: NDimPoint](funk: CC[T] => Unit): IterationListener[T] = {
+    new IterationListener[T]() {
+      def IterationDone(a: CC[T]) {
         funk(a)
       }
     }
@@ -110,69 +114,109 @@ object Tools {
    *  @param cc clusters to paint
    *  @returns image painted with clusters
    */
-   def paintClusters(w:Int, h:Int, cc: CC):BufferedImage={
-      import ru.nickl.meanShift.direct.LUV
-      val array = Array.ofDim[LUV](h,w)
+  def paintClusters(w:Int, h:Int, cc: CCLP):BufferedImage={
+    import ru.nickl.meanShift.direct.LUV
+    val array = Array.ofDim[LUV](h,w)
 
-      for(cluster <- cc){
-        val cl = cluster.getBasinOfAttraction()
-        val cp = new LUV(cl.getCoord(2).doubleValue,cl.getCoord(3).doubleValue,cl.getCoord(4).doubleValue)
-        for (l <- cluster)
-          array(l.getY)(l.getX) = cp
-      }
-
-      new LUVConverter().LUVArrayToBufferedImage(array)
-
-    }
-   /**
-    * tries to figure out image format from given file name/
-    * Format must be supported to write by ImageIO
-    */
-   def getFormatByName(filename:String):Option[String]={
-
-      val ext = filename.drop(filename.lastIndexOf(".")+1)
-
-      ImageIO.getWriterFormatNames().find(_.compareToIgnoreCase(ext)==0)
+    for(cluster <- cc){
+      val cl = cluster.getBasinOfAttraction()
+      val cp = new LUV(cl.getCoord(2).doubleValue,cl.getCoord(3).doubleValue,cl.getCoord(4).doubleValue)
+      for (l <- cluster)
+        array(l.getY)(l.getX) = cp
     }
 
-   /**
-    * Inserts index into filename before extension.
-    * @param filename0 base file name
-    * @param index - index to insert
-    */
-   def makeIndexedName(filename0:String, index:Int):String={
+    new LUVConverter().LUVArrayToBufferedImage(array)
 
-      val filename = filename0.drop(filename0.lastIndexOf(File.separator)+1) // new File(filename0).getName
+  }
+  /**
+   * tries to figure out image format from given file name/
+   * Format must be supported to write by ImageIO
+   */
+  def getFormatByName(filename:String):Option[String]={
 
-      val ld = filename.lastIndexOf(".")
+    val ext = filename.drop(filename.lastIndexOf(".")+1)
 
-      val (name, ext) = if(ld>0)filename.splitAt(ld) else (filename,"")
+    ImageIO.getWriterFormatNames().find(_.compareToIgnoreCase(ext)==0)
+  }
+
+  /**
+   * Inserts index into filename before extension.
+   * @param filename0 base file name
+   * @param index - index to insert
+   */
+  def makeIndexedName(filename0:String, index:Int):String={
+
+    val filename = filename0.drop(filename0.lastIndexOf(File.separator)+1) // new File(filename0).getName
+
+    val ld = filename.lastIndexOf(".")
+
+    val (name, ext) = if(ld>0)filename.splitAt(ld) else (filename,"")
     
-      name + index + ext
+    name + index + ext
     
-    }
+  }
 
-   /**
-    * returns the time spend on computation of lambda function.
-    * <code>
-    * val t = measureTime{
-    *  //a computation-expensive funtion
-    * }
-    * </code>
-    */
-   def measureTime(f: =>Any):Long={
-      val start = System.currentTimeMillis
-      f
-      System.currentTimeMillis-start
-    }
-   /**
-    * prints to stdout the time spend on computation of lambda function.
-    */
-   def logTime(f: =>Any):Unit={
-      println("elapsed time= "+measureTime(f))
+  /**
+   * returns the time spend on computation of lambda function.
+   * <code>
+   * val t = measureTime{
+   *  //a computation-expensive funtion
+   * }
+   * </code>
+   */
+  def measureTime(f: =>Any):Long={
+    val start = System.currentTimeMillis
+    f
+    System.currentTimeMillis-start
+  }
+  /**
+   * prints to stdout the time spend on computation of lambda function.
+   */
+  def logTime(f: =>Any):Unit={
+    println("elapsed time= "+measureTime(f))
 
-    }
+  }
 
   def matrixToImage(m:Matrix[LUV]) = ImgUtls.LuvArrayToBufferedImage(m.toArray)
 
-   }
+
+  def genRandomColors():Stream[LUV]= {
+    val r = new Random()
+
+    Stream.continually{
+      new LUV(30+r.nextDouble*70,r.nextDouble*200-100,r.nextDouble*200-100)
+    }
+    
+  }
+
+  def genRandomColors(cn: Int):IndexedSeq[LUV] = genRandomColors().take(cn).toIndexedSeq
+
+
+  def genDistinctColors(cn: Int):IndexedSeq[LUV] = {
+
+    val lc = new LUVConverter
+
+    val sccount = sqrt(cn).ceil.intValue
+
+    val step:Float = 1f/sccount
+
+    for(s <- 0 until sccount; h <- 0 until sccount)
+      yield {
+        val rgb = new Color(Color.HSBtoRGB(step*h, 1f, 1f-0.6f*step*s))
+
+        
+
+        lc.RGBtoLUV(rgb.getRed, rgb.getBlue, rgb.getGreen)}
+
+
+
+//    val sccount = sqrt(cn).ceil.intValue
+//
+//    val step = 200./sccount
+//
+//    for(u <- 0 until sccount; v <- 0 until sccount)
+//      yield  new LUV(50 + step/4 * v,-100 + step * u, 0)
+
+  }
+
+}
