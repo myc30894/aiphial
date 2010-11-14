@@ -36,6 +36,7 @@ import me.uits.aiphial.general.aglomerative.AglomerativeMeanShift
 import me.uits.aiphial.general.aglomerative.IterationListener
 import me.uits.aiphial.general.basic.Cluster
 import me.uits.aiphial.general.basic.MeanShiftClusterer
+import me.uits.aiphial.general.basic.ProgressListener
 import me.uits.aiphial.general.dataStore.KdTreeDataStore
 import me.uits.aiphial.general.dataStore.NDimPoint
 
@@ -59,10 +60,13 @@ object Tools {
 
 
   /**
-   * short name for collection of Clusers
+   * short name for collection of Clusters of LuvPoints
    */
   type CCLP = CC[LuvPoint]
 
+  /**
+   * short name for collection of Clusters
+   */
   type CC[T <: NDimPoint] = java.util.Collection[_<:Cluster[T]]
 
   implicit def ClusterToRegion(cluster: Cluster[LuvPoint]) = new Region(cluster)
@@ -74,6 +78,29 @@ object Tools {
       }
     }
   }
+  
+  implicit def lambdaToProgressListener(funk: Float => Unit): ProgressListener = {
+    new ProgressListener {
+      def onStepDone(v:Float) = funk(v)
+    }
+  }
+
+  class Persentlogger(val step:Float = 0.01f) extends ProgressListener{
+    private var prev = Float.NegativeInfinity
+    def onStepDone(v:Float) = {
+      if(v-step>prev)
+      {
+        val tp = v * 100
+        println(tp.formatted("%2.0f")+"%")
+        prev = v
+      }
+      if(v>=1f)
+        {
+          prev = Float.NegativeInfinity
+        }
+    }
+  }
+
 
   /**
    * method to scale image

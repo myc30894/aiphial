@@ -35,12 +35,14 @@ object Textures {
 
     println("reading data...")
 
-    val gaborMatrix = Gabor.garborFiltres.map(Matrix(_))
+//    val gaborMatrix =  Gabor.gaborFiltres9.map(Matrix(_))
+//      val gaborMatrix =  Gabor.gaborFiltres15.map(Matrix(_))
+    val gaborMatrix = Gabor.gaborMatrix
 
 //    val imagemtx = Matrix(ImgUtls.readImageAsLuvArray("../../images/DSCN4909s400.bmp")).map(_.l)
     
- //   val imagemtx = Matrix(ImgUtls.readImageAsLuvArray("../..//images/sand100.png")).map(_.l)
-     val imagemtx = Matrix(ImgUtls.readImageAsLuvArray("../..//images/twotex.png")).map(_.l)
+    //   val imagemtx = Matrix(ImgUtls.readImageAsLuvArray("../..//images/sand100.png")).map(_.l)
+    val imagemtx = Matrix(ImgUtls.readImageAsLuvArray("../..//images/twotex.png")).map(_.l)
 
     println("finished")
     println("applying filters...")
@@ -59,10 +61,14 @@ object Textures {
     println("initializating clusterer...")
 
     class TextonePoint(val data:scala.collection.mutable.Seq[Double], val x:Int, val y:Int ) extends NDimPoint{
-      override def getCoord(i:Int) = data(i).floatValue      
+      
+      require(!data.exists(v => v.isNaN || v.isInfinity), "cannot contain nans or inf")
+
+      override def getCoord(i:Int) = data(i).floatValue
       override def setCoord(i:Int,v:java.lang.Float):Unit  = data(i) = v.doubleValue    
       override def getDimensions = data.length      
-      override def getWeight = 1f      
+      override def getWeight = 1f
+      override def toString():String = data.mkString("[", ",", "]")
     }
 
 
@@ -74,6 +80,7 @@ object Textures {
 
     val msc0 = new MeanShiftClusterer[NDimPoint]();
     msc0.setMinDistance(3)
+    msc0.addProgressListener(new Persentlogger())
 
     val amsc = new AglomerativeMeanShift[TextonePoint](msc0){
       setAutostopping(false)

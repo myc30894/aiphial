@@ -21,6 +21,9 @@
 
 package me.uits.aiphial.general.basic;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -74,25 +77,25 @@ public class Bof<T extends NDimPoint> extends SimpleNDimPoint
 
         Float[] spaceDims = Utls.getSpaceSize(points);
        
-        Float V = 1F;
+        BigDecimal V = BigDecimal.ONE;
         for (int i = 0; i < spaceDims.length; i++)
         {
-            V *= spaceDims[i];
+            V = V.multiply( new BigDecimal(spaceDims[i]));
         }
 
 
-        float sumWeight = 0;
+
+        BigDecimal sumWeight = BigDecimal.ONE;
         for (NDimPoint nDimPoint : points)
         {
-            sumWeight+=nDimPoint.getWeight();
+            sumWeight= sumWeight.add(new BigDecimal(nDimPoint.getWeight()));
         }
 
-        float result = (float) (Math.pow(sumWeight, spaceDims.length) / (V + 1));
+        BigDecimal pow = sumWeight.pow(spaceDims.length);
+
+        BigDecimal result = pow.divide(V.add(BigDecimal.ONE),MathContext.DECIMAL64);
         
-        //System.out.println("pk smd: "+points.size()+" / "+result);
-        
-        
-        return result;
+        return result.floatValue();
     }
 
     

@@ -65,17 +65,24 @@ public class MeanShiftClustererOld<T extends NDimPoint> implements IMeanShiftClu
         //resultStore.setWindow(window);
 
 
+        int pc = 0;
+        // TODO: it is a very big overhead to use asList to compute elem count
+        float count = !this.progressListeners.isEmpty()?dataStore.asList().size():Float.NaN;
 
         for (T nDimPoint : dataStore)
         {
             NDimPoint calkBofA = calkBofA(nDimPoint);
-                        
+                      
             Bof<T> bof = resultStore.addOrGet(new Bof<T>(calkBofA));
             bof.points.add(nDimPoint);
+
+            fireProgressListeners(++pc/count * 0.95f);
 
         }
 
         performClusters();
+
+        fireProgressListeners(1f);
 
     }
 
@@ -87,8 +94,9 @@ public class MeanShiftClustererOld<T extends NDimPoint> implements IMeanShiftClu
 
         while (!resultStore.isEmpty())
         {
-            Bof bof = resultStore.getFirst();
 
+            Bof bof = resultStore.getFirst();
+            
             Cluster<T> newCluster = new Cluster<T>();
 
             Collection<Bof<T>> withinWindow = resultStore.getWithinWindow(this.window,bof);
@@ -183,4 +191,25 @@ public class MeanShiftClustererOld<T extends NDimPoint> implements IMeanShiftClu
     {
         this.dataStoreFactory = dataStoreFactory;
     }
+
+
+    private List<ProgressListener> progressListeners = new ArrayList<ProgressListener>(1);
+
+
+    protected void fireProgressListeners(float v){
+        for (ProgressListener pl : progressListeners)
+        {
+            pl.onStepDone(v);
+        }
+    }
+
+    public void addProgressListener(ProgressListener pl){
+        progressListeners.add(pl);
+    }
+
+    public void removeProgressListener(ProgressListener pl){
+        progressListeners.remove(pl);
+    }
+
+
 }

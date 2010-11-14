@@ -218,7 +218,7 @@ if __name__ == "__main__":
 		return image
 
 	#filtr = gaborFilter(8, 8, -4, -4, 4, 4, 2.5, math.pi/2, 0, 1, 1)
-	filtr = gaborFilterSimplified(2.5, 0, 0, 1, 1)
+	#filtr = gaborFilterSimplified(2.5, 0, 0, 1, 1)
 
 	#img = readImage("../face/000_1_1.nrm")
 	#result = applyDirectConvolution(filtr, img)
@@ -229,7 +229,7 @@ if __name__ == "__main__":
 
 	filters = []
 	for i in xrange(0,8):
-		filters.append(gaborFilterSimplified(2.5, (math.pi/4.0)*i, 0, 1, 1))
+		filters.append(gaborFilterSimplified(2.7, (math.pi/4.0)*i, 0, 1, 1))
 
 
 	print "Array(" + ",\n\n".join([

@@ -21,7 +21,10 @@
 
 package me.uits.aiphial.general.basic;
 
+import java.math.MathContext;
 import java.lang.Float;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -60,10 +63,10 @@ public class SimpleBandwidthSelector
         }
 
 
-        Float V = 1F;
+        BigDecimal V = BigDecimal.ONE;
         for (int i = 0; i < spaceDims.length; i++)
         {
-            V *= spaceDims[i];
+            V = V.multiply(new BigDecimal(spaceDims[i]));
         }
 
         Float abcde = 1F;
@@ -73,7 +76,7 @@ public class SimpleBandwidthSelector
             abcde *= dimK[i];
         }
 
-        Float xside = (float) Math.pow(V / (abcde * pointsList.size()), 1F / dim);
+        Float xside = (float) Math.pow(V.divide(new BigDecimal(abcde * pointsList.size()),MathContext.DECIMAL64).doubleValue(), 1F / dim);
 
 
         Float[] result = new Float[dim];
