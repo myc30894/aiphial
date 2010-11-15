@@ -19,8 +19,6 @@ $deprecated = meanShift
 
 * add procent meter to command line
 
-* move command line to separate project
-
 * unificate LUV and LUV point, make it scala and Matrix-compatible
 
 * make matrix DLUVArray-compatible, or remove DLUVArray at all

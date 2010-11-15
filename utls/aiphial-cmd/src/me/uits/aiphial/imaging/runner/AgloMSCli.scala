@@ -124,46 +124,11 @@ class AgloMSCli extends CliCommand {
 
   }
 
-
-  
-  def createPureAglomerativeSegmentator(srcimg:BufferedImage) = {
-    
-    val msc0 = new MeanShiftClusterer[NDimPoint]();
-    msc0.setMinDistance(md)
-    
-    val amsc = new AglomerativeMeanShift[LuvPoint](msc0){
-      setAutostopping(false)
-      setMaxIterations(1000)
-      setWindowMultiplier(windowsMultiplier)
-      addIterationListener({var v = windowsMultiplier; (a: CCLP) => {this.setWindowMultiplier(v); v += windowsMultiplierStep}})
-    }
-
-
-    val datastore = new KdTreeDataStore[LuvPoint](5)
-    imageAsLUVPointCollection(srcimg).foreach(datastore.add(_))
-
-    //val datastore = new LuvDataStore(ImageToLuvDArray(srcimg))
-
-    amsc.setDataStore(datastore)    
-    amsc      
-  }
-  
-
  
-  def createSegmentatorForImage(srcimg:BufferedImage) = {
-
-    
+  def createSegmentatorForImage(srcimg:BufferedImage) = {    
 
     val msc = new AglomerativeClustererStack[LuvPoint]();
 
-//    val growingSegmentator = new RegionGrowingSegmentator(){
-//      setEqualityRange(10)
-//      setSourceImage(srcimg)
-//    }
-//     msc.setInitialClusterer(new SegmentatorAdapter(growingSegmentator))
-
-
-    //val ifilter = new NativeCudaMSFilter{
     val ifilter = new SimpleMSFilter{
       setColorRange(cr)
       setSquareRange(sr)
@@ -172,17 +137,6 @@ class AgloMSCli extends CliCommand {
     val is  = new ru.nickl.meanShift.direct.segmentator.SimpleSegmentator(ifilter){
       setMinRegionSize(minreg)
     }
-
-
-//    val is = new ru.nickl.meanShift.direct.segmentator.SobelMeanShiftSegmentator(ifilter){
-//      setGradTreshold(5)
-//      setEqualityRange(1)
-//      setColorRange(7)
-//      setSquareRange(2)
-//      setMinRegionSize(0)
-//    }
-//
-
 
     is.setSourceImage(srcimg)
 
@@ -200,10 +154,6 @@ class AgloMSCli extends CliCommand {
     }
 
     msc.addExtendingClustererToQueue(amsc)
-
-//
-//    msc.addIterationListener(new Searcher(ImageIO.read(new File("../../images/bluehren.png")), srcimg))
-//
 
     msc
   }
