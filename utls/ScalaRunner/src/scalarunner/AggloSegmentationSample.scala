@@ -33,7 +33,7 @@ import me.uits.aiphial.imaging.LuvPoint
 import scala.collection.JavaConversions.asScalaIterable
 import scala.math._
 
-import Tools._
+import me.uits.aiphial.imaging.Tools._
 
 object AggloSegmentationSample {
 

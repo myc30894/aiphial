@@ -27,7 +27,7 @@ import me.uits.aiphial.imaging._
 import me.uits.aiphial.imaging.texture.Gabor
 import ru.nickl.meanShift.direct.LUV
 
-import scalarunner.Tools._
+import me.uits.aiphial.imaging.Tools._
 
 
 object FilterPainter {

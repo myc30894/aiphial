@@ -56,7 +56,7 @@ import java.awt.{Graphics2D, Color, BasicStroke, Polygon}
 import scala.runtime.RichDouble
 
 
-import Tools._
+import me.uits.aiphial.imaging.Tools._
 
 object AgloSpeedTest {
 

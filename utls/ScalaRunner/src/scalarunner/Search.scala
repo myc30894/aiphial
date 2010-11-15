@@ -56,7 +56,7 @@ import scala.math._
 import java.awt.image.BufferedImage
 import java.awt.{Graphics2D, Color, BasicStroke, Polygon}
 
-import Tools._
+import me.uits.aiphial.imaging.Tools._
 /**
  * Created by IntelliJ IDEA.
  * User: Nickl

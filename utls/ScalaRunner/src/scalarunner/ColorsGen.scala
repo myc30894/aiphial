@@ -35,7 +35,7 @@ import me.uits.aiphial.imaging.texture.Gabor
 import ru.nickl.meanShift.direct.LUV
 import scala.collection.JavaConversions.asScalaIterable
 import scala.collection.mutable.ArrayBuffer
-import scalarunner.Tools._
+import me.uits.aiphial.imaging.Tools._
 
 import scala.math.ScalaNumericConversions
 

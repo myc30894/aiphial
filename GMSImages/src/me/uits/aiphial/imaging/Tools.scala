@@ -19,7 +19,7 @@
  *
  */
 
-package scalarunner
+package me.uits.aiphial.imaging
 
 import java.io.File
 

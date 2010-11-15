@@ -31,7 +31,7 @@ import ru.nickl.meanShift.direct.filter.SimpleMSFilter
 
 import scala.collection.JavaConversions.asScalaIterable
 import com.beust.jcommander.{Parameter, Parameters};
-import scalarunner.Tools._
+import me.uits.aiphial.imaging.Tools._
 
 @Parameters(commandDescription = "naive mean-shift segmentation for image")
 class NaiveMSCli() extends CliCommand {

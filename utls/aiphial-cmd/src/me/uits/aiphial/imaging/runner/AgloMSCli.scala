@@ -57,7 +57,7 @@ import scala.runtime.RichDouble
 
 import com.beust.jcommander.{Parameter, Parameters};
 
-import scalarunner.Tools._
+import me.uits.aiphial.imaging.Tools._
 
 @Parameters(commandDescription = "agglomerative segmentation for image")
 class AgloMSCli extends CliCommand {
