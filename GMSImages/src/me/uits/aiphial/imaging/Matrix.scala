@@ -107,6 +107,9 @@ class Matrix[T] private (private val data:Array[Array[T]])(implicit Tmf:ClassMan
 
   override def toString = data map (_.mkString("Array(", ",", ")")) mkString("Matrix(Array(\n", ",\n", "\n))\n")
 
+  def toJSON = data map (_.mkString("[", ",", "]")) mkString("[\n", ",\n", "\n]\n")
+
+  
   def toArray:Array[Array[T]] = data;
 
   def mapMask[A,T2](mask:Matrix[T2])(f:(T,T2)=>A)(reduce:(A,A)=>A)

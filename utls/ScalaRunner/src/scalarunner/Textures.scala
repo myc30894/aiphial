@@ -49,11 +49,23 @@ object Textures {
   def main(args: Array[String]): Unit = {
 
 
+    println("cleaning...")
+
+    val cf = new File(".")
+    val todel = cf.listFiles(new java.io.FilenameFilter()
+                 {
+        override def accept(f:File,s:String)=  s.endsWith(".bmp") || s.endsWith(".js")
+      })
+  
+    //println("removing:"+todel.map(_.getName).mkString(","))
+
+    todel.foreach(_.delete)
+
     println("reading data...")
 
-//    val gaborMatrix =  Gabor.gaborFiltres9.map(Matrix(_))
-//      val gaborMatrix =  Gabor.gaborFiltres15.map(Matrix(_))
+
     val gaborMatrix = Gabor.gaborMatrix
+    //val gaborMatrix = Gabor.readfromjs("./textones/sand100_cc_6.js")
 
 //    val imagemtx = Matrix(ImgUtls.readImageAsLuvArray("../../images/DSCN4909s400.bmp")).map(_.l)
     
@@ -87,6 +99,18 @@ object Textures {
       override def toString():String = data.mkString("[", ",", "]")
     }
 
+    def paintTextone(point: NDimPoint)={
+
+      val pointasarray = Array.tabulate(point.getDimensions)(point.getCoord(_).floatValue)
+
+      val n = math.sqrt(pointasarray.map(e=>e*e).sum)     
+
+      val textoneMatrix = (for( (f,v) <- (gaborMatrix.toSeq zip pointasarray))
+        yield f.map(v * _)).reduceLeft(_.join(_)(_+_)).map(_/n)
+
+      textoneMatrix    
+    }
+
 
     val dataStore = DefaultDataStoreFactory.get().createDataStore[TextonePoint](appliedGabors.length)
     for((x,y,v) <- gaborsInOne)
@@ -96,7 +120,7 @@ object Textures {
 
     val msc0 = new MeanShiftClusterer[NDimPoint]();
     msc0.setMinDistance(3)
-    msc0.addProgressListener(new Persentlogger())
+    msc0.addProgressListener(new LinearPersentlogger())
 
     val amsc = new AglomerativeMeanShift[TextonePoint](msc0){
       setAutostopping(false)
@@ -112,6 +136,30 @@ object Textures {
           println("step "+s+" finished, cluster count="+clusters.size)
 
           val ra = Array.ofDim[LUV](f.height,f.width)
+
+          if(clusters.size<50)
+          {
+
+            val ab = new ArrayBuffer[Matrix[Double]](clusters.size)
+
+            for((c,i) <- clusters zipWithIndex)
+            {
+
+              val tm = paintTextone(c.getBasinOfAttraction())
+
+              ab.append(tm)
+
+              val tmp = tm.map( v=> new LUV(50+50*v,0.,0.))
+
+              ImageIO.write(matrixToImage(tmp),"bmp",new File("textone"+s+"_"+i+"_cc_"+clusters.size+".bmp"));
+            }
+
+            import java.io.FileOutputStream
+            val js = new FileOutputStream("textone"+s+"_cc_"+clusters.size+".js")
+            js.write(ab.map(_.toJSON).mkString("[", ",", "]").getBytes)
+            js.close
+
+          }
 
           val colors = genRandomColors(clusters.size)
 

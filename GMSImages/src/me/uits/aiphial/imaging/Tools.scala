@@ -103,6 +103,35 @@ object Tools {
         }
     }
   }
+  
+  class LinearPersentlogger() extends ProgressListener{
+
+
+    private var prev = -1
+
+    val step = 0.1f
+
+    def onStepDone(v:Float)={
+
+      if(prev == -1) {pf("0%"); prev = 1 }
+
+      while(v/step-prev >= step)
+      {
+
+        if(prev == 5) pf("50%") else
+          pf(".");
+        prev = prev + 1;
+      }
+
+      if(v>=1f)
+      {
+        println("100%");
+        prev = -1
+      }
+
+    }
+    def pf(s:String) = {print(s); System.out.flush}
+  }
 
 
   /**
