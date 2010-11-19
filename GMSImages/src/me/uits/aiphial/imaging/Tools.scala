@@ -104,13 +104,14 @@ object Tools {
     }
   }
   
-  class LinearPersentlogger() extends ProgressListener{
-
+  class LinearPersentlogger(points:Int = 5, m:Int = 9) extends ProgressListener{
+    require(points >=2, "points must be >=2")
+    require(m >=1, "m must be >=1")
 
     private var prev = -1
 
-    val step = 0.1f
-
+    val step = 1./(m*(points-1))
+ 
     def onStepDone(v:Float)={
 
       if(prev == -1) {pf("0%"); prev = 1 }
@@ -118,8 +119,9 @@ object Tools {
       while(v/step-prev >= step)
       {
 
-        if(prev == 5) pf("50%") else
-          pf(".");
+      if(prev % m == 0) pf((prev * step * 100).intValue+"%")
+        else pf(".");
+
         prev = prev + 1;
       }
 
