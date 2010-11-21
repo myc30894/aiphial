@@ -189,7 +189,7 @@ class MatrixTest {
 
     val ab = new ArrayBuffer[(Int,Int,Int)](9);
 
-    m.foreach((x,y,v)=> ab.append((x,y,v)))
+    m.foreach( ab.append (_))
 
     assertEquals("",Seq((0,0,1),(0,1,2),(0,2,3),(1,0,4),(1,1,5),(1,2,6),(2,0,7),(2,1,8),(2,2,9)),ab)
   }
@@ -256,7 +256,7 @@ class MatrixTest {
     )
 
 
-    assertEquals("",m1.convolve(mask),
+    assertEquals("",m1.wndDotProduct(mask),
                  Matrix(
         Array(
           Array(19,30,39),

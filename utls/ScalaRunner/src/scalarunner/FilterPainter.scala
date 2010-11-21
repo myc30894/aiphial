@@ -24,7 +24,7 @@ package scalarunner
 import java.io.File
 import javax.imageio.ImageIO
 import me.uits.aiphial.imaging._
-import me.uits.aiphial.imaging.texture.Gabor
+import me.uits.aiphial.imaging.texture.Filtres
 import ru.nickl.meanShift.direct.LUV
 
 import me.uits.aiphial.imaging.Tools._
@@ -45,7 +45,7 @@ object FilterPainter {
 //
 //    val gaborMatrix = gaborMatrix9.map(_.addBorder(3, 3, 0))++gaborMatrix15
 
-    val gaborMatrix = Gabor.gaborMatrix
+    val gaborMatrix = Filtres.gaborMatrix
 
     val gaborimages = gaborMatrix.map(_.map( v=> new LUV(50+50*v,0.,0.)))
 

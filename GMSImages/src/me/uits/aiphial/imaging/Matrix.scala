@@ -116,7 +116,7 @@ class Matrix[T] private (private val data:Array[Array[T]])(implicit Tmf:ClassMan
   (implicit mf1:ClassManifest[A]):Matrix[A]=
     windowingMap(mask.height, mask.width)(_.join(mask)(f).reduce(reduce))
 
-  def convolve(mask:Matrix[T])(implicit num:Numeric[T]) = mapMask(mask)(num.times(_, _))(num.plus(_, _))
+  def wndDotProduct(mask:Matrix[T])(implicit num:Numeric[T]) = mapMask(mask)(num.times(_, _))(num.plus(_, _))
 
   def windowingMap[A](h:Int, w:Int)(f:Matrix[T]=>A)(implicit mf1:ClassManifest[A]):Matrix[A]= {
         Matrix(Array.tabulate(this.height-h+1, this.width-w+1)

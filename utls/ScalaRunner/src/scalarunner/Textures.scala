@@ -30,7 +30,7 @@ import me.uits.aiphial.general.dataStore.DataStore
 import me.uits.aiphial.general.dataStore.DefaultDataStoreFactory
 import me.uits.aiphial.general.dataStore.NDimPoint
 import me.uits.aiphial.imaging._
-import me.uits.aiphial.imaging.texture.Gabor
+import me.uits.aiphial.imaging.texture.Filtres
 import ru.nickl.meanShift.direct.LUV
 import scala.collection.JavaConversions.asScalaIterable
 import scala.collection.mutable.ArrayBuffer
@@ -64,7 +64,7 @@ object Textures {
     println("reading data...")
 
 
-    val gaborMatrix = Gabor.gaborMatrix
+    val gaborMatrix = Filtres.gaborMatrix
     //val gaborMatrix = Gabor.readfromjs("./textones/sand100_cc_6.js")
 
 //    val imagemtx = Matrix(ImgUtls.readImageAsLuvArray("../../images/DSCN4909s400.bmp")).map(_.l)
@@ -75,7 +75,7 @@ object Textures {
     println("finished")
     println("applying filters...")
 
-    val appliedGabors = for(gabor <- gaborMatrix) yield imagemtx.convolve(gabor)
+    val appliedGabors = for(gabor <- gaborMatrix) yield imagemtx.wndDotProduct(gabor)
 
     val f = appliedGabors.head
 
