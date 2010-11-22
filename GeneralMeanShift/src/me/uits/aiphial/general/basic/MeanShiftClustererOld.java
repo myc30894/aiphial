@@ -68,7 +68,7 @@ public class MeanShiftClustererOld<T extends NDimPoint> implements IMeanShiftClu
         int pc = 0;
         // TODO: it is a very big overhead to use asList to compute elem count
         float count = !this.progressListeners.isEmpty()?dataStore.asList().size():Float.NaN;
-
+        
         for (T nDimPoint : dataStore)
         {
             NDimPoint calkBofA = calkBofA(nDimPoint);
@@ -92,6 +92,10 @@ public class MeanShiftClustererOld<T extends NDimPoint> implements IMeanShiftClu
 
         result = new ArrayList<Cluster<T>>();
 
+        //TODO: it a very big overhead
+        int maxiterations = resultStore.asList().size();
+
+        int i = 0;
         while (!resultStore.isEmpty())
         {
 
@@ -112,6 +116,10 @@ public class MeanShiftClustererOld<T extends NDimPoint> implements IMeanShiftClu
                 newCluster.setBasinOfAttraction(bof);
                 result.add(newCluster);
             }
+
+            if(i++>maxiterations)
+                throw new RuntimeException("cannot drain result store, "+resultStore.asList().size()+" elements left");
+
         }
 
     }

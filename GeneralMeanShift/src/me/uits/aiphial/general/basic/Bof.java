@@ -73,14 +73,14 @@ public class Bof<T extends NDimPoint> extends SimpleNDimPoint
 
     private float calkWeight()
     {
-        
+
 
         Float[] spaceDims = Utls.getSpaceSize(points);
-       
+
         BigDecimal V = BigDecimal.ONE;
         for (int i = 0; i < spaceDims.length; i++)
         {
-            V = V.multiply( new BigDecimal(spaceDims[i]));
+            V = V.multiply(new BigDecimal(spaceDims[i]));
         }
 
 
@@ -88,16 +88,25 @@ public class Bof<T extends NDimPoint> extends SimpleNDimPoint
         BigDecimal sumWeight = BigDecimal.ONE;
         for (NDimPoint nDimPoint : points)
         {
-            sumWeight= sumWeight.add(new BigDecimal(nDimPoint.getWeight()));
+            sumWeight = sumWeight.add(new BigDecimal(nDimPoint.getWeight()));
         }
 
         BigDecimal pow = sumWeight.pow(spaceDims.length);
 
-        BigDecimal result = pow.divide(V.add(BigDecimal.ONE),MathContext.DECIMAL64);
-        
-        return result.floatValue();
+        BigDecimal result = pow.divide(V.add(BigDecimal.ONE), MathContext.DECIMAL64);
+
+
+        float r = result.floatValue();
+
+        if (Float.isInfinite(r) || Float.isNaN(r))
+        {
+            throw new RuntimeException("value "+r+" is incorrect");
+        }
+
+
+        return r;
     }
 
-    
+
 
 }

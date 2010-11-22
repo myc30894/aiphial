@@ -39,7 +39,7 @@ import me.uits.aiphial.general.dataStore.DefaultDataStoreFactory;
 public class AglomerativeMeanShift<T extends NDimPoint> extends AbstractAglomerativeClusterer<T> implements IMeanShiftClusterer<T>
 {
 
-    private SimpleBandwidthSelector bandwidthSelector = new SimpleBandwidthSelector();
+    private BandwidthSelector bandwidthSelector = new SimpleBandwidthSelector();
     private DataStore<? extends T> initialDataStore;
     private int maxIterations = 20;
     private List<Cluster<T>> result;
@@ -102,7 +102,7 @@ public class AglomerativeMeanShift<T extends NDimPoint> extends AbstractAglomera
 
     private <BT extends NDimPoint> Float[] genBandwidth(DataStore<BT> curDataStore)
     {
-        Float[] bandwidth = bandwidthSelector.getBandwidth(curDataStore);
+        Float[] bandwidth = getBandwidthSelector().getBandwidth(curDataStore);
 
         Float[] res = new Float[bandwidth.length];
 
@@ -217,6 +217,22 @@ public class AglomerativeMeanShift<T extends NDimPoint> extends AbstractAglomera
     public void stop()
     {
         stop = true;
+    }
+
+    /**
+     * @return the bandwidthSelector
+     */
+    public BandwidthSelector getBandwidthSelector()
+    {
+        return bandwidthSelector;
+    }
+
+    /**
+     * @param bandwidthSelector the bandwidthSelector to set
+     */
+    public void setBandwidthSelector(BandwidthSelector bandwidthSelector)
+    {
+        this.bandwidthSelector = bandwidthSelector;
     }
     // </editor-fold>
 }

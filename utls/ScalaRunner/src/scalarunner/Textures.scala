@@ -24,6 +24,7 @@ package scalarunner
 import java.io.File
 import javax.imageio.ImageIO
 import me.uits.aiphial.general.aglomerative.AglomerativeMeanShift
+import me.uits.aiphial.general.basic.BandwidthSelector
 import me.uits.aiphial.general.basic.MeanShiftClusterer
 import me.uits.aiphial.general.basic.SimpleBandwidthSelector
 import me.uits.aiphial.general.dataStore.DataStore
@@ -126,7 +127,12 @@ object Textures {
       setAutostopping(false)
       setMaxIterations(1000)
       setWindowMultiplier(0.2f)
-      addIterationListener({var v = 0.2f; (a: Any) => {this.setWindowMultiplier(v); v += 0.1f}})
+//      setBandwidthSelector(new BandwidthSelector()  {
+//              override def getBandwidth(a:DataStore[_ <:NDimPoint]):Array[java.lang.Float] = Array.fill(a.getDim)(4f);
+//            }
+//
+//      )
+      addIterationListener({var v = 0.3f; (a: Any) => {this.setWindowMultiplier(v); v += 0.1f}})
     }
 
     amsc.setDataStore(dataStore)

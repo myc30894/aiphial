@@ -37,7 +37,7 @@ import static me.uits.aiphial.general.basic.Utls.getSpaceSize;
  * for mean-shift clustering from data
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
-public class SimpleBandwidthSelector
+public class SimpleBandwidthSelector implements BandwidthSelector
 {
 
 

@@ -73,6 +73,9 @@ public class MeanShiftClusterer<T extends NDimPoint> extends MeanShiftClustererO
         for (int i = 0; i < averageData.length; i++)
         {
             averageData[i] = averageData[i] / kSum;
+            if(averageData[i].isNaN()||averageData[i].isInfinite())
+                throw new RuntimeException(averageData[i]+" in clustering result");
+
         }
 
 
