@@ -75,38 +75,47 @@ public class Bof<T extends NDimPoint> extends SimpleNDimPoint
     {
 
 
-        Float[] spaceDims = Utls.getSpaceSize(points);
+        float clusterradius = 0f;
 
-        BigDecimal V = BigDecimal.ONE;
-        for (int i = 0; i < spaceDims.length; i++)
-        {
-            V = V.multiply(new BigDecimal(spaceDims[i]));
-        }
-
-
-
-        BigDecimal sumWeight = BigDecimal.ONE;
         for (NDimPoint nDimPoint : points)
         {
-            sumWeight = sumWeight.add(new BigDecimal(nDimPoint.getWeight()));
+            clusterradius = Math.max(clusterradius, Utls.distance(this, nDimPoint));
         }
 
-        BigDecimal pow = sumWeight.pow(spaceDims.length);
+        float r = 0f;
 
-        BigDecimal result = pow.divide(V.add(BigDecimal.ONE), MathContext.DECIMAL64);
+        if (clusterradius == 0f)
+        {
+            if (points.isEmpty())
+            {
+                r = 1f;
+            } else
+            {
+                r = points.iterator().next().getWeight();
+            }
+        } else
+        {
+
+            float sumweight = 0f;
+
+            for (NDimPoint nDimPoint : points)
+            {
+                sumweight += nDimPoint.getWeight();
+            }
+
+            r = sumweight / clusterradius;
+
+        }
 
 
-        float r = result.floatValue();
-
-        if (Float.isInfinite(r) || Float.isNaN(r))
+        if (Float.isInfinite(r) || Float.isNaN(r) || Math.abs(r) < 1E-9)
         {
             throw new RuntimeException("value "+r+" is incorrect");
         }
 
-
         return r;
     }
 
-
+    
 
 }

@@ -71,8 +71,8 @@ object Textures {
 //    val imagemtx = Matrix(ImgUtls.readImageAsLuvArray("../../images/DSCN4909s400.bmp")).map(_.l)
     
     //   val imagemtx = Matrix(ImgUtls.readImageAsLuvArray("../..//images/sand100.png")).map(_.l)
-    val imagemtx = Matrix(ImgUtls.readImageAsLuvArray("../..//images/twotex.png")).map(_.l)
-
+    val imagemtx = Matrix(ImgUtls.readImageAsLuvArray("../../images/twotex.png")).map(_.l)
+    
     println("finished")
     println("applying filters...")
 
@@ -125,14 +125,14 @@ object Textures {
 
     val amsc = new AglomerativeMeanShift[TextonePoint](msc0){
       setAutostopping(false)
-      setMaxIterations(1000)
-      setWindowMultiplier(0.2f)
-//      setBandwidthSelector(new BandwidthSelector()  {
-//              override def getBandwidth(a:DataStore[_ <:NDimPoint]):Array[java.lang.Float] = Array.fill(a.getDim)(4f);
-//            }
-//
-//      )
-      addIterationListener({var v = 0.3f; (a: Any) => {this.setWindowMultiplier(v); v += 0.1f}})
+      setMaxIterations(5000)
+      setWindowMultiplier(1f)
+      setBandwidthSelector(new BandwidthSelector()  {
+              override def getBandwidth(a:DataStore[_ <:NDimPoint]):Array[java.lang.Float] = Array.fill(a.getDim)(4f);
+            }
+
+      )
+      addIterationListener({var v = 2f; (a: Any) => {this.setWindowMultiplier(v); v += 1f}})
     }
 
     amsc.setDataStore(dataStore)

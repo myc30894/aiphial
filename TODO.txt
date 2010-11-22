@@ -1,11 +1,9 @@
 
 $deprecated = meanShift
 
-===== long term =====
+===== short term =====
 
-* write usable crossplatform buildfiles (mb Maven)
-
-* maybe port something to Java/ScalaCL ?
+* create equal and hybrid bandwidth selector
 
 * create "lazy" version of matrix
 
@@ -22,6 +20,14 @@ $deprecated = meanShift
 * unificate LUV and LUV point, make it scala and Matrix-compatible
 
 * make matrix DLUVArray-compatible, or remove DLUVArray at all
+
+* make Bof weight calculation configurable
+
+===== long term =====
+
+* write usable crossplatform buildfiles (mb Maven)
+
+* maybe port something to Java/ScalaCL ?
 
 ==========================================================
 
