@@ -53,9 +53,10 @@ class Matrix[T] private (private val data:Array[Array[T]],xstart:Int = 0,ystart:
 
   def asOneLine = data.flatten((a)=>a)
 
-  def asOneLineWithIndex = for(x <- minx to maxx; y <-miny to maxy) yield (x,y,this(x,y))
 
-  def foreach(f:((Int,Int,T))=>Any):Unit = for(x <- minx to maxx; y <-miny to maxy)  f(x,y,this(x,y))
+  def asOneLineWithIndex = for(x <- Range.inclusive(minx,maxx); y <- Range.inclusive(miny, maxy)) yield (x,y,this(x,y))
+  
+  def foreach(f:((Int,Int,T))=>Any):Unit = for(x <- Range.inclusive(minx,maxx); y <- Range.inclusive(miny, maxy))  f(x,y,this(x,y))
 
   @deprecated("not implemented, throwns an UnsupportedOperationException."+
               " It is there only to make for-comprehension work")
