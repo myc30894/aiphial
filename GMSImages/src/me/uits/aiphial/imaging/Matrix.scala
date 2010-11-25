@@ -27,28 +27,35 @@ import java.util.Arrays
  *
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
-class Matrix[T] private (private val data:Array[Array[T]])(implicit Tmf:ClassManifest[T]) {
+class Matrix[T] private (private val data:Array[Array[T]],xstart:Int = 0,ystart:Int = 0)(implicit Tmf:ClassManifest[T]) {
 
   val height = data.length
   val width = data(0).length
 
 
-  def apply(x:Int, y:Int)=data(x)(y)
-  
-  def map[B](f:T=>B)(implicit mf:ClassManifest[B]):Matrix[B]=Matrix[B](    
-    data.map(_.map(f))
+  def apply(x:Int, y:Int)=data(x-xstart)(y-ystart)
+
+  def minx = xstart
+  def miny = ystart
+  def maxx = xstart + height - 1
+  def maxy = ystart + width -1
+
+  def map[B](f:T=>B)(implicit mf:ClassManifest[B]):Matrix[B]=new Matrix[B](
+    data.map(_.map(f)),xstart,ystart
   )
  
-  def mapWithIndex[B](f:(Int,Int,T)=>B)(implicit mf:ClassManifest[B]):Matrix[B] = Matrix(
-    Array.tabulate(this.height, this.width)
-    ((x,y)=>f(x,y,this(x,y)))
+  def mapWithIndex[B](f:(Int,Int,T)=>B)(implicit mf:ClassManifest[B]):Matrix[B] =new Matrix(
+    (Array.tabulate(this.height, this.width)
+    ((x,y)=>f(x+xstart,y+ystart,this(x+xstart,y+ystart)))),xstart,ystart
   )
+
+  def zeroIndexes() = if (minx==0 && miny == 0) this else new Matrix(data,0,0)
 
   def asOneLine = data.flatten((a)=>a)
 
-  def asOneLineWithIndex = for(x <- 0 until height; y <-0 until width) yield (x,y,this(x,y))
+  def asOneLineWithIndex = for(x <- minx to maxx; y <-miny to maxy) yield (x,y,this(x,y))
 
-  def foreach(f:((Int,Int,T))=>Any):Unit = for(x <- 0 until height; y <-0 until width) f(x,y,this(x,y))
+  def foreach(f:((Int,Int,T))=>Any):Unit = for(x <- minx to maxx; y <-miny to maxy)  f(x,y,this(x,y))
 
   @deprecated("not implemented, throwns an UnsupportedOperationException."+
               " It is there only to make for-comprehension work")
@@ -65,13 +72,13 @@ class Matrix[T] private (private val data:Array[Array[T]])(implicit Tmf:ClassMan
         yield for ( (a1,b1) <- a zip b )
           yield op(a1,b1)
 
-    )}
+    ,minx,miny)}
 
   def reduce(f:(T,T)=> T) = asOneLine.reduceLeft(f)
 
   def submatrix(x1:Int, y1:Int, x2:Int, y2:Int ) = new Matrix[T](
     //TODO: implement this as view (not complex)
-    data.slice(x1, x2+1).map(_.slice(y1, y2+1)).toArray
+    data.slice(x1, x2+1).map(_.slice(y1, y2+1)).toArray, math.max(x1,0),math.max(y1,0)
   )
 
    def addBorder(hsize:Int,wsize:Int,fillvalue: T) = new Matrix[T](

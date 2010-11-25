@@ -321,6 +321,33 @@ class MatrixTest {
 
   }
 
+   @Test
+  def  withinboundarywindow2 = {
+    val m1 = Matrix(Array(
+        Array(1,2,3,1,2),
+        Array(4,5,6,4,5),
+        Array(1,2,3,5,9),
+        Array(4,5,6,3,7)
+      )
+    )
+
+    assertEquals(Matrix(Array(
+          Array(1,2),
+          Array(4,5)
+        )
+      ),
+     m1.getWithinWindow((0,0), 3, 3))
+
+    assertEquals(Matrix(Array(
+        Array(1,2,3,5),
+        Array(4,5,6,3)
+        )
+      ),
+      m1.getWithinWindow((3,1), 3, 5))
+
+
+
+  }
 
 
   @Test
@@ -483,6 +510,60 @@ class MatrixTest {
         Array(5,3,2),
         Array(4,6,5)
         )),m.rotateReflex())
+
+  }
+
+
+  @Test
+  def shiftindex = {
+
+     val m = Matrix(Array(
+        Array(1,2,3,4),
+        Array(4,5,6,7),
+        Array(7,8,9,0)
+      )
+    )
+
+    val sm = m.submatrix(1, 2, 2, 3)
+
+    assertEquals(sm.minx,1);
+    assertEquals(sm.miny,2);
+    assertEquals(sm.maxx,2);
+    assertEquals(sm.maxy,3);
+
+    assertEquals("",Seq((1,2,6),(1,3,7),(2,2,9),(2,3,0)), sm.asOneLineWithIndex.toSeq)
+
+    val msm = sm.map(_+1)
+
+    assertEquals("",Seq((1,2,7),(1,3,8),(2,2,10),(2,3,1)), msm.asOneLineWithIndex.toSeq)
+
+
+    assertEquals("",Seq((0,0,7),(0,1,8),(1,0,10),(1,1,1)), msm.zeroIndexes.asOneLineWithIndex.toSeq)
+
+    val jm =  Matrix(Array(
+        Array(1,2),
+        Array(3,0)
+      )
+    )
+    
+    assertEquals("",Seq((1,2,7),(1,3,9),(2,2,12),(2,3,0)), sm.join(jm)(_+_).asOneLineWithIndex.toSeq)
+
+
+    val ab = ArrayBuffer[Tuple3[Int,Int,Int]]()
+
+    sm.foreach(t => ab.append(t))
+
+    assertEquals("",Seq((1,2,6),(1,3,7),(2,2,9),(2,3,0)), ab)
+
+    val ab1 = ArrayBuffer[Tuple3[Int,Int,Int]]()
+
+    val m2sm = sm.mapWithIndex((a,b,c) => {ab1.append((a,b,c));c-1})
+
+    assertEquals("",Seq((1,2,6),(1,3,7),(2,2,9),(2,3,0)), ab1)
+
+    assertEquals("",Seq((1,2,5),(1,3,6),(2,2,8),(2,3,-1)), m2sm.asOneLineWithIndex.toSeq)
+
+
 
   }
 
