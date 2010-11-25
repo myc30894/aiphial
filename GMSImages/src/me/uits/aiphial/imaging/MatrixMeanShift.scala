@@ -38,7 +38,7 @@ object MatrixMeanShift {
     val powcr = cr*cr
 
     @tailrec
-    def shiftOnePoint(x:Int,y:Int,c:LUV):LUV = {
+    def shiftOnePoint(x:Int,y:Int,c:LUV, deep:Int = 1000):LUV = {
 
       //println("--shifting "+x+" "+y+" "+c)
 
@@ -66,24 +66,21 @@ object MatrixMeanShift {
         val rx = (xsum/ml).intValue
         val ry = (ysum/ml).intValue
         val rc = csum.div(ml)
-
-        val cx = rx - x;
-        val cy = ry - y;
+        
         val cc = PointUtils.Dim(rc, c)
-
-
-        if(cx*cx+cy*cy+cc*cc < mindistance)
-          c
+       
+        if( deep > 0 && cc > mindistance)
+          shiftOnePoint(rx,ry,rc, deep-1)
         else
         {
-          shiftOnePoint(rx,ry,rc)
+          c
         }
 
       }
 
     }
   
-    image.mapWithIndex(shiftOnePoint)
+    image.mapWithIndex(shiftOnePoint(_,_,_))
 
   }
 
