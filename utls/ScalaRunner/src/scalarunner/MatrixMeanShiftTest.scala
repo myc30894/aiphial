@@ -27,6 +27,7 @@ import me.uits.aiphial.imaging.ImgUtls
 import me.uits.aiphial.imaging.Matrix
 import me.uits.aiphial.imaging.Tools
 import me.uits.aiphial.imaging.MatrixMeanShift
+import ru.nickl.meanShift.direct.LUV
 
 object MatrixMeanShiftTest {
 
@@ -42,9 +43,25 @@ object MatrixMeanShiftTest {
     //val result = MatrixMeanShift.meanshift(srcmt, 20, 7f)
 
     val result = MatrixMeanShift.fastmeanshift(srcmt, 20, 7f)
-
+    
     ImageIO.write(Tools.matrixToImage(result),"png", new File("./mmt.png"))
+    
+    val regions = MatrixMeanShift.regionGroving(result,2f)
+    
+    val ra = Array.ofDim[LUV](result.height,result.width)
 
+    val colors = Tools.genRandomColors(regions.size)
+
+    import scala.collection.JavaConversions.asScalaIterable
+
+          for((region,color) <- regions zip colors; point <- region)
+          {
+            ra(point.getX)(point.getY)= color
+          }
+
+    ImageIO.write(ImgUtls.LuvArrayToBufferedImage(ra),"bmp",new File("msrg.bmp"));
+ 
+ 
   }
 
 }

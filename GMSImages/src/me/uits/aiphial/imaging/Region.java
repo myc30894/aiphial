@@ -48,6 +48,15 @@ public class Region extends Cluster<LuvPoint>{
     public Region(NDimPoint avragePoint, Collection<LuvPoint> points) {
         super(avragePoint, points);
     }
+    
+    /**
+     * creates region from given points
+     * @param avragePoint
+     * @param points
+     */
+    public Region(Collection<LuvPoint> points) {
+        super(points);
+    }
 
 
     /**

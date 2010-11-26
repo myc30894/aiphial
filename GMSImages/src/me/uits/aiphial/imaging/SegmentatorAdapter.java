@@ -75,7 +75,7 @@ public class SegmentatorAdapter implements Clusterer<LuvPoint> {
                 clusterPoints.add(new LuvPoint(point.x, point.y, point.c));
             }
 
-            result.add(new Region(Utls.getAvragePoint(clusterPoints),clusterPoints));
+            result.add(new Region(clusterPoints));
         }
 
         return result;

@@ -138,4 +138,56 @@ object MatrixMeanShift {
 
   }
 
+  def regionGroving(image:Matrix[LUV], distance:Float) = {
+
+    type Reg = ArrayBuffer[(Int,Int,LUV)]
+
+    val regions = new ArrayBuffer[Reg]()
+
+    val Regmap = Array.ofDim[Reg](image.height, image.width)
+
+    @tailrec
+    def growregion(region:Reg, point:(Int,Int,LUV),queue:scala.collection.mutable.Queue[(Int,Int,LUV)]){
+
+      val nearest = image.getWithinWindow((point._1, point._2), 3,3)
+
+      for ((x,y,c) <- nearest)
+        {
+          Regmap(x)(y) match{
+            case null if(PointUtils.Dim(c, point._3)<distance)=> {
+              region.append((x,y,c))
+              queue+=((x,y,c))
+              Regmap(x)(y) =  region
+            }
+            case _ =>
+          }
+        }
+
+      if(!queue.isEmpty)
+        growregion(region,queue.dequeue(),queue)
+       
+      
+    }
+
+    for (p <- image){
+      Regmap(p._1)(p._2) match {
+        case null => {
+           val nr = new Reg()
+           regions.append(nr)
+            growregion(nr,p,scala.collection.mutable.Queue())
+        }
+        case _ => 
+      }
+    }
+
+    //new Region((_:Reg).map(v=> new LuvPoint(v._1,v._2,v._3)))
+
+
+    import scala.collection.JavaConversions.asJavaCollection;
+
+    regions.map(reg => new Region(reg.map(v=> new LuvPoint(v._1,v._2,v._3))))
+
+    //Matrix(Regmap)
+  }
+
 }

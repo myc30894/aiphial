@@ -49,6 +49,12 @@ public class Cluster<T extends NDimPoint> extends ArrayList<T>{
         super(collection);
         this.basinOfAttraction = basinOfAttraction;
     }
+    
+    public Cluster(Collection<T> collection)
+    {
+        super(collection);
+        this.basinOfAttraction = Utls.getAvragePoint(collection);
+    }
 
     private NDimPoint basinOfAttraction;
 
