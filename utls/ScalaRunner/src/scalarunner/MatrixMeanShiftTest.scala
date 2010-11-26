@@ -39,8 +39,9 @@ object MatrixMeanShiftTest {
     val srcmt = Matrix(ImgUtls.readImageAsLuvArray("../../images/DSCN4909s400.bmp"));
 
 
-    val result = MatrixMeanShift.meanshift(srcmt, 20, 7f)
+    //val result = MatrixMeanShift.meanshift(srcmt, 20, 7f)
 
+    val result = MatrixMeanShift.fastmeanshift(srcmt, 20, 7f)
 
     ImageIO.write(Tools.matrixToImage(result),"png", new File("./mmt.png"))
 
