@@ -18,18 +18,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package me.uits.aiphial.imaging;
+package me.uits.aiphial.imaging.boundary;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import ru.nickl.meanShift.direct.LUV;
+import me.uits.aiphial.imaging.LuvPoint;
 import me.uits.aiphial.imaging.LuvPoint;
 
 /**
  * class for searching nearest points in plate of adjacent points
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
-public class PointsMap
+class PointsMap
 {
 
     protected LuvPoint[][] points;

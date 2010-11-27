@@ -22,8 +22,8 @@
 package me.uits.aiphial.imaging.searching.shapematching
 
 import me.uits.aiphial.general.basic.Utls
-import me.uits.aiphial.imaging.CircleList
-import me.uits.aiphial.imaging.Contour
+import me.uits.aiphial.imaging.boundary.CircleList
+import me.uits.aiphial.imaging.boundary.Contour
 import me.uits.aiphial.imaging.LuvPoint
 import scala.collection.mutable.ArrayBuffer
 import scala.math._

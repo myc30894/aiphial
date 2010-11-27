@@ -21,7 +21,7 @@
 
 package me.uits.aiphial.imaging;
 
-import me.uits.aiphial.imaging.CircleList;
+import me.uits.aiphial.imaging.boundary.CircleList;
 import java.lang.Integer;
 import java.util.ArrayList;
 import java.util.Collection;

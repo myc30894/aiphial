@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import me.uits.aiphial.general.basic.Cluster;
 import me.uits.aiphial.general.dataStore.NDimPoint;
+import me.uits.aiphial.imaging.boundary.BoundaryOrderer;
 
 /**
  * Cluster of luvpoints which assumes that points are adjacent
@@ -63,9 +64,9 @@ public class Region extends Cluster<LuvPoint>{
      * returns counterclockwise-ordered contour for this region
      * @return
      */
-    public Contour getContour()
+    public me.uits.aiphial.imaging.boundary.Contour getContour()
     {
-        return new BugInnerBO(ClustersMap.fromOneCluster(this)).getOrderedBoundary(this);
+        return BoundaryOrderer.orderedBoundary(this);
     }
 
 }

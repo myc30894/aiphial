@@ -18,7 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package me.uits.aiphial.imaging;
+package me.uits.aiphial.imaging.boundary;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -34,15 +34,18 @@ import java.util.Set;
 import java.util.TreeSet;
 import me.uits.aiphial.general.basic.Cluster;
 import me.uits.aiphial.general.basic.Utls;
+import me.uits.aiphial.imaging.ImgUtls;
 
 import me.uits.aiphial.imaging.LuvPoint;
+import me.uits.aiphial.imaging.LuvPoint;
+import me.uits.aiphial.imaging.Region;
 import static java.lang.Math.*;
 
 /**
  * Class to determinate which point is assigned to which cluster and visa-versa
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
-public class ClustersMap
+class ClustersMap
 {
     //возможно его стоит сделать наследником PointsMap
 
@@ -298,35 +301,6 @@ public class ClustersMap
         return pointsMap.get4Nearest(point);
     }
 
-    /**
-     *
-     * @param cluster
-     * @return counterclockwise ordered sequence of points
-     * which are on the boundary of given cluster
-     */
-    public Contour getOrderedBoundary(Region cluster)
-    {
-
-        return new BugInnerBO(this).getOrderedBoundary(cluster);
-        //return new BugOuterBO(this).getOrderedBoundary(cluster);
-
-        //return new RegionGrowBO(this).getOrderedBoundary(cluster);
-        //return new BoundaryOrderer(cluster, get8Boundary(cluster)).getOrdered();
-
-    }
-
-    /**
-     *
-     * @param cluster
-     * @return counterclockwise ordered sequences of points which are on
-     * the boundary of given cluster
-     */
-    public Collection<Contour> getOrderedBoundaries(Region cluster)
-    {
-
-        return new BugInnerBO(this).getOrderedBoundaryes(cluster);
-
-    }
 
     public PointsMap getPointsMap()
     {

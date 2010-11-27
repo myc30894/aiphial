@@ -38,7 +38,6 @@ import me.uits.aiphial.general.dataStore.DefaultDataStoreFactory
 import me.uits.aiphial.general.dataStore.KdTreeDataStore
 import me.uits.aiphial.general.dataStore.KdTreeDataStoreFactory
 import me.uits.aiphial.general.dataStore.NDimPoint
-import me.uits.aiphial.imaging.ClustersMap
 import me.uits.aiphial.imaging.ImgUtls
 import me.uits.aiphial.imaging.ImgUtls._
 import me.uits.aiphial.imaging.LuvDataStore
@@ -77,7 +76,7 @@ object Search{
    */
   def ScFromImage(filename: BufferedImage) = {
     val cluster1 = asRegion(luvDArraytoLuvPoints(ImageToLuvDArray(filename)))
-    val orderedBoundary = ClustersMap.fromOneCluster(cluster1).getOrderedBoundary(cluster1)
+    val orderedBoundary = cluster1.getContour
 
     //new ShapeContext(orderedBoundary, maxDistance, nnom)
     ShapeContext(orderedBoundary, nnom)

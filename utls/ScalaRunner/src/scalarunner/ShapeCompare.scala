@@ -23,7 +23,6 @@ package scalarunner
 
 
 
-import me.uits.aiphial.imaging.ClustersMap
 
 import me.uits.aiphial.imaging.ImgUtls._
 import me.uits.aiphial.imaging.LuvPoint
@@ -48,7 +47,7 @@ object ShapeCompare {
 
     implicit def ScFromFile(filename: String) = {
       val cluster1 = asRegion(readImageAsLUVCollection(path + filename + ".png"))
-      val orderedBoundary = ClustersMap.fromOneCluster(cluster1).getOrderedBoundary(cluster1)
+      val orderedBoundary = cluster1.getContour
 
       //new ShapeContext(orderedBoundary, maxDistance, nnom)
       ShapeContext(orderedBoundary, nnom)
@@ -141,7 +140,7 @@ object ShapeCompare {
       val treshold = 0.07*nnom;
       implicit def ScFromFile(filename: String) = {
         val cluster1 = asRegion(readImageAsLUVCollection(path + filename + ".png"))
-        val orderedBoundary = ClustersMap.fromOneCluster(cluster1).getOrderedBoundary(cluster1)
+        val orderedBoundary = cluster1.getContour
 
         //new ShapeContext(orderedBoundary, maxDistance, nnom)
         ShapeContext(orderedBoundary, nnom)
@@ -206,7 +205,7 @@ object ShapeCompare {
       val treshold = 0.07*nnom;
       implicit def ScFromFile(filename: String) = {
         val cluster1 = asRegion(readImageAsLUVCollection(path + filename + ".png"))
-        val orderedBoundary = ClustersMap.fromOneCluster(cluster1).getOrderedBoundary(cluster1)
+        val orderedBoundary = cluster1.getContour
 
         //new ShapeContext(orderedBoundary, maxDistance, nnom)
         ShapeContext(orderedBoundary, nnom, maxDistance )

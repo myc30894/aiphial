@@ -19,7 +19,7 @@
  *
  */
 
-package me.uits.aiphial.imaging;
+package me.uits.aiphial.imaging.boundary;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,6 +32,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import me.uits.aiphial.general.basic.Cluster;
 import me.uits.aiphial.imaging.LuvPoint;
+import me.uits.aiphial.imaging.LuvPoint;
+import me.uits.aiphial.imaging.Region;
 
 /**
  * Extracts counterclockwise-ordered boundary points from region

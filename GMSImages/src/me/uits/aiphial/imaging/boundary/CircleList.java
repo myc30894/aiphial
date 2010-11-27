@@ -19,7 +19,7 @@
  *
  */
 
-package me.uits.aiphial.imaging;
+package me.uits.aiphial.imaging.boundary;
 
 import java.util.*;
 
