@@ -175,7 +175,7 @@ object Textures {
             ra(point.x)(point.y)= colors(i)
           }
 
-          ImageIO.write(ImgUtls.LuvArrayToBufferedImage(ra),"bmp",new File("textured_"+s+"_cc_"+clusters.size+".bmp"));
+              ImageIO.write(Tools.matrixToImage(Matrix(ra)),"bmp",new File("textured_"+s+"_cc_"+clusters.size+".bmp"));
           s=s+1
         }})
 
