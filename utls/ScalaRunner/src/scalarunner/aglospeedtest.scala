@@ -41,6 +41,7 @@ import me.uits.aiphial.imaging.ImgUtls._
 import me.uits.aiphial.imaging.LuvDataStore
 import me.uits.aiphial.imaging.LuvPoint
 
+import me.uits.aiphial.imaging.Matrix
 import me.uits.aiphial.imaging.Region
 import me.uits.aiphial.imaging.SegmentatorAdapter
 import me.uits.aiphial.imaging.searching.HistogramClusterComparer
@@ -137,39 +138,7 @@ object AgloSpeedTest {
     amsc.setDataStore(datastore)    
     amsc      
   }
-  
-
-
-  class Searcher(imgtosearch:BufferedImage,srcimg:BufferedImage) extends IterationListener[LuvPoint]{
-    private[this] val cc = new HistogramClusterComparer()
-    cc.setPattern(imgtosearch)
-    private[this] val sc = new ShapeContextClusterComparer()
-    sc.setPattern(imgtosearch)
-
-
-    private[this] var i2 = 0
-
-    def IterationDone(a: CCLP) {
-
-      for (cluster <- a) {
-        val v = cc.compareCluster(cluster)
-
-        if(0 <= v && v < 190){
-          val sv = sc.compareCluster(cluster)
-          //vals.append(sv)
-          if ( sv < 2000)
-          {
-            val img = ImgUtls.getClusterImage(srcimg, cluster)
-            if (img != null)
-            {
-              ImageIO.write(img, "png", new File("match/match_" + i2 + "_" + v +"_"+sv + ".png"))
-            }
-          }
-        }
-        i2 = i2 + 1
-      }
-    }
-  }
+   
 
   def createSegmentatorForImage(srcimg:BufferedImage) = {
 
@@ -185,29 +154,33 @@ object AgloSpeedTest {
 
 
     //val ifilter = new NativeCudaMSFilter{
-    val ifilter = new SimpleMSFilter{
-      setColorRange(7)
-      setSquareRange(2)
-    }
-
-    val is  = new ru.nickl.meanShift.direct.segmentator.SimpleSegmentator(ifilter){
-      setMinRegionSize(0)
-    }
-
-
-//    val is = new ru.nickl.meanShift.direct.segmentator.SobelMeanShiftSegmentator(ifilter){
-//      setGradTreshold(5)
-//      setEqualityRange(1)
+//    val ifilter = new SimpleMSFilter{
 //      setColorRange(7)
 //      setSquareRange(2)
+//    }
+//
+//    val is  = new ru.nickl.meanShift.direct.segmentator.SimpleSegmentator(ifilter){
 //      setMinRegionSize(0)
 //    }
 //
+//
+//    is.setSourceImage(srcimg)
+//
+//    msc.setInitialClusterer(new SegmentatorAdapter(is));
 
 
-    is.setSourceImage(srcimg)
 
-    msc.setInitialClusterer(new SegmentatorAdapter(is));
+     val srcmt = Matrix(ImgUtls.ImageToLuvDArray(srcimg));
+
+    import me.uits.aiphial.imaging.FastMatrixMS
+
+    val is = new FastMatrixMS(srcmt)
+    {
+       setColorRange(7)
+       setSquareRange(2)
+    }
+
+    msc.setInitialClusterer(is);
 
     val msc0 = new MeanShiftClusterer[NDimPoint]();
     msc0.setMinDistance(3)

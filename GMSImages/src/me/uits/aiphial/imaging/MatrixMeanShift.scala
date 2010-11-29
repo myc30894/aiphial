@@ -140,6 +140,8 @@ object MatrixMeanShift {
 
   def regionGroving(image:Matrix[LUV], distance:Float) = {
 
+    //TODO: add consuming small regions
+
     type Reg = ArrayBuffer[(Int,Int,LUV)]
 
     val regions = new ArrayBuffer[Reg]()
@@ -185,9 +187,59 @@ object MatrixMeanShift {
 
     import scala.collection.JavaConversions.asJavaCollection;
 
-    regions.map(reg => new Region(reg.map(v=> new LuvPoint(v._1,v._2,v._3))))
+    regions.map(reg => new Region(reg.map(v=> new LuvPoint(v._1,v._2,v._3)))).toSeq
 
     //Matrix(Regmap)
   }
 
 }
+
+
+import me.uits.aiphial.general.basic.Cluster
+import me.uits.aiphial.general.basic.Clusterer
+import me.uits.aiphial.general.dataStore.DataStore
+
+abstract class MatrixMeansShiftSegmentatorAdapter(m:Matrix[LUV]) extends Clusterer[LuvPoint]
+{
+
+  var sr = 20
+
+  var cr = 7f
+
+  var range = 3f
+
+  protected val msfunction: (Matrix[LUV],Int,Float) => Matrix[LUV]
+
+  protected val aggregator: (Matrix[LUV],Float) => Seq[_ <: Cluster[LuvPoint]] = MatrixMeanShift.regionGroving _
+
+  private[this] var result:java.util.List[_ <: Cluster[LuvPoint]] = new java.util.ArrayList[Cluster[LuvPoint]](0)
+
+  override def doClustering() = {
+
+    import scala.collection.JavaConversions.asJavaList
+
+    result = aggregator(msfunction(m,sr,cr),range)
+
+  }
+
+  override def getClusters():java.util.List[_ <: Cluster[LuvPoint]] = result;
+  
+  override def setDataStore(dataStore:DataStore[_ <: LuvPoint]) = {
+    //setting datastore is not implemented and do nothing, because segmentator has its own data
+  }
+  
+  def setColorRange(a:Float) = cr = a
+  def setSquareRange(a:Int) = cr = a
+
+}
+
+class FastMatrixMS(m:Matrix[LUV]) extends MatrixMeansShiftSegmentatorAdapter(m)
+{
+  protected val msfunction = MatrixMeanShift.fastmeanshift _
+}
+
+class MatrixMS(m:Matrix[LUV]) extends MatrixMeansShiftSegmentatorAdapter(m)
+{
+  protected val msfunction = MatrixMeanShift.meanshift _
+}
+

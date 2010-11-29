@@ -64,6 +64,7 @@ object Textures {
 
     println("reading data...")
 
+    val drawtextones = false;
 
     val gaborMatrix = Filtres.gaborMatrix
     //val gaborMatrix = Gabor.readfromjs("./textones/sand100_cc_6.js")
@@ -143,7 +144,7 @@ object Textures {
 
           val ra = Array.ofDim[LUV](f.height,f.width)
 
-          if(clusters.size<50)
+          if(drawtextones && clusters.size<50)
           {
 
             val ab = new ArrayBuffer[Matrix[Double]](clusters.size)
