@@ -43,6 +43,7 @@ import me.uits.aiphial.imaging.LuvPoint
 
 import me.uits.aiphial.imaging.Matrix
 import me.uits.aiphial.imaging.Region
+import me.uits.aiphial.imaging.Tools
 import me.uits.aiphial.imaging.SegmentatorAdapter
 import me.uits.aiphial.imaging.searching.HistogramClusterComparer
 import scala.collection.mutable.ArrayBuffer
@@ -170,7 +171,7 @@ object AgloSpeedTest {
 
 
 
-     val srcmt = Matrix(ImgUtls.ImageToLuvDArray(srcimg));
+     val srcmt =Tools.matrixFromImage(srcimg);
 
     import me.uits.aiphial.imaging.FastMatrixMS
 

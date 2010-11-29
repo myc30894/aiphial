@@ -172,6 +172,13 @@ class Matrix[T] private (private val data:Array[Array[T]],xstart:Int = 0,ystart:
     )
   }
 
+  def transpose():Matrix[T] = {
+    Matrix(
+      Array.tabulate(this.width,this.height)(
+        (x,y)=> this(y,x)
+      )
+    )
+  }
 
 }
 

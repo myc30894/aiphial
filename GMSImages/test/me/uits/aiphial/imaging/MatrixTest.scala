@@ -513,6 +513,21 @@ class MatrixTest {
 
   }
 
+  @Test
+  def transpose = {
+    val m = Matrix(Array(
+        Array(5,6,4),
+        Array(2,3,5)
+      ))
+
+    assertEquals(
+      Matrix(Array(
+          Array(5,2),
+          Array(6,3),
+          Array(4,5)
+        )),m.transpose)
+  }
+
 
   @Test
   def shiftindex = {

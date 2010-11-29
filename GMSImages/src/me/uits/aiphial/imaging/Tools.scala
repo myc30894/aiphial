@@ -238,8 +238,11 @@ object Tools {
 
   }
 
-  def matrixToImage(m:Matrix[LUV]) = ImgUtls.LuvArrayToBufferedImage(m.toArray)
+  def matrixToImage(m:Matrix[LUV]) = ImgUtls.LuvArrayToBufferedImage(m.transpose.toArray)
 
+  def matrixFromImage(filename:String) = Matrix(ImgUtls.readImageAsLuvArray(filename).transpose)
+
+  def matrixFromImage(bufferedimage:BufferedImage) = Matrix(ImgUtls.ImageToLuvDArray(bufferedimage).transpose)
 
   def genRandomColors():Stream[LUV]= {
     val r = new Random()

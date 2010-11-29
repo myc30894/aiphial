@@ -72,7 +72,7 @@ object Textures {
 //    val imagemtx = Matrix(ImgUtls.readImageAsLuvArray("../../images/DSCN4909s400.bmp")).map(_.l)
     
     //   val imagemtx = Matrix(ImgUtls.readImageAsLuvArray("../..//images/sand100.png")).map(_.l)
-    val imagemtx = Matrix(ImgUtls.readImageAsLuvArray("../../images/twotex.png")).map(_.l)
+    val imagemtx = Tools.matrixFromImage("../../images/twotex.png").map(_.l)
     
     println("finished")
     println("applying filters...")
