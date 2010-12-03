@@ -138,11 +138,53 @@ object MatrixMeanShift {
 
   }
 
+ private[this] type Reg = ArrayBuffer[(Int,Int,LUV)]
+
   def regionGroving(image:Matrix[LUV], distance:Float) = {
 
-    //TODO: add consuming small regions
+    val minregsize = 30
 
-    type Reg = ArrayBuffer[(Int,Int,LUV)]
+    val (regions,regmap) = regionGrovingOnly(image,distance)
+
+    val regmatrix:Matrix[Reg] = Matrix.apply(regmap)
+
+    val (rsultregions,regtoconsume) = regions.partition(_.size > minregsize)
+   
+    val unremoved = ArrayBuffer[Reg]()
+
+    for (region <- regtoconsume )
+    {
+
+      val allregions = region.map(p=>
+        regmatrix.getWithinWindow((p._1,p._2),3,3).asOneLine.filter(rsultregions.contains(_))
+      ).flatten
+
+      //println("allregions:"+allregions.size)
+
+      if(allregions.isEmpty)
+      {
+        unremoved.append(region)
+      }
+      else
+      {
+        val (nearest,_) = allregions.groupBy(v => v).map{ case(k,v)=> (k, v.size) }
+        .reduceLeft( (e1,e2)=> if(e1._2>e2._2)e1 else e2)
+
+        nearest.appendAll(region)
+      }
+
+    }
+    
+
+    import scala.collection.JavaConversions.asJavaCollection;
+
+    (rsultregions++unremoved).map(reg => new Region(reg.map(v=> new LuvPoint(v._1,v._2,v._3)))).toSeq
+
+  }
+
+  private[this] def regionGrovingOnly(image:Matrix[LUV], distance:Float) = {
+
+    
 
     val regions = new ArrayBuffer[Reg]()
 
@@ -154,16 +196,16 @@ object MatrixMeanShift {
       val nearest = image.getWithinWindow((point._1, point._2), 3,3)
 
       for ((x,y,c) <- nearest)
-        {
-          Regmap(x)(y) match{
-            case null if(PointUtils.Dim(c, point._3)<distance)=> {
+      {
+        Regmap(x)(y) match{
+          case null if(PointUtils.Dim(c, point._3)<distance)=> {
               region.append((x,y,c))
               queue+=((x,y,c))
               Regmap(x)(y) =  region
             }
-            case _ =>
-          }
+          case _ =>
         }
+      }
 
       if(!queue.isEmpty)
         growregion(region,queue.dequeue(),queue)
@@ -174,22 +216,19 @@ object MatrixMeanShift {
     for (p <- image){
       Regmap(p._1)(p._2) match {
         case null => {
-           val nr = new Reg()
-           regions.append(nr)
+            val nr = new Reg()
+            regions.append(nr)
             growregion(nr,p,scala.collection.mutable.Queue())
-        }
+          }
         case _ => 
       }
     }
 
-    //new Region((_:Reg).map(v=> new LuvPoint(v._1,v._2,v._3)))
-
-
-    import scala.collection.JavaConversions.asJavaCollection;
-
-    regions.map(reg => new Region(reg.map(v=> new LuvPoint(v._1,v._2,v._3)))).toSeq
+    //new Region((_:Reg).map(v=> new LuvPoint(v._1,v._2,v._3)))  
 
     //Matrix(Regmap)
+
+    (regions,Regmap)
   }
 
 }

@@ -37,8 +37,9 @@ object MatrixMeanShiftTest {
   def main(args: Array[String]): Unit = {
 
 
-    val srcmt = Matrix(ImgUtls.readImageAsLuvArray("../../images/DSCN4909s400.bmp"));
+    //val srcmt = Matrix(ImgUtls.readImageAsLuvArray("../../images/DSCN4909s400.bmp"));
 
+    val srcmt = Tools.matrixFromImage("../../images/DSCN4909s400.bmp")
 
     //val result = MatrixMeanShift.meanshift(srcmt, 20, 7f)
 
@@ -59,7 +60,7 @@ object MatrixMeanShiftTest {
             ra(point.getX)(point.getY)= color
           }
 
-    ImageIO.write(ImgUtls.LuvArrayToBufferedImage(ra),"bmp",new File("msrg.bmp"));
+    ImageIO.write(Tools.matrixToImage(Matrix(ra)),"bmp",new File("msrg.bmp"));
  
  
   }
