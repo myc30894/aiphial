@@ -1,13 +1,4 @@
-
-$deprecated = meanShift
-
-===== short term =====
-
-* create equal and hybrid bandwidth selector
-
-* create "lazy" version of matrix
-
-* rename matrix
+===== before first release =====
 
 * remove meanShift-project, reimplement its funtions with Matrix
 
@@ -21,11 +12,27 @@ $deprecated = meanShift
 
 * make matrix DLUVArray-compatible, or remove DLUVArray at all
 
-* make Bof weight calculation configurable
+* add search option to command line
+
+* add texture-segmentation option to command line
+
+* write usable crossplatform buildfiles (mb Maven)
+
+* update code-docs
+
+* write extended (including project structure) documentation
+
+* write russian translation
 
 ===== long term =====
 
-* write usable crossplatform buildfiles (mb Maven)
+* create equal and hybrid bandwidth selector
+
+* create "lazy" version of matrix
+
+* rename matrix
+
+* make Bof weight calculation configurable
 
 * maybe port something to Java/ScalaCL ?
 
