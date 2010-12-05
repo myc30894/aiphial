@@ -175,13 +175,26 @@ object Tools {
    *  @param cc clusters to paint
    *  @returns image painted with clusters
    */
-  def paintClusters(w:Int, h:Int, cc: CCLP):BufferedImage={
+  def paintClusters(w:Int, h:Int, cc: CCLP, randcolor:Boolean = false):BufferedImage={
     import ru.nickl.meanShift.direct.LUV
     val array = Array.ofDim[LUV](h,w)
 
+    val colorgenerator = if(randcolor)
+    {
+      val ranfomcolors = genRandomColors().iterator
+      (v:Cluster[LuvPoint])=>ranfomcolors.next
+    }
+    else
+    {
+      (v:Cluster[LuvPoint])=>
+      {
+        val cl = v.getBasinOfAttraction()
+        new LUV(cl.getCoord(2).doubleValue,cl.getCoord(3).doubleValue,cl.getCoord(4).doubleValue)
+      }
+    }
+
     for(cluster <- cc){
-      val cl = cluster.getBasinOfAttraction()
-      val cp = new LUV(cl.getCoord(2).doubleValue,cl.getCoord(3).doubleValue,cl.getCoord(4).doubleValue)
+      val cp =colorgenerator(cluster)
       for (l <- cluster)
         array(l.getY)(l.getX) = cp
     }

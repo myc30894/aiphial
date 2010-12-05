@@ -41,13 +41,18 @@ object MatrixMeanShiftTest {
 
     val srcmt = Tools.matrixFromImage("../../images/DSCN4909s400.bmp")
 
-    //val result = MatrixMeanShift.meanshift(srcmt, 20, 7f)
+    val sr = 2
+    val cr = 7f
+    val range = 1f;
+    val minreg = 0;
 
-    val result = MatrixMeanShift.fastmeanshift(srcmt, 20, 7f)
+    val result = MatrixMeanShift.meanshift(srcmt, sr, cr)
+
+    //val result = MatrixMeanShift.fastmeanshift(srcmt, sr, cr)
     
     ImageIO.write(Tools.matrixToImage(result),"png", new File("./mmt.png"))
     
-    val regions = MatrixMeanShift.regionGroving(result,2f)
+    val regions = MatrixMeanShift.regionGroving(result,range,minreg)
     
     val ra = Array.ofDim[LUV](result.height,result.width)
 

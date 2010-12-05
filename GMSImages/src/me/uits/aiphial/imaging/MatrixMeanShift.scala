@@ -140,13 +140,11 @@ object MatrixMeanShift {
 
  private[this] type Reg = ArrayBuffer[(Int,Int,LUV)]
 
-  def regionGroving(image:Matrix[LUV], distance:Float) = {
-
-    val minregsize = 30
-
+  def regionGroving(image:Matrix[LUV], distance:Float, minregsize:Int) = {
+  
     val (regions,regmap) = regionGrovingOnly(image,distance)
 
-    val regmatrix:Matrix[Reg] = Matrix.apply(regmap)
+    val regmatrix:Matrix[Reg] = Matrix(regmap)
 
     val (rsultregions,regtoconsume) = regions.partition(_.size > minregsize)
    
@@ -245,11 +243,13 @@ abstract class MatrixMeansShiftSegmentatorAdapter(m:Matrix[LUV]) extends Cluster
 
   var cr = 7f
 
-  var range = 3f
+  var range = 1f
+
+  var minsize = 0
 
   protected val msfunction: (Matrix[LUV],Int,Float) => Matrix[LUV]
 
-  protected val aggregator: (Matrix[LUV],Float) => Seq[_ <: Cluster[LuvPoint]] = MatrixMeanShift.regionGroving _
+  protected val aggregator: (Matrix[LUV],Float,Int) => Seq[_ <: Cluster[LuvPoint]] = MatrixMeanShift.regionGroving _
 
   private[this] var result:java.util.List[_ <: Cluster[LuvPoint]] = new java.util.ArrayList[Cluster[LuvPoint]](0)
 
@@ -257,7 +257,7 @@ abstract class MatrixMeansShiftSegmentatorAdapter(m:Matrix[LUV]) extends Cluster
 
     import scala.collection.JavaConversions.asJavaList
 
-    result = aggregator(msfunction(m,sr,cr),range)
+    result = aggregator(msfunction(m,sr,cr),range,minsize)
 
   }
 

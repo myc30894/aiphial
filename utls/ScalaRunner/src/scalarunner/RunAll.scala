@@ -35,11 +35,17 @@ object RunAll {
     println("Textures.main")
     Textures.main(args)
 
+    println("FilterPainter.main")
+    FilterPainter.main(args)
+    
     println("ShapeCompare.main")
     ShapeCompare.main(args)
 
     println("AgloSpeedTest.main")
     AgloSpeedTest.main(args);
+    
+    println("AggloSegmentationSteps.main")
+    AggloSegmentationSteps.main(args);
 
     println("Search.main")
     Search.main(args)
@@ -49,9 +55,12 @@ object RunAll {
 
     println("NaiveSegmentationSample.main")
     NaiveSegmentationSample.main(args)
+    
+    println("AggloSegmentationSample.main")
+    AggloSegmentationSample.main(args)
 
     println("Segmentation.main")
-    Segmentation.main(args);
+    Segmentation.main(args);       
 
     System.exit(0);
   }
