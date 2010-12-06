@@ -22,6 +22,7 @@
 package me.uits.aiphial.imaging
 
 import java.io.PrintWriter
+import me.uits.aiphial.general.basic.Utls
 import ru.nickl.meanShift.direct.LUV
 import ru.nickl.meanShift.direct.PointUtils
 import scala.annotation.tailrec
@@ -141,7 +142,6 @@ object MatrixMeanShift {
 
   }
 
- private[this] type Reg = ArrayBuffer[(Int,Int,LUV)]
 
   def regionGroving(image:Matrix[LUV], distance:Float, minregsize:Int):Seq[Region] = {
   
@@ -149,6 +149,8 @@ object MatrixMeanShift {
 
 
     val regmatrix:Matrix[Region] = Matrix(regmap)
+
+    val frecarray = Array.fill[Int](regmatrix.height, regmatrix.width)(0)
 
     val (rsultregions0,regtoconsume) = regions.partition(_.size > minregsize)
 
@@ -159,7 +161,7 @@ object MatrixMeanShift {
     for (region <- regtoconsume )
     {
 
-      val map = scala.collection.mutable.HashMap[Region,Int]()
+      val regs = scala.collection.mutable.Set[Region]()
 
       for(p <- region)
       {
@@ -168,38 +170,30 @@ object MatrixMeanShift {
 
         for(reg <- nearestregs; if rsultregions.contains(reg))
         {
-          val rc = map.getOrElseUpdate(reg, 0);
-          map.put(reg, rc+1)
+          val rb = reg.getBasinOfAttraction
+          val rbx = rb.getCoord(0).intValue
+          val rby = rb.getCoord(1).intValue
+
+          frecarray(rbx)(rby) = frecarray(rbx)(rby)+1
+          regs.add(reg)
         }
       }
 
-      if(map.isEmpty)
+      if(regs.isEmpty)
         unremoved.append(region)
       else
       {
-        val nearest =  map.reduceLeft( (a,b)=> if (a._2>b._2) a else b)._1
+        def cra(reg:Region) = {
+          val rb = reg.getBasinOfAttraction
+          frecarray(rb.getCoord(0).intValue)(rb.getCoord(1).intValue)
+        }
+
+
+        val nearest =  regs.reduceLeft( (a,b)=> if (cra(a)>cra(b)) a else b)
 
         nearest.addAll(region)
       }
 
-
-//      val allregions = region.map(p=>
-//        regmatrix.getWithinWindow((p.getX,p.getY),3,3).asOneLine.filter(rsultregions.contains(_))
-//      ).flatten
-//
-//      //println("allregions:"+allregions.size)
-//
-//      if(allregions.isEmpty)
-//      {
-//        unremoved.append(region)
-//      }
-//      else
-//      {
-//        val (nearest,_) = allregions.groupBy(v => v).map{ case(k,v)=> (k, v.size) }
-//        .reduceLeft( (e1,e2)=> if(e1._2>e2._2)e1 else e2)
-//
-//        nearest.addAll(region)
-//      }
 
     }
     
@@ -251,14 +245,9 @@ object MatrixMeanShift {
         case _ => 
       }
     }
+ 
 
-    
-//    
-//    val rr = regions.map(r => 
-//    new Region(r.map(v=> new LuvPoint(v._1,v._2,v._3)))
-//    )
-
-    //Matrix(Regmap)
+    regions.foreach(r=> r.setBasinOfAttraction(Utls.getAvragePoint(r)))
 
     (regions,Regmap)
   }

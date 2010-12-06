@@ -65,6 +65,8 @@ object MatrixMeanShiftTest {
             ra(point.getX)(point.getY)= color
           }
 
+    println("clusters count=" + regions.size)
+
     ImageIO.write(Tools.matrixToImage(Matrix(ra)),"bmp",new File("msrg.bmp"));
  
  

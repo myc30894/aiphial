@@ -49,7 +49,7 @@ object AggloSegmentationSteps {
 
   val sr = 2:Short
   val cr = 7f
-  val minreg = 0
+  val minreg = 5
 
   def main(args: Array[String]): Unit = {
 
