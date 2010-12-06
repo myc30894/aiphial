@@ -60,17 +60,24 @@ public class Cluster<T extends NDimPoint> extends ArrayList<T>{
 
     /**
      * returns the characteristic point of this cluster (center of cluster)
+     * if was not set, calculates average point
      * @return
      */
     public NDimPoint getBasinOfAttraction()
     {
+        if (basinOfAttraction == null)
+        {
+            basinOfAttraction = Utls.getAvragePoint(this);
+        }
         return basinOfAttraction;
     }
 
     /**
      * sets the characteristic point of this cluster (center of cluster)
      * @param basinOfAttraction
+     * @deprecated avoid changing Bof after creating because it is used to calculate hashCode
      */
+    @Deprecated
     public void setBasinOfAttraction(NDimPoint basinOfAttraction)
     {
         this.basinOfAttraction = basinOfAttraction;
@@ -86,7 +93,7 @@ public class Cluster<T extends NDimPoint> extends ArrayList<T>{
 
     @Override
     public boolean equals(Object obj)
-    {
+    {        
         if (obj == null)
         {
             return false;
@@ -96,6 +103,7 @@ public class Cluster<T extends NDimPoint> extends ArrayList<T>{
             return false;
         }
         final Cluster<T> other = (Cluster<T>) obj;
+        this.getBasinOfAttraction();
         if (this.basinOfAttraction != other.basinOfAttraction && (this.basinOfAttraction == null || !this.basinOfAttraction.equals(other.basinOfAttraction)))
         {
             return false;

@@ -158,61 +158,28 @@ object MatrixMeanShift {
     val rsultregions  = HashSet()++rsultregions0
 
     val unremoved = ArrayBuffer[Region]()
-
+   
     for (region <- regtoconsume )
     {
 
-      val nr = GetNearestRegion.getNearestRegion(region, regmatrix)
+      val allregions = region.map(p=>
+        regmatrix.getWithinWindow((p.getX,p.getY),3,3).asOneLine.filter(rsultregions.contains(_))
+      ).flatten
 
-      if(nr==null)
+
+      if(allregions.isEmpty)
       {
         unremoved.append(region)
       }
       else
       {
-        nr.addAll(region);
-      }
-
-
-
-      /*
-      val regs = scala.collection.mutable.Set[Region]()
-
-      for(p <- region)
-      {
-
-        val nearestregs = regmatrix.getWithinWindow((p.getX,p.getY),3,3).asOneLine
-
-        for(reg <- nearestregs; if rsultregions.contains(reg))
-        {
-          val rb = reg.getBasinOfAttraction
-          val rbx = rb.getCoord(0).intValue
-          val rby = rb.getCoord(1).intValue
-
-          frecarray(rbx)(rby) = frecarray(rbx)(rby)+1
-          regs.add(reg)
-        }
-      }
-
-      if(regs.isEmpty)
-        unremoved.append(region)
-      else
-      {
-        def cra(reg:Region) = {
-          val rb = reg.getBasinOfAttraction
-          frecarray(rb.getCoord(0).intValue)(rb.getCoord(1).intValue)
-        }
-
-
-        val nearest =  regs.reduceLeft( (a,b)=> if (cra(a)>cra(b)) a else b)
+        val (nearest,_) = allregions.groupBy(v => v).map{ case(k,v)=> (k, v.size) }
+        .reduceLeft( (e1,e2)=> if(e1._2>e2._2)e1 else e2)
 
         nearest.addAll(region)
       }
-    */
 
     }
-    
-    
 
     (rsultregions++unremoved).toSeq
 
@@ -262,7 +229,7 @@ object MatrixMeanShift {
     }
  
 
-    regions.foreach(r=> r.setBasinOfAttraction(Utls.getAvragePoint(r)))
+    //regions.foreach(r=> r.setBasinOfAttraction(Utls.getAvragePoint(r)))
 
     (regions,Regmap)
   }
