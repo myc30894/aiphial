@@ -159,23 +159,47 @@ object MatrixMeanShift {
     for (region <- regtoconsume )
     {
 
-      val allregions = region.map(p=>
-        regmatrix.getWithinWindow((p.getX,p.getY),3,3).asOneLine.filter(rsultregions.contains(_))
-      ).flatten
+      val map = scala.collection.mutable.HashMap[Region,Int]()
 
-      println("allregions:"+allregions.size)
-
-      if(allregions.isEmpty)
+      for(p <- region)
       {
-        unremoved.append(region)
+
+        val nearestregs = regmatrix.getWithinWindow((p.getX,p.getY),3,3).asOneLine
+
+        for(reg <- nearestregs; if rsultregions.contains(reg))
+        {
+          val rc = map.getOrElseUpdate(reg, 0);
+          map.put(reg, rc+1)
+        }
       }
+
+      if(map.isEmpty)
+        unremoved.append(region)
       else
       {
-        val (nearest,_) = allregions.groupBy(v => v).map{ case(k,v)=> (k, v.size) }
-        .reduceLeft( (e1,e2)=> if(e1._2>e2._2)e1 else e2)
+        val nearest =  map.reduceLeft( (a,b)=> if (a._2>b._2) a else b)._1
 
         nearest.addAll(region)
       }
+
+
+//      val allregions = region.map(p=>
+//        regmatrix.getWithinWindow((p.getX,p.getY),3,3).asOneLine.filter(rsultregions.contains(_))
+//      ).flatten
+//
+//      //println("allregions:"+allregions.size)
+//
+//      if(allregions.isEmpty)
+//      {
+//        unremoved.append(region)
+//      }
+//      else
+//      {
+//        val (nearest,_) = allregions.groupBy(v => v).map{ case(k,v)=> (k, v.size) }
+//        .reduceLeft( (e1,e2)=> if(e1._2>e2._2)e1 else e2)
+//
+//        nearest.addAll(region)
+//      }
 
     }
     

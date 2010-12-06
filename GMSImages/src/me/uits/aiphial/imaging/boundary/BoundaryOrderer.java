@@ -21,6 +21,8 @@
 
 package me.uits.aiphial.imaging.boundary;
 
+import java.util.Collection;
+import me.uits.aiphial.imaging.LuvPoint;
 import me.uits.aiphial.imaging.Region;
 
 /**
@@ -38,6 +40,17 @@ public class BoundaryOrderer {
      */
     public static Contour orderedBoundary(Region region){
       return  new BugInnerBO(ClustersMap.fromOneCluster(region)).getOrderedBoundary(region);
+    }
+
+
+    /**
+     * returns cluster boundary consists of points that have
+     * non-this-cluster points in 4-neighborhood
+     * @param cluster
+     * @return
+     */
+    public static Collection<LuvPoint> boundary(Region region){
+      return  ClustersMap.fromOneCluster(region).get4Boundary(region);
     }
 
 }

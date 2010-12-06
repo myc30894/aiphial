@@ -34,7 +34,7 @@ object MatrixMeanShiftTest {
   /**
    * @param args the command line arguments
    */
-  def main(args: Array[String]): Unit = {
+  def main(args: Array[String]): Unit =Tools.logTime{
 
 
     //val srcmt = Matrix(ImgUtls.readImageAsLuvArray("../../images/DSCN4909s400.bmp"));

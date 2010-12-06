@@ -77,4 +77,14 @@ public class Region extends Cluster<LuvPoint>{
         return BoundaryOrderer.orderedBoundary(this);
     }
 
+    /**
+     * returns cluster boundary consists of points that have
+     * non-this-cluster points in 4-neighborhood
+     * @return
+     */
+    public Collection<LuvPoint> getUnorderedBoundary()
+    {
+        return BoundaryOrderer.boundary(this);
+    }
+
 }
