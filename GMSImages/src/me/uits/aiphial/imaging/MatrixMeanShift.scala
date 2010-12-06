@@ -27,6 +27,9 @@ import ru.nickl.meanShift.direct.PointUtils
 import scala.annotation.tailrec
 import scala.collection.mutable.ArrayBuffer
 
+import scala.collection.JavaConversions.asScalaIterable
+import scala.collection.JavaConversions.asJavaCollection;
+
 object MatrixMeanShift {
 
   val mindistance = 0.01f
@@ -140,24 +143,27 @@ object MatrixMeanShift {
 
  private[this] type Reg = ArrayBuffer[(Int,Int,LUV)]
 
-  def regionGroving(image:Matrix[LUV], distance:Float, minregsize:Int) = {
+  def regionGroving(image:Matrix[LUV], distance:Float, minregsize:Int):Seq[Region] = {
   
     val (regions,regmap) = regionGrovingOnly(image,distance)
 
-    val regmatrix:Matrix[Reg] = Matrix(regmap)
 
-    val (rsultregions,regtoconsume) = regions.partition(_.size > minregsize)
-   
-    val unremoved = ArrayBuffer[Reg]()
+    val regmatrix:Matrix[Region] = Matrix(regmap)
+
+    val (rsultregions0,regtoconsume) = regions.partition(_.size > minregsize)
+
+    val rsultregions  = rsultregions0
+
+    val unremoved = ArrayBuffer[Region]()
 
     for (region <- regtoconsume )
     {
 
       val allregions = region.map(p=>
-        regmatrix.getWithinWindow((p._1,p._2),3,3).asOneLine.filter(rsultregions.contains(_))
+        regmatrix.getWithinWindow((p.getX,p.getY),3,3).asOneLine.filter(rsultregions.contains(_))
       ).flatten
 
-      //println("allregions:"+allregions.size)
+      println("allregions:"+allregions.size)
 
       if(allregions.isEmpty)
       {
@@ -168,15 +174,14 @@ object MatrixMeanShift {
         val (nearest,_) = allregions.groupBy(v => v).map{ case(k,v)=> (k, v.size) }
         .reduceLeft( (e1,e2)=> if(e1._2>e2._2)e1 else e2)
 
-        nearest.appendAll(region)
+        nearest.addAll(region)
       }
 
     }
     
+    
 
-    import scala.collection.JavaConversions.asJavaCollection;
-
-    (rsultregions++unremoved).map(reg => new Region(reg.map(v=> new LuvPoint(v._1,v._2,v._3)))).toSeq
+    (rsultregions++unremoved).toSeq
 
   }
 
@@ -184,21 +189,22 @@ object MatrixMeanShift {
 
     
 
-    val regions = new ArrayBuffer[Reg]()
+    val regions = new ArrayBuffer[Region]()
 
-    val Regmap = Array.ofDim[Reg](image.height, image.width)
+    val Regmap = Array.ofDim[Region](image.height, image.width)
 
     @tailrec
-    def growregion(region:Reg, point:(Int,Int,LUV),queue:scala.collection.mutable.Queue[(Int,Int,LUV)]){
+    def growregion(region:Region, point:LuvPoint,queue:scala.collection.mutable.Queue[LuvPoint]){
 
-      val nearest = image.getWithinWindow((point._1, point._2), 3,3)
+      val nearest = image.getWithinWindow((point.getX, point.getY), 3,3)
 
       for ((x,y,c) <- nearest)
       {
         Regmap(x)(y) match{
-          case null if(PointUtils.Dim(c, point._3)<distance)=> {
-              region.append((x,y,c))
-              queue+=((x,y,c))
+          case null if(PointUtils.Dim(c, point.getLUV)<distance)=> {
+              val p = new LuvPoint(x,y,c)
+              region.add(p)
+              queue+=(p)
               Regmap(x)(y) =  region
             }
           case _ =>
@@ -214,15 +220,19 @@ object MatrixMeanShift {
     for (p <- image){
       Regmap(p._1)(p._2) match {
         case null => {
-            val nr = new Reg()
+            val nr = new Region()
             regions.append(nr)
-            growregion(nr,p,scala.collection.mutable.Queue())
+            growregion(nr,new LuvPoint(p._1,p._2,p._3),scala.collection.mutable.Queue())
           }
         case _ => 
       }
     }
 
-    //new Region((_:Reg).map(v=> new LuvPoint(v._1,v._2,v._3)))  
+    
+//    
+//    val rr = regions.map(r => 
+//    new Region(r.map(v=> new LuvPoint(v._1,v._2,v._3)))
+//    )
 
     //Matrix(Regmap)
 

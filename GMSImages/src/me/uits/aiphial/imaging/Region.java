@@ -32,6 +32,14 @@ import me.uits.aiphial.imaging.boundary.BoundaryOrderer;
  * @author Nicolay Mitropolsky <NicolayMitropolsky@gmail.com>
  */
 public class Region extends Cluster<LuvPoint>{
+   
+    /**
+     * creates an empty region
+     * @param cluster
+     */
+    public Region()
+    {
+    }
 
     /**
      * creates region from given cluster

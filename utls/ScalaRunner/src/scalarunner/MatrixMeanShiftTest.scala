@@ -44,7 +44,7 @@ object MatrixMeanShiftTest {
     val sr = 2
     val cr = 7f
     val range = 1f;
-    val minreg = 0;
+    val minreg = 20;
 
     val result = MatrixMeanShift.meanshift(srcmt, sr, cr)
 
