@@ -76,7 +76,32 @@ public class Cluster<T extends NDimPoint> extends ArrayList<T>{
         this.basinOfAttraction = basinOfAttraction;
     }
 
-    
+
+    @Override
+    public int hashCode()
+    {
+        // I know this is a hack, but list hashes are too slow
+        return this.getBasinOfAttraction().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == null)
+        {
+            return false;
+        }
+        if (getClass() != obj.getClass())
+        {
+            return false;
+        }
+        final Cluster<T> other = (Cluster<T>) obj;
+        if (this.basinOfAttraction != other.basinOfAttraction && (this.basinOfAttraction == null || !this.basinOfAttraction.equals(other.basinOfAttraction)))
+        {
+            return false;
+        }
+        return true;
+    }
 
 
 

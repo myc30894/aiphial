@@ -26,6 +26,7 @@ import me.uits.aiphial.general.basic.Utls
 import ru.nickl.meanShift.direct.LUV
 import ru.nickl.meanShift.direct.PointUtils
 import scala.annotation.tailrec
+import scala.collection.immutable.HashSet
 import scala.collection.mutable.ArrayBuffer
 
 import scala.collection.JavaConversions.asScalaIterable
@@ -154,13 +155,27 @@ object MatrixMeanShift {
 
     val (rsultregions0,regtoconsume) = regions.partition(_.size > minregsize)
 
-    val rsultregions  = rsultregions0
+    val rsultregions  = HashSet()++rsultregions0
 
     val unremoved = ArrayBuffer[Region]()
 
     for (region <- regtoconsume )
     {
 
+      val nr = GetNearestRegion.getNearestRegion(region, regmatrix)
+
+      if(nr==null)
+      {
+        unremoved.append(region)
+      }
+      else
+      {
+        nr.addAll(region);
+      }
+
+
+
+      /*
       val regs = scala.collection.mutable.Set[Region]()
 
       for(p <- region)
@@ -193,7 +208,7 @@ object MatrixMeanShift {
 
         nearest.addAll(region)
       }
-
+    */
 
     }
     
