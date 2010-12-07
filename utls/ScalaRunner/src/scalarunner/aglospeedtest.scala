@@ -42,6 +42,7 @@ import me.uits.aiphial.imaging.LuvDataStore
 import me.uits.aiphial.imaging.LuvPoint
 
 import me.uits.aiphial.imaging.Matrix
+import me.uits.aiphial.imaging.MatrixMS
 import me.uits.aiphial.imaging.Region
 import me.uits.aiphial.imaging.Tools
 import me.uits.aiphial.imaging.SegmentatorAdapter
@@ -74,7 +75,7 @@ object AgloSpeedTest {
     val t = 2
 
 
-    for (k <- 0.2 until 1.1 by 0.1){
+    for (k <- 1. until 1.1 by 0.1){
 
       var l = List[Long]()
       for(i <- 1 to t){
@@ -93,7 +94,7 @@ object AgloSpeedTest {
             ImageIO.write(
               paintClusters(scaledimg.getWidth, scaledimg.getHeight, a),
               "bmp",
-              new File("../out_"+i+"_"+s+".bmp"))
+              new File("../out_"+k+"_"+i+"_"+s+".bmp"))
             s=s+1
           }})
 
@@ -175,7 +176,7 @@ object AgloSpeedTest {
 
     import me.uits.aiphial.imaging.FastMatrixMS
 
-    val is = new FastMatrixMS(srcmt)
+    val is = new MatrixMS(srcmt)
     {
        setColorRange(7)
        setSquareRange(2)

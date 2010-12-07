@@ -144,9 +144,9 @@ object MatrixMeanShift {
   }
 
 
-  def regionGroving(image:Matrix[LUV], distance:Float, minregsize:Int):Seq[Region] = {
+  def regionGrowing(image:Matrix[LUV], distance:Float, minregsize:Int):Seq[Region] = {
   
-    val (regions,regmap) = regionGrovingOnly(image,distance)
+    val (regions,regmap) = regionGrowingOnly(image,distance)
 
 
     val regmatrix:Matrix[Region] = Matrix(regmap)
@@ -185,7 +185,7 @@ object MatrixMeanShift {
 
   }
 
-  private[this] def regionGrovingOnly(image:Matrix[LUV], distance:Float) = {
+  private[this] def regionGrowingOnly(image:Matrix[LUV], distance:Float) = {
 
     
 
@@ -227,12 +227,42 @@ object MatrixMeanShift {
         case _ => 
       }
     }
- 
+
+
 
     //regions.foreach(r=> r.setBasinOfAttraction(Utls.getAvragePoint(r)))
 
     (regions,Regmap)
   }
+
+
+
+  def oldmeanshift(image: Matrix[LUV],sr:Int,cr:Float):Matrix[LUV]={
+    import ru.nickl.meanShift.direct.filter.SimpleMSFilter
+    import ru.nickl.meanShift.direct.LuvData
+    val ifilter = new SimpleMSFilter{
+      setColorRange(cr)
+      setSquareRange(sr.shortValue)
+    }
+
+    Matrix(ifilter.filter(new LuvData(image.toArray)).getLUVArray)
+
+  }
+
+
+  def oldregionGrowing(image:Matrix[LUV], distance:Float, minsize:Int):Seq[Region] = {
+    import ru.nickl.meanShift.direct.segmentator.RegionGrowingAndAbsorbtionPU
+    import ru.nickl.meanShift.direct.LuvData
+    val rg = new RegionGrowingAndAbsorbtionPU(minsize)
+
+    rg.setData(new LuvData(image.toArray))
+
+    rg.formRegions
+
+    rg.getRegions.map(r => new Region(r.getPoints.map(p => new LuvPoint(p.y,p.x,p.c)))).toSeq
+
+  }
+
 
 }
 
@@ -244,7 +274,7 @@ import me.uits.aiphial.general.dataStore.DataStore
 abstract class MatrixMeansShiftSegmentatorAdapter(m:Matrix[LUV]) extends Clusterer[LuvPoint]
 {
 
-  var sr = 20
+  var sr:Short = 20
 
   var cr = 7f
 
@@ -254,7 +284,7 @@ abstract class MatrixMeansShiftSegmentatorAdapter(m:Matrix[LUV]) extends Cluster
 
   protected val msfunction: (Matrix[LUV],Int,Float) => Matrix[LUV]
 
-  protected val aggregator: (Matrix[LUV],Float,Int) => Seq[_ <: Cluster[LuvPoint]] = MatrixMeanShift.regionGroving _
+  protected val aggregator: (Matrix[LUV],Float,Int) => Seq[_ <: Cluster[LuvPoint]] = MatrixMeanShift.regionGrowing _
 
   private[this] var result:java.util.List[_ <: Cluster[LuvPoint]] = new java.util.ArrayList[Cluster[LuvPoint]](0)
 
@@ -273,7 +303,7 @@ abstract class MatrixMeansShiftSegmentatorAdapter(m:Matrix[LUV]) extends Cluster
   }
   
   def setColorRange(a:Float) = cr = a
-  def setSquareRange(a:Int) = cr = a
+  def setSquareRange(a:Short) = sr = a
 
 }
 

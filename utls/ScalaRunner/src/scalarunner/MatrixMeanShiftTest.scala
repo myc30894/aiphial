@@ -28,6 +28,8 @@ import me.uits.aiphial.imaging.Matrix
 import me.uits.aiphial.imaging.Tools
 import me.uits.aiphial.imaging.MatrixMeanShift
 import ru.nickl.meanShift.direct.LUV
+import ru.nickl.meanShift.direct.LuvData
+import ru.nickl.meanShift.direct.filter.SimpleMSFilter
 
 object MatrixMeanShiftTest {
 
@@ -41,7 +43,7 @@ object MatrixMeanShiftTest {
 
     val srcmt = Tools.matrixFromImage("../../images/DSCN4909s400.bmp")
 
-    val sr = 2
+    val sr = 20:Short
     val cr = 7f
     val range = 1f;
     val minreg = 20;
@@ -52,7 +54,7 @@ object MatrixMeanShiftTest {
     
     ImageIO.write(Tools.matrixToImage(result),"png", new File("./mmt.png"))
     
-    val regions = MatrixMeanShift.regionGroving(result,range,minreg)
+    val regions = MatrixMeanShift.regionGrowing(result,range,minreg)
     
     val ra = Array.ofDim[LUV](result.height,result.width)
 
