@@ -25,7 +25,7 @@ import java.io.File
 import javax.imageio.ImageIO
 import me.uits.aiphial.imaging._
 import me.uits.aiphial.imaging.texture.Filtres
-import ru.nickl.meanShift.direct.LUV
+import me.uits.aiphial.imaging.LUV
 
 import me.uits.aiphial.imaging.Tools._
 

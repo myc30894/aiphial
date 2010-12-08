@@ -23,7 +23,8 @@ package me.uits.aiphial.imaging
 
 import java.io.PrintWriter
 import me.uits.aiphial.general.basic.Utls
-import ru.nickl.meanShift.direct.LUV
+import me.uits.aiphial.imaging.LUV.oldDArrays
+import me.uits.aiphial.imaging.LUV.modernArrays
 import ru.nickl.meanShift.direct.PointUtils
 import scala.annotation.tailrec
 import scala.collection.immutable.HashSet

@@ -25,8 +25,9 @@ import java.io.File
 
 import java.io.PrintWriter
 import javax.imageio.ImageIO
-import ru.nickl.meanShift.direct.LUV
-import ru.nickl.meanShift.direct.LUVConverter
+import me.uits.aiphial.imaging.LUV.oldDArrays
+import me.uits.aiphial.imaging.LUV.modernArrays
+import me.uits.aiphial.imaging.LUV.tomodernLUV
 import ru.nickl.meanShift.direct.filter.FastMSFilter
 import ru.nickl.meanShift.direct.filter.MeanShiftFilterImageProcessor
 import ru.nickl.meanShift.direct.filter.SimpleMSFilter
@@ -176,7 +177,7 @@ object Tools {
    *  @returns image painted with clusters
    */
   def paintClusters(w:Int, h:Int, cc: CCLP, randcolor:Boolean = false):BufferedImage={
-    import ru.nickl.meanShift.direct.LUV
+    import me.uits.aiphial.imaging.LUV
     val array = Array.ofDim[LUV](h,w)
 
     val colorgenerator = if(randcolor)
@@ -280,10 +281,9 @@ object Tools {
     for(s <- 0 until sccount; h <- 0 until sccount)
       yield {
         val rgb = new Color(Color.HSBtoRGB(step*h, 1f, 1f-0.6f*step*s))
+     
 
-        
-
-        lc.RGBtoLUV(rgb.getRed, rgb.getBlue, rgb.getGreen)}
+        lc.RGBtoLUV(rgb.getRed, rgb.getBlue, rgb.getGreen).m}
 
 
 

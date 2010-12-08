@@ -22,8 +22,7 @@ package me.uits.aiphial.imaging.boundary;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import ru.nickl.meanShift.direct.LUV;
-import me.uits.aiphial.imaging.LuvPoint;
+import me.uits.aiphial.imaging.LUV;
 import me.uits.aiphial.imaging.LuvPoint;
 
 /**
@@ -75,7 +74,7 @@ class PointsMap
         {
             for (int j = 0; j < points[i].length; j++)
             {
-                points[i][j] = new LuvPoint(i + sx, j + sy, LUV.zeroLuv());
+                points[i][j] = new LuvPoint(i + sx, j + sy, new LUV(0,0,0));
             }
 
         }

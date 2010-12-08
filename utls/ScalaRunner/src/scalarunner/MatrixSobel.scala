@@ -24,7 +24,7 @@ package scalarunner
 import java.io.File
 import javax.imageio.ImageIO
 import me.uits.aiphial.imaging._
-import ru.nickl.meanShift.direct.LUV
+import me.uits.aiphial.imaging.LUV
 
 import Tools._
 

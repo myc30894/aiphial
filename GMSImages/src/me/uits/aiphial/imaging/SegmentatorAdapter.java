@@ -72,7 +72,7 @@ public class SegmentatorAdapter implements Clusterer<LuvPoint> {
             
             for (Point point : points)
             {
-                clusterPoints.add(new LuvPoint(point.x, point.y, point.c));
+                clusterPoints.add(new LuvPoint(point.x, point.y, LUV.tomodernLUV(point.c)));
             }
 
             result.add(new Region(clusterPoints));

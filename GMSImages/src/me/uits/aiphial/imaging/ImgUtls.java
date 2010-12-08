@@ -30,8 +30,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import javax.imageio.ImageIO;
-import ru.nickl.meanShift.direct.LUV;
-import ru.nickl.meanShift.direct.LUVConverter;
 import me.uits.aiphial.general.basic.Cluster;
 import me.uits.aiphial.general.dataStore.NDimPoint;
 

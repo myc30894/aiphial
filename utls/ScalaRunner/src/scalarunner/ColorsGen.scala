@@ -31,8 +31,9 @@ import me.uits.aiphial.general.dataStore.DataStore
 import me.uits.aiphial.general.dataStore.DefaultDataStoreFactory
 import me.uits.aiphial.general.dataStore.NDimPoint
 import me.uits.aiphial.imaging._
+import me.uits.aiphial.imaging.LUV
+import me.uits.aiphial.imaging.LUV._
 import me.uits.aiphial.imaging.texture.Filtres
-import ru.nickl.meanShift.direct.LUV
 import scala.collection.JavaConversions.asScalaIterable
 import scala.collection.mutable.ArrayBuffer
 import me.uits.aiphial.imaging.Tools._

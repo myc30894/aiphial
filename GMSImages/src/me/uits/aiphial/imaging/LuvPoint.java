@@ -21,7 +21,6 @@
 
 package me.uits.aiphial.imaging;
 
-import ru.nickl.meanShift.direct.LUV;
 import me.uits.aiphial.general.dataStore.NDimPoint;
 
 /**
@@ -31,7 +30,7 @@ import me.uits.aiphial.general.dataStore.NDimPoint;
 public class LuvPoint implements NDimPoint
 {
 
-    private LUV c = new LUV();
+    private LUV c = new LUV(0,0,0);
     private int x;
     private int y;
     private Float[] coords;

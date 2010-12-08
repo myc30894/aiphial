@@ -23,10 +23,10 @@ package me.uits.aiphial.imaging.searching;
 
 import java.awt.image.BufferedImage;
 import java.util.Collection;
-import ru.nickl.meanShift.direct.LUV;
-import ru.nickl.meanShift.direct.LUVConverter;
 import me.uits.aiphial.general.basic.Cluster;
 import me.uits.aiphial.imaging.ImgUtls;
+import me.uits.aiphial.imaging.LUV;
+import me.uits.aiphial.imaging.LUVConverter;
 import me.uits.aiphial.imaging.LuvPoint;
 import me.uits.aiphial.imaging.Region;
 

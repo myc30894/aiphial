@@ -21,9 +21,10 @@
 
 package me.uits.aiphial.imaging.searching;
 
-import ru.nickl.meanShift.direct.LUV;
-import ru.nickl.meanShift.direct.LUVConverter;
+
 import me.uits.aiphial.general.basic.Cluster;
+import me.uits.aiphial.imaging.LUV;
+import me.uits.aiphial.imaging.LUVConverter;
 import me.uits.aiphial.imaging.LuvPoint;
 
 /**

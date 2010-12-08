@@ -27,7 +27,7 @@ import me.uits.aiphial.imaging.ImgUtls
 import me.uits.aiphial.imaging.Matrix
 import me.uits.aiphial.imaging.Tools
 import me.uits.aiphial.imaging.MatrixMeanShift
-import ru.nickl.meanShift.direct.LUV
+import me.uits.aiphial.imaging.LUV
 import ru.nickl.meanShift.direct.LuvData
 import ru.nickl.meanShift.direct.filter.SimpleMSFilter
 
