@@ -206,9 +206,9 @@ public class ImgUtls
             sumx += p.getX();
             sumy += p.getY();
             LUV luv = p.getLUV();
-            suml += luv.l;
-            sumv += luv.v;
-            sumu += luv.u;
+            suml += luv.l();
+            sumv += luv.v();
+            sumu += luv.u();
         }
         int length = points.size();
 

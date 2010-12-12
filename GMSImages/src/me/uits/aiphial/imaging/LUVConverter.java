@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 package me.uits.aiphial.imaging;
 
 import java.awt.image.BufferedImage;
@@ -175,7 +174,9 @@ public class LUVConverter
     public LUV RGBtoLUV(int r, int g, int b)
     {
 
-        LUV res = new LUV(0,0,0);
+        double l = 0.;
+        double u = 0;
+        double v = 0;
 
 
         //delcare variables
@@ -192,10 +193,10 @@ public class LUVConverter
         L0 = y / (255.0 * Yn);
         if (L0 > Lt)
         {
-            res.l = (116.0 * (Math.pow(L0, 1.0 / 3.0)) - 16.0);
+            l = (116.0 * (Math.pow(L0, 1.0 / 3.0)) - 16.0);
         } else
         {
-            res.l = (903.3 * L0);
+            l = (903.3 * L0);
         }
 
         //compute u_prime and v_prime
@@ -211,11 +212,11 @@ public class LUVConverter
         }
 
         //compute u* and v*
-        res.u = (13 * res.l * (u_prime - Un_prime));
-        res.v = (13 * res.l * (v_prime - Vn_prime));
+        u = (13 * l * (u_prime - Un_prime));
+        v = (13 * l * (v_prime - Vn_prime));
 
         //done.
-        return res;
+        return new LUV(l, u, v);
     }
 
     public int LUVtoARGBint(LUV luv)
@@ -223,30 +224,30 @@ public class LUVConverter
 
         if (luv == null)
         {
-            luv = new LUV(0,0,0);
+            luv = new LUV(0, 0, 0);
         }
         //declare variables...
         int r, g, b;
         double x, y, z, u_prime, v_prime;
 
         //perform conversion
-        if (luv.l < 0.1)
+        if (luv.l() < 0.1)
         {
             r = g = b = 0;
         } else
         {
             //convert luv to xyz...
-            if (luv.l < 8.0)
+            if (luv.l() < 8.0)
             {
-                y = Yn * luv.l / 903.3;
+                y = Yn * luv.l() / 903.3;
             } else
             {
-                y = (luv.l + 16.0) / 116.0;
+                y = (luv.l() + 16.0) / 116.0;
                 y *= Yn * y * y;
             }
 
-            u_prime = luv.u / (13 * luv.l) + Un_prime;
-            v_prime = luv.v / (13 * luv.l) + Vn_prime;
+            u_prime = luv.u() / (13 * luv.l()) + Un_prime;
+            v_prime = luv.v() / (13 * luv.l()) + Vn_prime;
 
             x = 9 * u_prime * y / (4 * v_prime);
             z = (12 - 3 * u_prime - 20 * v_prime) * y / (4 * v_prime);

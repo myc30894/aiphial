@@ -43,7 +43,7 @@ public class LuvPoint implements NDimPoint
 
         coords = new Float[]
                 {
-                    new Float(this.x), new Float(this.y), new Float(this.c.l), new Float(this.c.u), new Float(this.c.v)
+                    new Float(this.x), new Float(this.y), new Float(this.c.l()), new Float(this.c.u()), new Float(this.c.v())
                 };
 
 
@@ -92,13 +92,13 @@ public class LuvPoint implements NDimPoint
                 setY(v.intValue());
                 break;
             case 2:
-                c.l = v;
+                c = new LUV(v, c.u(), c.v());
                 break;
             case 3:
-                c.u = v;
+                c = new LUV(c.l(), v, c.v());
                 break;
             case 4:
-                c.v = v;
+                c = new LUV(c.l(), c.u(), v);
                 break;
             default:
                 throw new IndexOutOfBoundsException("no such coord:" + i);
@@ -127,9 +127,9 @@ public class LuvPoint implements NDimPoint
     public void selLUV(LUV c)
     {
         this.c = c;
-        coords[2] =new Float(c.l);
-        coords[3] =new Float(c.u);
-        coords[4] =new Float(c.v);
+        coords[2] =new Float(c.l());
+        coords[3] =new Float(c.u());
+        coords[4] =new Float(c.v());
     }
 
     /**

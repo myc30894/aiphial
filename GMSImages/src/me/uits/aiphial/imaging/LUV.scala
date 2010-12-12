@@ -21,7 +21,7 @@
 
 package me.uits.aiphial.imaging
 
-class LUV(val l0:Double,val u0:Double, val v0:Double) extends ru.nickl.meanShift.direct.LUV(l0,u0,v0) {
+class LUV(val l:Double,val u:Double, val v:Double) {
 
   override def toString() = "{l="+l+" u="+u+" v="+v+"}";
 
@@ -33,19 +33,12 @@ class LUV(val l0:Double,val u0:Double, val v0:Double) extends ru.nickl.meanShift
   def /(m:Int) = new LUV(l/m, u/m, v/m)
 
   def +(a:LUV) = new LUV(l+a.l, u+a.u, v+a.v)
-
-
-  @deprecated
-  override def minus(a:ru.nickl.meanShift.direct.LUV):LUV = new LUV(l-a.l, u-a.u, v-a.v)
-
+ 
   def minus(a:LUV):LUV = this-a
 
-  override def mult(m:Int) = this*m
+  def mult(m:Int) = this*m
 
-  override def div(m:Int) = this/m
-
-  @deprecated
-  override def plus(a:ru.nickl.meanShift.direct.LUV) = new LUV(l+a.l, u+a.u, v+a.v)
+  def div(m:Int) = this/m
   
   def plus(a:LUV):LUV = this+a
 
@@ -56,12 +49,13 @@ class LUV(val l0:Double,val u0:Double, val v0:Double) extends ru.nickl.meanShift
 
 object LUV {
 
-  implicit def oldArrays(arr:Array[LUV]):Array[ru.nickl.meanShift.direct.LUV] = arr.map(_.asInstanceOf[ru.nickl.meanShift.direct.LUV])
+  implicit def oldArrays(arr:Array[LUV]):Array[ru.nickl.meanShift.direct.LUV] = arr.map(tooldLUV(_))
 
-  implicit def oldDArrays(arr:Array[Array[LUV]]):Array[Array[ru.nickl.meanShift.direct.LUV]] = arr.map(_.map(_.asInstanceOf[ru.nickl.meanShift.direct.LUV]))
+  implicit def oldDArrays(arr:Array[Array[LUV]]):Array[Array[ru.nickl.meanShift.direct.LUV]] = arr.map(_.map(tooldLUV(_)))
 
   implicit def modernArrays(arr:Array[Array[ru.nickl.meanShift.direct.LUV]]):Array[Array[LUV]] = arr.map(_.map(tomodernLUV(_)))
 
   implicit def tomodernLUV(o:ru.nickl.meanShift.direct.LUV) = new LUV(o.l,o.u,o.v)
 
+  implicit def tooldLUV(o:LUV) = new ru.nickl.meanShift.direct.LUV(o.l,o.u,o.v)
 }

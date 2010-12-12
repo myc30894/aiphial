@@ -66,7 +66,7 @@ object MatrixMeanShift {
         {
           xsum +=xp;
           ysum +=yp;
-          csum.incr(cp)
+          csum = csum + cp
         }
 
         val ml = m.size
@@ -293,8 +293,13 @@ abstract class MatrixMeansShiftSegmentatorAdapter(m:Matrix[LUV]) extends Cluster
 
     import scala.collection.JavaConversions.asJavaList
 
-    result = aggregator(msfunction(m,sr,cr),range,minsize)
+    val r0 = msfunction(m,sr,cr)
 
+
+    //println(r0)
+
+    result = aggregator(r0, range,minsize)
+    
   }
 
   override def getClusters():java.util.List[_ <: Cluster[LuvPoint]] = result;

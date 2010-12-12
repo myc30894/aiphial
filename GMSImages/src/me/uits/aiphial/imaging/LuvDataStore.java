@@ -191,7 +191,7 @@ public class LuvDataStore implements DataStore<LuvPoint>
         if (luvPointses[y][x] != null)
         {
             LUV c = luvPointses[y][x].getLUV();
-            if (abs(c.l - centr.getLUV().l) < w.getLUV().l && abs(c.u - centr.getLUV().u) < w.getLUV().u && abs(c.v - centr.getLUV().v) < w.getLUV().v)
+            if (abs(c.l() - centr.getLUV().l()) < w.getLUV().l() && abs(c.u() - centr.getLUV().u()) < w.getLUV().u() && abs(c.v() - centr.getLUV().v()) < w.getLUV().v())
             {
                 result.add(luvPointses[y][x]);
             }
@@ -238,7 +238,7 @@ public class LuvDataStore implements DataStore<LuvPoint>
                 if (luvPointses[y][x] != null)
                 {
                     LUV c = luvPointses[y][x].getLUV();
-                    if (abs(c.l - centr.getLUV().l) < w.getLUV().l && abs(c.u - centr.getLUV().u) < w.getLUV().u && abs(c.v - centr.getLUV().v) < w.getLUV().v)
+                    if (abs(c.l() - centr.getLUV().l()) < w.getLUV().l() && abs(c.u() - centr.getLUV().u()) < w.getLUV().u() && abs(c.v() - centr.getLUV().v()) < w.getLUV().v())
                     {
                         result.add(luvPointses[y][x]);
                         pset.remove(luvPointses[y][x]);
