@@ -25,10 +25,7 @@ package me.uits.aiphial.imaging.runner
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
-import me.uits.aiphial.imaging.SegmentatorAdapter
-
-import ru.nickl.meanShift.direct.filter.SimpleMSFilter
-
+import me.uits.aiphial.imaging.MatrixMS
 import scala.collection.JavaConversions.asScalaIterable
 import com.beust.jcommander.{Parameter, Parameters};
 import me.uits.aiphial.imaging.Tools._
@@ -55,23 +52,16 @@ class NaiveMSCli() extends CliCommand {
 
   def process(): Unit = {
 
-    val ifilter = new SimpleMSFilter{
-      setColorRange(cr)
-      setSquareRange(sr)
-    }
-
-    val is  = new ru.nickl.meanShift.direct.segmentator.SimpleSegmentator(ifilter){
-      setMinRegionSize(minreg)
-
-    }
-
     val filetoread = new File(inputFileName)
     println("reading "+filetoread.getAbsolutePath)
     val image = ImageIO.read(filetoread)
 
-    is.setSourceImage(image)
-    
-    val segmentator = new SegmentatorAdapter(is)
+    val srcmt = matrixFromImage(image);
+    val segmentator = new MatrixMS(srcmt){
+      setColorRange(NaiveMSCli.this.cr)
+      setSquareRange(NaiveMSCli.this.sr)
+      setMinRegionSize(NaiveMSCli.this.minreg)
+    }
 
     logTime{ 
       println("clustering...")

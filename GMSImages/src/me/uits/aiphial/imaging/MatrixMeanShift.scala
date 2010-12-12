@@ -23,9 +23,7 @@ package me.uits.aiphial.imaging
 
 import java.io.PrintWriter
 import me.uits.aiphial.general.basic.Utls
-import me.uits.aiphial.imaging.LUV.oldDArrays
-import me.uits.aiphial.imaging.LUV.modernArrays
-import ru.nickl.meanShift.direct.PointUtils
+import me.uits.aiphial.imaging.LUV.dist2
 import scala.annotation.tailrec
 import scala.collection.immutable.HashSet
 import scala.collection.mutable.ArrayBuffer
@@ -51,7 +49,7 @@ object MatrixMeanShift {
       //println("--shifting "+x+" "+y+" "+c)
 
       val m = image.getWithinWindow((x,y),sr2,sr2).asOneLineWithIndex
-      .filter( v => PointUtils.Dim(c, v._3) < powcr )
+      .filter( v => dist2(c, v._3) < powcr )
 
       if(m.length ==0)
       {trace((x,y,c),(x,y,c)); c}
@@ -75,7 +73,7 @@ object MatrixMeanShift {
         val ry = (ysum/ml).intValue
         val rc = csum.div(ml)
 
-        val cc = PointUtils.Dim(rc, c)
+        val cc = dist2(rc, c)
 
         if( deep > 0 && cc > mindistance)
         {
@@ -118,7 +116,7 @@ object MatrixMeanShift {
 
             def aggregator(a:Tuple3[Int,Int,LUV],b:Tuple3[Int,Int,LUV]){
               val nearest = image.getWithinWindow((a._1,a._2),asr,asr).asOneLineWithIndex
-              .filter( v => PointUtils.Dim(a._3, v._3) < acr )
+              .filter( v => dist2(a._3, v._3) < acr )
 
               aggregated.appendAll(nearest)
 
@@ -202,7 +200,7 @@ object MatrixMeanShift {
       for ((x,y,c) <- nearest)
       {
         Regmap(x)(y) match{
-          case null if(PointUtils.Dim(c, point.getLUV)<distance)=> {
+          case null if(dist2(c, point.getLUV)<distance)=> {
               val p = new LuvPoint(x,y,c)
               region.add(p)
               queue+=(p)
@@ -234,34 +232,6 @@ object MatrixMeanShift {
     //regions.foreach(r=> r.setBasinOfAttraction(Utls.getAvragePoint(r)))
 
     (regions,Regmap)
-  }
-
-
-
-  def oldmeanshift(image: Matrix[LUV],sr:Int,cr:Float):Matrix[LUV]={
-    import ru.nickl.meanShift.direct.filter.SimpleMSFilter
-    import ru.nickl.meanShift.direct.LuvData
-    val ifilter = new SimpleMSFilter{
-      setColorRange(cr)
-      setSquareRange(sr.shortValue)
-    }
-
-    Matrix(ifilter.filter(new LuvData(image.toArray)).getLUVArray)
-
-  }
-
-
-  def oldregionGrowing(image:Matrix[LUV], distance:Float, minsize:Int):Seq[Region] = {
-    import ru.nickl.meanShift.direct.segmentator.RegionGrowingAndAbsorbtionPU
-    import ru.nickl.meanShift.direct.LuvData
-    val rg = new RegionGrowingAndAbsorbtionPU(minsize)
-
-    rg.setData(new LuvData(image.toArray))
-
-    rg.formRegions
-
-    rg.getRegions.map(r => new Region(r.getPoints.map(p => new LuvPoint(p.y,p.x,p.c)))).toSeq
-
   }
 
 
@@ -310,6 +280,7 @@ abstract class MatrixMeansShiftSegmentatorAdapter(m:Matrix[LUV]) extends Cluster
   
   def setColorRange(a:Float) = cr = a
   def setSquareRange(a:Short) = sr = a
+  def setMinRegionSize(minreg:Int) = minsize = minreg
 
 }
 

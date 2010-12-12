@@ -21,10 +21,15 @@
 package me.uits.aiphial.imaging;
 
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.DataBuffer;
+import java.awt.image.DataBufferInt;
+import java.awt.image.DirectColorModel;
 import java.awt.image.PixelGrabber;
+import java.awt.image.Raster;
+import java.awt.image.WritableRaster;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import ru.nickl.meanShift.ImageUtls;
 
 /**
  *
@@ -140,6 +145,15 @@ public class LUVConverter
 
     }
 
+    public BufferedImage toImage(int[] pixels, int w, int h)
+    {
+        DataBuffer db = new DataBufferInt(pixels, w * h);
+        WritableRaster raster = Raster.createPackedRaster(db,
+                w, h, w, new int[]{0xff0000, 0xff00, 0xff}, null);
+        ColorModel cm = new DirectColorModel(24, 0xff0000, 0xff00, 0xff);
+        return new BufferedImage(cm, raster, false, null);
+    }
+
     public BufferedImage LUVArrayToBufferedImage(LUV[] luvarray, int height, int width)
     {
 
@@ -165,7 +179,7 @@ public class LUVConverter
         fos.close();
         System.out.println(fout.getPath());*/
 
-        return ImageUtls.toImage(resPixels, width, height);
+        return toImage(resPixels, width, height);
 
         //ImageIO.write(toImage(resPixels, width, height), "bmp", new File("/home/nickl/NetBeansProjects/cpp/meanShift/filt.bmp"));
 

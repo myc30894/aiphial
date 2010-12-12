@@ -50,17 +50,11 @@ object RunAll {
     println("Search.main")
     Search.main(args)
 
-    println("Search.main0")
-    Search.main0(args)
-
-    println("NaiveSegmentationSample.main")
-    NaiveSegmentationSample.main(args)
+    println("MatrixMeanShiftTest.main")
+    MatrixMeanShiftTest.main(args)
     
     println("AggloSegmentationSample.main")
     AggloSegmentationSample.main(args)
-
-    println("Segmentation.main")
-    Segmentation.main(args);       
 
     System.exit(0);
   }

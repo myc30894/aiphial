@@ -25,10 +25,6 @@ import java.io.File
 
 import java.io.PrintWriter
 import javax.imageio.ImageIO
-import ru.nickl.meanShift.direct.filter.FastMSFilter
-import ru.nickl.meanShift.direct.filter.MeanShiftFilterImageProcessor
-import ru.nickl.meanShift.direct.filter.SimpleMSFilter
-import ru.nickl.meanShift.direct.segmentator.RegionGrowingSegmentator
 import me.uits.aiphial.general.aglomerative.AglomerativeClustererStack
 import me.uits.aiphial.general.aglomerative.AglomerativeMeanShift
 import me.uits.aiphial.general.aglomerative.IterationListener
@@ -45,7 +41,6 @@ import me.uits.aiphial.imaging.Matrix
 import me.uits.aiphial.imaging.MatrixMS
 import me.uits.aiphial.imaging.Region
 import me.uits.aiphial.imaging.Tools
-import me.uits.aiphial.imaging.SegmentatorAdapter
 import me.uits.aiphial.imaging.searching.HistogramClusterComparer
 import scala.collection.mutable.ArrayBuffer
 

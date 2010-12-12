@@ -32,15 +32,12 @@ import me.uits.aiphial.general.dataStore.NDimPoint
 import me.uits.aiphial.imaging.ImgUtls
 import me.uits.aiphial.imaging.ImgUtls._
 import me.uits.aiphial.imaging.LuvPoint
-import ru.nickl.meanShift.direct.filter.FastMSFilter
-import ru.nickl.meanShift.direct.filter.SimpleMSFilter
 import scala.collection.JavaConversions.asScalaIterable
 import scala.math._
 
 import me.uits.aiphial.imaging.FastMatrixMS
 import me.uits.aiphial.imaging.MatrixMS
 
-import me.uits.aiphial.imaging.SegmentatorAdapter
 import me.uits.aiphial.imaging.Tools
 import me.uits.aiphial.imaging.Tools._
 
@@ -101,22 +98,6 @@ object AggloSegmentationSteps {
     
     msc.doClustering()
 
-  }
-
-  def genOldInitClusterer(srcimg:BufferedImage)={
-        val ifilter = new SimpleMSFilter{
-      setColorRange(cr)
-      setSquareRange(sr)
-    }
-
-    val is  = new ru.nickl.meanShift.direct.segmentator.SimpleSegmentator(ifilter){
-      setMinRegionSize(minreg)
-    }
-
-
-    is.setSourceImage(srcimg)
-
-    new SegmentatorAdapter(is);
   }
 
   def genMatrixMeanshiftSegmentator(srcimg:BufferedImage)={

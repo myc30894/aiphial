@@ -25,13 +25,6 @@ import java.io.File
 
 import java.io.PrintWriter
 import javax.imageio.ImageIO
-import me.uits.aiphial.imaging.LUV.oldDArrays
-import me.uits.aiphial.imaging.LUV.modernArrays
-import me.uits.aiphial.imaging.LUV.tomodernLUV
-import ru.nickl.meanShift.direct.filter.FastMSFilter
-import ru.nickl.meanShift.direct.filter.MeanShiftFilterImageProcessor
-import ru.nickl.meanShift.direct.filter.SimpleMSFilter
-import ru.nickl.meanShift.direct.segmentator.RegionGrowingSegmentator
 import me.uits.aiphial.general.aglomerative.AglomerativeClustererStack
 import me.uits.aiphial.general.aglomerative.AglomerativeMeanShift
 import me.uits.aiphial.general.aglomerative.IterationListener

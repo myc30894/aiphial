@@ -28,8 +28,6 @@ import me.uits.aiphial.imaging.Matrix
 import me.uits.aiphial.imaging.Tools
 import me.uits.aiphial.imaging.MatrixMeanShift
 import me.uits.aiphial.imaging.LUV
-import ru.nickl.meanShift.direct.LuvData
-import ru.nickl.meanShift.direct.filter.SimpleMSFilter
 
 object MatrixMeanShiftTest {
 
@@ -43,7 +41,7 @@ object MatrixMeanShiftTest {
 
     val srcmt = Tools.matrixFromImage("../../images/DSCN4909s400.bmp")
 
-    val sr = 20:Short
+    val sr = 8:Short
     val cr = 7f
     val range = 1f;
     val minreg = 20;

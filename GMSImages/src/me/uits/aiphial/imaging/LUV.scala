@@ -49,13 +49,8 @@ class LUV(val l:Double,val u:Double, val v:Double) {
 
 object LUV {
 
-  implicit def oldArrays(arr:Array[LUV]):Array[ru.nickl.meanShift.direct.LUV] = arr.map(tooldLUV(_))
+  def p2(a:Double)=a*a
 
-  implicit def oldDArrays(arr:Array[Array[LUV]]):Array[Array[ru.nickl.meanShift.direct.LUV]] = arr.map(_.map(tooldLUV(_)))
+  def dist2(a:LUV,b:LUV) = p2(a.l-b.l)+p2(a.u-b.u)+p2(a.v-b.v)
 
-  implicit def modernArrays(arr:Array[Array[ru.nickl.meanShift.direct.LUV]]):Array[Array[LUV]] = arr.map(_.map(tomodernLUV(_)))
-
-  implicit def tomodernLUV(o:ru.nickl.meanShift.direct.LUV) = new LUV(o.l,o.u,o.v)
-
-  implicit def tooldLUV(o:LUV) = new ru.nickl.meanShift.direct.LUV(o.l,o.u,o.v)
 }

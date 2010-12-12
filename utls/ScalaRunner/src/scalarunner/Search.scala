@@ -26,9 +26,6 @@ import java.io.File
 import java.io.PrintWriter
 import javax.imageio.ImageIO
 
-import ru.nickl.meanShift.direct.LUVConverter
-import ru.nickl.meanShift.direct.filter.SimpleMSFilter
-import ru.nickl.meanShift.direct.segmentator.RegionGrowingSegmentator
 import me.uits.aiphial.general.aglomerative.AglomerativeClustererStack
 import me.uits.aiphial.general.aglomerative.AglomerativeMeanShift
 import me.uits.aiphial.general.aglomerative.IterationListener
@@ -43,8 +40,8 @@ import me.uits.aiphial.imaging.ImgUtls._
 import me.uits.aiphial.imaging.LuvDataStore
 import me.uits.aiphial.imaging.LuvPoint
 
+import me.uits.aiphial.imaging.MatrixMS
 import me.uits.aiphial.imaging.Region
-import me.uits.aiphial.imaging.SegmentatorAdapter
 import me.uits.aiphial.imaging.searching.HistogramClusterComparer
 import scala.collection.mutable.ArrayBuffer
 
@@ -109,37 +106,20 @@ object Search{
 
     val msc = new AglomerativeClustererStack[LuvPoint]();
 
-//    val growingSegmentator = new RegionGrowingSegmentator(){
-//      setEqualityRange(10)
-//      setSourceImage(srcimg)
-//    }
-//     msc.setInitialClusterer(new SegmentatorAdapter(growingSegmentator))
 
 
-    //val ifilter = new NativeCudaMSFilter{
-    val ifilter = new SimpleMSFilter{
+
+    val srcmt =matrixFromImage(srcimg);
+    val ifilter = new MatrixMS(srcmt){
       setColorRange(7)
       setSquareRange(2)
     }
 
-    val is  = new ru.nickl.meanShift.direct.segmentator.SimpleSegmentator(ifilter){
-      setMinRegionSize(0)
-    }
-
-//
-//     val is = new ru.nickl.meanShift.direct.segmentator.SobelMeanShiftSegmentator(ifilter){
-//       setGradTreshold(5)
-//       setEqualityRange(1)
-//       setColorRange(7)
-//       setSquareRange(2)
-//       setMinRegionSize(0)
-//     }
-//
 
 
-    is.setSourceImage(srcimg)
+    
 
-    msc.setInitialClusterer(new SegmentatorAdapter(is));
+    msc.setInitialClusterer(ifilter);
 
     val msc0 = new MeanShiftClusterer[NDimPoint]();
     msc0.setMinDistance(3)
@@ -219,113 +199,7 @@ object Search{
     println(vals.sortWith(_>_).mkString("[",",","]"))
 
   }
-
-
-
-
-
-
-
-
-  // <editor-fold defaultstate="collapsed" desc="old">
-
-  def main0(args: Array[String]): Unit = {
-
-    type CC = java.util.Collection[_<:Cluster[LuvPoint]]
-
-    implicit def ClusterToRegion(cluster: Cluster[LuvPoint]) = new Region(cluster)
-
-    implicit def lambdaToItearationListener(funk: CC => Unit): IterationListener[LuvPoint] = {
-      new IterationListener[LuvPoint]() {
-        def IterationDone(a: CC) {
-          funk(a)
-        }
-      }
-    }
-
-    val startTime = System.currentTimeMillis
-
-    val srcimg = ImageIO.read(new File("../../images/smallgisto.jpg"))
-    val imgtosearch = ImageIO.read(new File("../../images/bluehren.png"))
-
-    val h = srcimg.getHeight();
-    val w = srcimg.getWidth();
-
-
-    val growingSegmentator = new RegionGrowingSegmentator();
-    growingSegmentator.setEqualityRange(10)
-    growingSegmentator.setSourceImage(srcimg);
-
-
-
-    val msc = new AglomerativeClustererStack[LuvPoint]();
-    msc.setInitialClusterer(new SegmentatorAdapter(growingSegmentator));
-
-
-    val msc0 = new MeanShiftClusterer[NDimPoint]();
-    msc0.setMinDistance(3)
-
-    val amsc = new AglomerativeMeanShift[LuvPoint](msc0)
-
-    amsc.setAutostopping(false)
-    amsc.setMaxIterations(1000)
-    amsc.setWindowMultiplier(0.5f)
-
-    msc.addExtendingClustererToQueue(amsc)
-
-    amsc.addIterationListener({var v = 0.5f; (a: CC) => {amsc.setWindowMultiplier(v); v += 0.1f}})
-
-    amsc.addIterationListener({
-        var t = System.currentTimeMillis()
-        var i = 0
-        (a: CC) => {
-          println(a.size + " " + (System.currentTimeMillis() - t))
-          t = System.currentTimeMillis()
-          i = i + 1
-        }
-      })
-
-
-    val vals = ArrayBuffer[Double]()
-    amsc.addIterationListener({
-        val cc = new HistogramClusterComparer()
-        cc.setPattern(imgtosearch)
-        val sc = new ShapeContextClusterComparer()
-        sc.setPattern(imgtosearch)
-
-
-        var i2 = 0
-
-        (a: CC) => {
-          for (cluster <- a) {
-            val v = cc.compareCluster(cluster)
-            val sv = sc.compareCluster(cluster)
-            vals.append(sv)
-            if (0 <= v && v < 190 && sv < 2000)
-            {
-              val img = ImgUtls.getClusterImage(srcimg, cluster)
-              if (img != null)
-              {
-                ImageIO.write(img, "png", new File("match/match_" + i2 + "_" + v +"_"+sv + ".png"))
-              }
-            }
-            i2 = i2 + 1
-          }
-        }
-      })
-
-
-
-
-    println("inittime: " + (System.currentTimeMillis - startTime))
-
-    msc.doClustering()
-
-    println(vals.sortWith(_>_).mkString("[",",","]"))
-
-  }
-
-// </editor-fold>
+ 
 
 
 }
