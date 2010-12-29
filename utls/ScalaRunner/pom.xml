@@ -4,12 +4,12 @@
     <parent>
         <artifactId>aiphial</artifactId>
         <groupId>me.uits.aiphial</groupId>
-        <version>${aiphial.version}</version>
+        <version>0.1-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
     <groupId>me.uits.aiphial</groupId>
     <artifactId>ScalaRunner</artifactId>
-    <version>${aiphial.version}</version>
+    <version>0.1-SNAPSHOT</version>
     <name>${project.artifactId}</name>
     <description>Samples and test of Aiphial</description>
     <dependencies>

@@ -4,11 +4,11 @@
     <parent>
         <artifactId>aiphial</artifactId>
         <groupId>me.uits.aiphial</groupId>
-        <version>${aiphial.version}</version>
+        <version>0.1-SNAPSHOT</version>
     </parent>
     <groupId>me.uits.aiphial</groupId>
     <artifactId>GMSImages</artifactId>
-    <version>${aiphial.version}</version>
+    <version>0.1-SNAPSHOT</version>
     <name>${project.artifactId}</name>
     <description>Imaging part of Aiphial</description>
     <dependencies>
@@ -20,7 +20,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>GeneralMeanShift</artifactId>
-            <version>${aiphial.version}</version>
+            <version>0.1-SNAPSHOT</version>
         </dependency>
     <!-- Test -->
         <dependency>

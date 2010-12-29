@@ -5,10 +5,11 @@
     <parent>
         <artifactId>aiphial</artifactId>
         <groupId>me.uits.aiphial</groupId>
-        <version>${aiphial.version}</version>
+        <version>0.1-SNAPSHOT</version>
     </parent>
     <artifactId>GeneralMeanShift</artifactId>
-    <name>GeneralMeanShift</name>
+    <version>0.1-SNAPSHOT</version>
+    <name>${project.artifactId}</name>
     <url>http://maven.apache.org</url>
     <build>
         <plugins>
