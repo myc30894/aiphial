@@ -13,9 +13,14 @@
     <description>
 Image processing library implemented in Java and Scala provides mean shift agglomerative clustering, image segmentation, part comparison.
     </description>
+    <scm>
+        <connection>scm:hg:.</connection>
+        <developerConnection>scm:hg:.</developerConnection>
+    </scm>
     <modules>
         <module>GeneralMeanShift</module>
         <module>GMSImages</module>
         <module>utls/ScalaRunner</module>
+        <module>utls/aiphial-cmd</module>
     </modules>
 </project>
