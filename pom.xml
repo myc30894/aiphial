@@ -22,5 +22,6 @@ Image processing library implemented in Java and Scala provides mean shift agglo
         <module>GMSImages</module>
         <module>utls/ScalaRunner</module>
         <module>utls/aiphial-cmd</module>
+        <module>libs/Savarese-Kdtrees</module>
     </modules>
 </project>

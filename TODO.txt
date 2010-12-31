@@ -1,7 +1,5 @@
 ===== before first release =====
 
-* remove meanShift-project, reimplement its funtions with Matrix
-
 * make Matrix compatible with DataStore
 
 * create progresslistener to aggloclustering
@@ -15,8 +13,6 @@
 * add search option to command line
 
 * add texture-segmentation option to command line
-
-* write usable crossplatform buildfiles (mb Maven)
 
 * update code-docs
 
