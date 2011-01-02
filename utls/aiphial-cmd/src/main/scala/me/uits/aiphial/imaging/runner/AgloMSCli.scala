@@ -116,8 +116,7 @@ class AgloMSCli extends CliCommand {
       setAutostopping(false)
       setMaxIterations(1000)
       setWindowMultiplier(windowsMultiplier)
-      addIterationListener({var v = windowsMultiplier;
-                            (a: CCLP) => {this.setWindowMultiplier(v); v += windowsMultiplierStep}})
+      setWindowMultiplierStep(windowsMultiplierStep)
     }
 
     msc.addExtendingClustererToQueue(amsc)

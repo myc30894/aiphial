@@ -45,6 +45,7 @@ public class AglomerativeMeanShift<T extends NDimPoint> extends AbstractAglomera
     private List<Cluster<T>> result;
     private IMeanShiftClusterer innerAlgorithm;
     private float windowMultiplier = 0.4F;
+    private float windowMultiplierStep = 0.0F;
     private Float[] window;
     private boolean stop;
     private boolean autostopping = true;
@@ -114,6 +115,14 @@ public class AglomerativeMeanShift<T extends NDimPoint> extends AbstractAglomera
         return res;
     }
 
+    @Override
+    protected void fireIterationDone(List<Cluster<T>> clusters)
+    {
+        super.fireIterationDone(clusters);
+        windowMultiplier+=windowMultiplierStep;
+    }
+
+
     public AglomerativeMeanShift(IMeanShiftClusterer<NDimPoint> innerAlgorithm)
     {
         this.innerAlgorithm = innerAlgorithm;
@@ -181,6 +190,25 @@ public class AglomerativeMeanShift<T extends NDimPoint> extends AbstractAglomera
     public void setWindowMultiplier(float windowMultiplier)
     {
         this.windowMultiplier = windowMultiplier;
+    }
+
+    /** 
+     * @return the value which is added to WindowMultiplier after
+     * each clustering step to provide additional agglomerativity
+     */
+    public float getWindowMultiplierStep()
+    {
+        return windowMultiplierStep;
+    }
+
+    /**
+     * sets the value which is added to WindowMultiplier after
+     * each clustering step to provide additional agglomerativity
+     * @param windowMultiplierStep
+     */
+    public void setWindowMultiplierStep(float windowMultiplierStep)
+    {
+        this.windowMultiplierStep = windowMultiplierStep;
     }
 
     /**

@@ -58,7 +58,7 @@ object AggloSegmentationSample {
       setWindowMultiplier(0.2f)
       // an iteration listener that would increment window multiplier on each step
       // to provide additional agglomeretivity :)
-      addIterationListener({var v = 0.2f; (a: CCLP) => {this.setWindowMultiplier(v); v += 0.1f}})
+      setWindowMultiplierStep(0.1f)
     }
 
     // create a datastore and add all points from image to it

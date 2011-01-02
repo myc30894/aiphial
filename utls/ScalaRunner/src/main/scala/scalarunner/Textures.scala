@@ -133,7 +133,7 @@ object Textures {
             }
 
       )
-      addIterationListener({var v = 2f; (a: Any) => {this.setWindowMultiplier(v); v += 1f}})
+      setWindowMultiplierStep(1f)
     }
 
     amsc.setDataStore(dataStore)

@@ -18,9 +18,11 @@
 
 * write russian translation
 
-* simplify agglomerative clustering (include window step, mb create some predefined listeners)
+* simplify agglomerative clustering (mb create some predefined listeners)
 
 ===== long term =====
+
+* reorganize Tools and Utls classes
 
 * create equal and hybrid bandwidth selector
 

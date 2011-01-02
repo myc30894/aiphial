@@ -41,7 +41,7 @@ import com.beust.jcommander.{Parameter, Parameters};
 
 import me.uits.aiphial.imaging.Tools._
 
-@Parameters(commandDescription = "search for given pattern in an image")
+@Parameters(commandDescription = "search for given homogenous pattern in given image")
 class SearchCli extends CliCommand {
 
 
@@ -115,7 +115,7 @@ class SearchCli extends CliCommand {
       setAutostopping(false)
       setMaxIterations(1000)
       setWindowMultiplier(windowsMultiplier)
-      addIterationListener({var v = windowsMultiplier; (a: CCLP) => {this.setWindowMultiplier(v); v += windowsMultiplierStep}})
+      setWindowMultiplierStep(windowsMultiplier)
     }
 
     msc.addExtendingClustererToQueue(amsc)

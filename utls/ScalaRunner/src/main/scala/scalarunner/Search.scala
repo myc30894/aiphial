@@ -128,7 +128,7 @@ object Search{
       setAutostopping(false)
       setMaxIterations(1000)
       setWindowMultiplier(0.2f)
-      addIterationListener({var v = 0.2f; (a: CCLP) => {this.setWindowMultiplier(v); v += 0.1f}})
+      setWindowMultiplierStep(0.1f)
     }
 
     msc.addExtendingClustererToQueue(amsc)
