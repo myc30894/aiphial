@@ -31,39 +31,25 @@ import javax.imageio.ImageIO
 
 object CliRunner {
 
-  val comands = List(new AgloMSCli, new NaiveMSCli)
+  val comands = List(new AgloMSCli, new NaiveMSCli, new SearchCli)
   /**
    * @param args the command line arguments
    */
   def main(args: Array[String]): Unit = {
-   
-   
-    val jc = JCommanderFactory.createWithArgs(new Object)
 
-    val aggloms = new AgloMSCli
+
+    val jc = JCommanderFactory.createWithArgs(new Object)  
 
     for(c <- comands)
         jc.addCommand(c.name, c)
     
-    try{
-    
-
+    try{  
       jc.parse(args:_*);
 
       comands.find(jc.getParsedCommand == _.name) match {      
         case Some(c) => c.process;
         case None => jc.usage();
       }
-
-
-//      if(jc.getParsedCommand == aggloms.name)
-//        {
-//          aggloms.process
-//        }
-//        else
-//          {
-//            jc.usage()
-//          }
     }
     catch{
       

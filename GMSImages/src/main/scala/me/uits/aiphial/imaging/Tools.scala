@@ -92,9 +92,9 @@ object Tools {
         prev = v
       }
       if(v>=1f)
-        {
-          prev = Float.NegativeInfinity
-        }
+      {
+        prev = Float.NegativeInfinity
+      }
     }
   }
   
@@ -113,7 +113,7 @@ object Tools {
       while(v/step-prev >= step)
       {
 
-      if(prev % m == 0) pf((prev * step * 100).intValue+"%")
+        if(prev % m == 0) pf((prev * step * 100).intValue+"%")
         else pf(".");
 
         prev = prev + 1;
@@ -212,15 +212,21 @@ object Tools {
    * @param filename0 base file name
    * @param index - index to insert
    */
-  def makeIndexedName(filename0:String, index:Int):String={
+  def makeIndexedName(filename0:String, index:Int):String = makeIndexedName(filename0,index.toString)
+  /**
+   * Inserts index into filename before extension.
+   * @param filename0 base file name
+   * @param index - index to insert
+   */
+  def makeIndexedName(filename0:String, index:String):String={
 
-    val filename = filename0.drop(filename0.lastIndexOf(File.separator)+1) // new File(filename0).getName
+    val (filepath,filename) = filename0.splitAt(filename0.lastIndexOf(File.separator)+1)
 
     val ld = filename.lastIndexOf(".")
 
     val (name, ext) = if(ld>0)filename.splitAt(ld) else (filename,"")
     
-    name + index + ext
+    filepath+name + index + ext
     
   }
 

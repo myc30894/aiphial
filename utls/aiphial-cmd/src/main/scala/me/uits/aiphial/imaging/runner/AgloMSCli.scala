@@ -100,6 +100,7 @@ class AgloMSCli extends CliCommand {
               
           val fname = makeIndexedName(outFilesName,s)
           val file = new File(fname)
+          file.mkdirs
           println("writing:"+file.getAbsolutePath)
           
           ImageIO.write(

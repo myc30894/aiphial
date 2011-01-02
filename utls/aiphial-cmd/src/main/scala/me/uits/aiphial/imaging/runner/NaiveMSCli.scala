@@ -72,6 +72,7 @@ class NaiveMSCli() extends CliCommand {
 
     val r = paintClusters(image.getWidth,image.getHeight, segmentator.getClusters())
     val file = new File(outFilesName)
+    file.mkdirs
     println("writing:"+file.getAbsolutePath)
     ImageIO.write(
       r,
