@@ -22,7 +22,6 @@
 package me.uits.aiphial.imaging.runner
 
 
-import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 import me.uits.aiphial.imaging.MatrixMS
@@ -34,7 +33,7 @@ import me.uits.aiphial.imaging.Tools._
 class NaiveMSCli() extends CliCommand {
 
   @Parameter(names = Array("-i"), description = " input file name",required = true)
-  var inputFileName:String = null;// = "../../images/DSCN4909s400.bmp"
+  var inputFileName:String = null;
 
   @Parameter(names = Array("-o"), description = " output file name")
   var outFilesName = "out.bmp"
@@ -67,8 +66,7 @@ class NaiveMSCli() extends CliCommand {
       println("clustering...")
       segmentator.doClustering()
       println("finished")
-    }
-    
+    }    
 
     val r = paintClusters(image.getWidth,image.getHeight, segmentator.getClusters())
     val file = new File(outFilesName)
@@ -77,10 +75,6 @@ class NaiveMSCli() extends CliCommand {
     ImageIO.write(
       r,
       getFormatByName(file.getName).getOrElse("bmp"),
-      file)
-   
+      file)   
   }
-
-
-
 }

@@ -10,8 +10,6 @@
 
 * make matrix DLUVArray-compatible, or remove DLUVArray at all
 
-* add search option to command line
-
 * add texture-segmentation option to command line
 
 * update code-docs
@@ -19,6 +17,8 @@
 * write extended (including project structure) documentation
 
 * write russian translation
+
+* simplify agglomerative clustering (include window step, mb create some predefined listeners)
 
 ===== long term =====
 

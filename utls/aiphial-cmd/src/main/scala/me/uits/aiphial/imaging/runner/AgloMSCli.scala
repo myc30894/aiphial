@@ -22,45 +22,27 @@
 package me.uits.aiphial.imaging.runner
 
 import java.io.File
-
-import java.io.PrintWriter
 import javax.imageio.ImageIO
 import me.uits.aiphial.general.aglomerative.AglomerativeClustererStack
 import me.uits.aiphial.general.aglomerative.AglomerativeMeanShift
-import me.uits.aiphial.general.aglomerative.IterationListener
-import me.uits.aiphial.general.basic.Cluster
 import me.uits.aiphial.general.basic.MeanShiftClusterer
-import me.uits.aiphial.general.dataStore.KdTreeDataStore
 import me.uits.aiphial.general.dataStore.NDimPoint
 import me.uits.aiphial.imaging.ImgUtls
 import me.uits.aiphial.imaging.ImgUtls._
-import me.uits.aiphial.imaging.LuvDataStore
 import me.uits.aiphial.imaging.LuvPoint
-
 import me.uits.aiphial.imaging.MatrixMS
-import me.uits.aiphial.imaging.Region
-import me.uits.aiphial.imaging.searching.HistogramClusterComparer
-import scala.collection.mutable.ArrayBuffer
-
-import me.uits.aiphial.imaging.searching.shapematching.ShapeContext
-import me.uits.aiphial.imaging.searching.shapematching.ShapeContextClusterComparer
-import scala.collection.JavaConversions.asScalaIterable
 import scala.math._
 import java.awt.image.BufferedImage
-import java.awt.{Graphics2D, Color, BasicStroke, Polygon}
-import scala.runtime.RichDouble
-
 import com.beust.jcommander.{Parameter, Parameters};
-
 import me.uits.aiphial.imaging.Tools._
 
 @Parameters(commandDescription = "agglomerative segmentation for image")
 class AgloMSCli extends CliCommand {
 
-  @Parameter(names = Array("-i"), description = " input file name",required = true)
-  var inputFileName:String = null// = "../../images/DSCN4909s400.bmp"
+  @Parameter(names = Array("-i"), description = "input file name",required = true)
+  var inputFileName:String = null
 
-  @Parameter(names = Array("-o"), description = " output file name")
+  @Parameter(names = Array("-o"), description = "output file name")
   var outFilesName = "out.bmp"
 
   @Parameter(names = Array("-cr"), description = "color range")
@@ -86,18 +68,14 @@ class AgloMSCli extends CliCommand {
 
   def process(): Unit = {
 
-
-
     val filetoread = new File(inputFileName)
     println("reading "+filetoread.getAbsolutePath)
     val srcimg = ImageIO.read(filetoread)
 
-
     val msp = createSegmentatorForImage(srcimg)
 
     msp.addIterationListener({var s = 0;
-                              (a:CCLP)=>{
-              
+                              (a:CCLP)=>{              
           val fname = makeIndexedName(outFilesName,s)
           val file = new File(fname)
           file.mkdirs
@@ -116,10 +94,7 @@ class AgloMSCli extends CliCommand {
       msp.doClustering()
       println("finished")
     }
-     
-
   }
-
  
   def createSegmentatorForImage(srcimg:BufferedImage) = {    
 
@@ -130,9 +105,7 @@ class AgloMSCli extends CliCommand {
       setColorRange(AgloMSCli.this.cr)
       setSquareRange(AgloMSCli.this.sr)
       setMinRegionSize(AgloMSCli.this.minreg)
-    }
-
-    
+    }    
 
     msc.setInitialClusterer(ifilter);
 

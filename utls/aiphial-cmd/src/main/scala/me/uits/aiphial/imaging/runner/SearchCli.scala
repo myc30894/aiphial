@@ -23,36 +23,20 @@ package me.uits.aiphial.imaging.runner
 
 
 import java.io.File
-
-import java.io.PrintWriter
 import javax.imageio.ImageIO
-
 import me.uits.aiphial.general.aglomerative.AglomerativeClustererStack
 import me.uits.aiphial.general.aglomerative.AglomerativeMeanShift
-import me.uits.aiphial.general.aglomerative.IterationListener
-import me.uits.aiphial.general.basic.Cluster
 import me.uits.aiphial.general.basic.MeanShiftClusterer
 import me.uits.aiphial.general.dataStore.DefaultDataStoreFactory
-import me.uits.aiphial.general.dataStore.KdTreeDataStore
 import me.uits.aiphial.general.dataStore.KdTreeDataStoreFactory
 import me.uits.aiphial.general.dataStore.NDimPoint
 import me.uits.aiphial.imaging.ImgUtls
 import me.uits.aiphial.imaging.ImgUtls._
-import me.uits.aiphial.imaging.LuvDataStore
 import me.uits.aiphial.imaging.LuvPoint
-
 import me.uits.aiphial.imaging.MatrixMS
-import me.uits.aiphial.imaging.Region
 import me.uits.aiphial.imaging.searching.HistogramClusterComparer
-import scala.collection.mutable.ArrayBuffer
-
-import me.uits.aiphial.imaging.searching.shapematching.ShapeContext
 import me.uits.aiphial.imaging.searching.shapematching.ShapeContextClusterComparer
 import scala.collection.JavaConversions.asScalaIterable
-import scala.math._
-import java.awt.image.BufferedImage
-import java.awt.{Graphics2D, Color, BasicStroke, Polygon}
-
 import com.beust.jcommander.{Parameter, Parameters};
 
 import me.uits.aiphial.imaging.Tools._
@@ -61,13 +45,13 @@ import me.uits.aiphial.imaging.Tools._
 class SearchCli extends CliCommand {
 
 
-  @Parameter(names = Array("-i"), description = " input file name",required = true)
+  @Parameter(names = Array("-i"), description = "input file name",required = true)
   var inputFileName:String = null
 
-  @Parameter(names = Array("-p"), description = " pattern to search file name",required = true)
+  @Parameter(names = Array("-p"), description = "pattern-to-search file name",required = true)
   var patternFileName:String = null
 
-  @Parameter(names = Array("-o"), description = " output files name")
+  @Parameter(names = Array("-o"), description = "output files name")
   var matchName = "match.png"
 
   @Parameter(names = Array("-cr"), description = "color range")
@@ -94,10 +78,10 @@ class SearchCli extends CliCommand {
   @Parameter(names = Array("-ss"), description = "shape similarity")
   var shapeSimilarity = 2000
 
-  @Parameter(names = Array("-ps"), description = "shape similarity")
+  @Parameter(names = Array("-ps"), description = "specifies if segmentation results must be painted")
   var paintclusters = false
 
-  @Parameter(names = Array("-os"), description = " segmentation file names")
+  @Parameter(names = Array("-os"), description = "segmentation file names")
   var outFilesName = "segm.bmp"
 
   def name = "search"
@@ -105,15 +89,8 @@ class SearchCli extends CliCommand {
   def process(): Unit = {
 
     DefaultDataStoreFactory.setPrototype(new KdTreeDataStoreFactory())
-
-    //new File(matchName).mkdir;
-
-    val startTime = System.currentTimeMillis
-
-    //val srcimg = ImageIO.read(new File("../../images/smallgisto.jpg"))
+      
     val srcimg = ImageIO.read(new File(inputFileName))
-    //val srcimg = ImageIO.read(new File("/home/nickl/biotecnical/Диссертация/work/data/язык/1243495680.jpg"))
-    //val imgtosearch = ImageIO.read(new File("../../images/bluehren.png"))
     val imgtosearch = ImageIO.read(new File(patternFileName))
 
     val h = srcimg.getHeight();
@@ -121,18 +98,12 @@ class SearchCli extends CliCommand {
 
     val msc = new AglomerativeClustererStack[LuvPoint]();
 
-
-
-
     val srcmt =matrixFromImage(srcimg);
     val ifilter = new MatrixMS(srcmt){
       setColorRange(SearchCli.this.cr)
       setSquareRange(SearchCli.this.sr)
       setMinRegionSize(SearchCli.this.minreg)
     }
-
-
-
 
 
     msc.setInitialClusterer(ifilter);
@@ -166,10 +137,6 @@ class SearchCli extends CliCommand {
         })
     }
 
-
-
-
-
    
     amsc.addIterationListener({
         val cc = new HistogramClusterComparer()
@@ -177,13 +144,11 @@ class SearchCli extends CliCommand {
         val sc = new ShapeContextClusterComparer()
         sc.setPattern(imgtosearch)
 
-
         var i2 = 0
 
         (a: CCLP) => {
           for (cluster <- a) {
-            val v = cc.compareCluster(cluster)
-            //vals.append(v)
+            val v = cc.compareCluster(cluster)            
             if(0 <= v && v < colorSimilarity){
               val sv = sc.compareCluster(cluster)              
               if (sv < shapeSimilarity)
