@@ -1,4 +1,10 @@
-===== before first release =====
+===== 0.1 TODO =====
+
+* update code-docs
+
+* write extended (including project structure) documentation
+
+===== 0.2 TODO =====
 
 * make Matrix compatible with DataStore
 
@@ -12,15 +18,7 @@
 
 * add texture-segmentation option to command line
 
-* update code-docs
-
-* write extended (including project structure) documentation
-
 * write russian translation
-
-* simplify agglomerative clustering (mb create some predefined listeners)
-
-===== long term =====
 
 * reorganize Tools and Utls classes
 

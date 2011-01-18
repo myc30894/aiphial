@@ -39,7 +39,7 @@ class NaiveMSCli() extends CliCommand {
   var outFilesName = "out.bmp"
 
   @Parameter(names = Array("-cr"), description = "color range")
-  var cr = 7
+  var cr = 7f
 
   @Parameter(names = Array("-sr"), description = "square range")
   var sr:Short = 2
