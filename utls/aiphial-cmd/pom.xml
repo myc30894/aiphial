@@ -52,8 +52,8 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-        <plugins>
-            <plugin>
+        <plugins>            
+            <plugin>                
                 <groupId>org.scala-tools</groupId>
                 <artifactId>maven-scala-plugin</artifactId>
                 <executions>
@@ -92,7 +92,6 @@
             </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.2</version>
                 <configuration>
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
@@ -105,11 +104,15 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
-                        <phase>package</phase> <!-- append to the packaging phase. -->
+                        <id>make-assembly</id>
+                        <phase>package</phase>
                         <goals>
-                            <goal>single</goal> <!-- goals == mojos -->
+                            <goal>single</goal>
                         </goals>
+                        <configuration>
+                            <finalName>aiphial-cmd-wd-${project.version}-${maven.build.timestamp}</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>                            
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
