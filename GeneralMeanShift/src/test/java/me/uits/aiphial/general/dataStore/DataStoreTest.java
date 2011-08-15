@@ -215,7 +215,7 @@ public abstract class DataStoreTest
         firstCulster.add(new SimpleNDimPoint(1f, 2f, 4f, 4f));
         firstCulster.add(new SimpleNDimPoint(1f, 3f, 3f, 4f));
         firstCulster.add(new SimpleNDimPoint(1f, 1f, 4f, 4f));
-        firstCulster.add(new SimpleNDimPoint(1f, 1f, 4f, 4f)); // туц
+        firstCulster.add(new SimpleNDimPoint(1f, 1f, 4f, 4f));
         firstCulster.add(new SimpleNDimPoint(1f, 2f, 3f, 5f));
         firstCulster.add(new SimpleNDimPoint(2f, 2f, 3f, 4f));
 
