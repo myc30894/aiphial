@@ -1,0 +1,47 @@
+===== 0.1 TODO =====
+
+* update code-docs
+
+* write extended (including project structure) documentation
+
+===== 0.2 TODO =====
+
+* make Matrix compatible with DataStore
+
+* create progresslistener to aggloclustering
+
+* add procent meter to command line
+
+* unificate LUV and LUV point and Tuples, make it scala and Matrix-compatible, define numeric on it
+
+* make matrix DLUVArray-compatible, or remove DLUVArray at all
+
+* add texture-segmentation option to command line
+
+* write russian translation
+
+* reorganize Tools and Utls classes
+
+* create equal and hybrid bandwidth selector
+
+* create "lazy" version of matrix
+
+* rename matrix
+
+* make Bof weight calculation configurable
+
+* maybe port something to Java/ScalaCL ?
+
+==========================================================
+
+Wiki plan:
+
+- introduction (what lib contains)
+- structure (what each subproject stands for)
+-- third part libraries
+- licensing
+- building from source (there are no general-purpose build scripts yet except generated from netbeans. But manualy project building should not be a very complicated task if dont touch CUDA-part)
+- samples (using command line-tool)
+
+
+
