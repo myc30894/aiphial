@@ -64,6 +64,9 @@ object RunAll {
     println("NaiveSegmentationSampleJava.main")
     NaiveSegmentationSampleJava.main(args); 
 
+    println("ComplexAggloSegmentationSampleJava.main")
+    ComplexAggloSegmentationSampleJava.main(args); 
+    
     System.exit(0);
   }
 
