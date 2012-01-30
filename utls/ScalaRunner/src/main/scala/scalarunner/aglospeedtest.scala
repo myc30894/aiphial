@@ -46,7 +46,7 @@ import scala.collection.mutable.ArrayBuffer
 
 import me.uits.aiphial.imaging.searching.shapematching.ShapeContext
 import me.uits.aiphial.imaging.searching.shapematching.ShapeContextClusterComparer
-import scala.collection.JavaConversions.asScalaIterable
+import scala.collection.JavaConversions.iterableAsScalaIterable
 import scala.math._
 import java.awt.image.BufferedImage
 import java.awt.{Graphics2D, Color, BasicStroke, Polygon}

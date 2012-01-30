@@ -51,8 +51,7 @@ class Matrix[T] private (private val data:Array[Array[T]],xstart:Int = 0,ystart:
 
   def zeroIndexes() = if (minx==0 && miny == 0) this else new Matrix(data,0,0)
 
-  def asOneLine = data.flatten((a)=>a)
-
+  def asOneLine = data.flatten((a)=>a,Tmf)
 
   def asOneLineWithIndex = for(x <- Range.inclusive(minx,maxx); y <- Range.inclusive(miny, maxy)) yield (x,y,this(x,y))
   

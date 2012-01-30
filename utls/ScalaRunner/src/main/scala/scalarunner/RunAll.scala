@@ -28,7 +28,9 @@ object RunAll {
    */
   def main(args: Array[String]): Unit = {
 
-
+    println("AgglomerativeSegmentationSampleJava.main")
+    AgglomerativeSegmentationSampleJava.main(args); 
+    
     println("MatrixSobel.main")
     MatrixSobel.main(args)
 

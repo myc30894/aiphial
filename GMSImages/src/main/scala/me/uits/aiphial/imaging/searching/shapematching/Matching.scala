@@ -24,7 +24,7 @@ package me.uits.aiphial.imaging.searching.shapematching
 import me.uits.aiphial.imaging.LuvPoint
 import collection.mutable.ArrayBuffer
 
-import scala.collection.JavaConversions.asScalaIterable
+import scala.collection.JavaConversions.iterableAsScalaIterable
 /**
  * Created by IntelliJ IDEA.
  * User: Nickl

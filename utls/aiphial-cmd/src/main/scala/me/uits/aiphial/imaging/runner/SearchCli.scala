@@ -36,7 +36,7 @@ import me.uits.aiphial.imaging.LuvPoint
 import me.uits.aiphial.imaging.MatrixMS
 import me.uits.aiphial.imaging.searching.HistogramClusterComparer
 import me.uits.aiphial.imaging.searching.shapematching.ShapeContextClusterComparer
-import scala.collection.JavaConversions.asScalaIterable
+import scala.collection.JavaConversions.iterableAsScalaIterable
 import com.beust.jcommander.{Parameter, Parameters};
 
 import me.uits.aiphial.imaging.Tools._

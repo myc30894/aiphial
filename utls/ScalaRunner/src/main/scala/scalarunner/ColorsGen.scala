@@ -34,7 +34,7 @@ import me.uits.aiphial.imaging._
 import me.uits.aiphial.imaging.LUV
 import me.uits.aiphial.imaging.LUV._
 import me.uits.aiphial.imaging.texture.Filtres
-import scala.collection.JavaConversions.asScalaIterable
+import scala.collection.JavaConversions.iterableAsScalaIterable
 import scala.collection.mutable.ArrayBuffer
 import me.uits.aiphial.imaging.Tools._
 

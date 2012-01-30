@@ -28,7 +28,7 @@ import scala.annotation.tailrec
 import scala.collection.immutable.HashSet
 import scala.collection.mutable.ArrayBuffer
 
-import scala.collection.JavaConversions.asScalaIterable
+import scala.collection.JavaConversions.iterableAsScalaIterable
 import scala.collection.JavaConversions.asJavaCollection;
 
 object MatrixMeanShift {
@@ -261,7 +261,7 @@ abstract class MatrixMeansShiftSegmentatorAdapter(m:Matrix[LUV]) extends Cluster
 
   override def doClustering() = {
 
-    import scala.collection.JavaConversions.asJavaList
+    import scala.collection.JavaConversions.seqAsJavaList
 
     val r0 = msfunction(m,sr,cr)
 

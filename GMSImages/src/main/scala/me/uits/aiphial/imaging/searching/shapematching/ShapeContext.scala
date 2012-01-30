@@ -29,7 +29,7 @@ import scala.collection.mutable.ArrayBuffer
 import scala.math._
 
 
-import scala.collection.JavaConversions.asScalaIterable
+import scala.collection.JavaConversions.iterableAsScalaIterable
 import scala.collection.JavaConversions.asJavaIterable
 //import java.lang.{Iterable => JavaItb}
 //import java.util.{Iterator => JavaItr}
