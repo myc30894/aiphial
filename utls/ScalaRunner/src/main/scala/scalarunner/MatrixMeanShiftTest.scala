@@ -58,7 +58,7 @@ object MatrixMeanShiftTest {
 
     val colors = Tools.genRandomColors(regions.size)
 
-    import scala.collection.JavaConversions.asScalaIterable
+    import scala.collection.JavaConversions.iterableAsScalaIterable
 
           for((region,color) <- regions zip colors; point <- region)
           {
