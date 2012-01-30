@@ -57,9 +57,9 @@ class Matrix[T] private (private val data:Array[Array[T]],xstart:Int = 0,ystart:
   
   def foreach(f:((Int,Int,T))=>Any):Unit = for(x <- Range.inclusive(minx,maxx); y <- Range.inclusive(miny, maxy))  f(x,y,this(x,y))
 
-  @deprecated("not implemented, throwns an UnsupportedOperationException."+
+  @deprecated("not implemented, returns this matrix itself."+
               " It is there only to make for-comprehension work")
-  def filter(f:((Int,Int,T))=>Boolean):Matrix[T] = throw new UnsupportedOperationException("filter is dummy")
+  def filter(f:((Int,Int,T))=>Boolean):Matrix[T] = this;
 
 
   def join[B,C](another:Matrix[B])(op:(T,B)=>C)(implicit mf:ClassManifest[C]) = { 
