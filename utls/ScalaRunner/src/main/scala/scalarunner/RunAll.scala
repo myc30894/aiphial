@@ -27,9 +27,6 @@ object RunAll {
    * something like a smoke-test
    */
   def main(args: Array[String]): Unit = {
-
-    println("AgglomerativeSegmentationSampleJava.main")
-    AgglomerativeSegmentationSampleJava.main(args); 
     
     println("MatrixSobel.main")
     MatrixSobel.main(args)
@@ -57,6 +54,15 @@ object RunAll {
     
     println("AggloSegmentationSample.main")
     AggloSegmentationSample.main(args)
+    
+    println("AggloSegmentationSampleJava.main")
+    AggloSegmentationSampleJava.main(args); 
+    
+    println("NaiveSegmentationSample.main")
+    NaiveSegmentationSample.main(args)
+    
+    println("NaiveSegmentationSampleJava.main")
+    NaiveSegmentationSampleJava.main(args); 
 
     System.exit(0);
   }

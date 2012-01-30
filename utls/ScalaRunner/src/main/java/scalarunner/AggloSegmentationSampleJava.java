@@ -39,7 +39,7 @@ import me.uits.aiphial.imaging.Tools;
  *
  * @author nickl
  */
-public class AgglomerativeSegmentationSampleJava
+public class AggloSegmentationSampleJava
 {
 
     /**
