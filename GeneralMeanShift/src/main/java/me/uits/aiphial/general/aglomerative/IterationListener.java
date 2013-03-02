@@ -22,6 +22,8 @@
 package me.uits.aiphial.general.aglomerative;
 
 import java.util.Collection;
+import java.util.List;
+
 import me.uits.aiphial.general.basic.Cluster;
 import me.uits.aiphial.general.dataStore.NDimPoint;
 
@@ -32,5 +34,5 @@ import me.uits.aiphial.general.dataStore.NDimPoint;
 public interface IterationListener<T extends NDimPoint>
 {
 
-    public void IterationDone(Collection<? extends Cluster<T>> clusters);
+    public void IterationDone(List<? extends Cluster<T>> clusters);
 }

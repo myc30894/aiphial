@@ -48,6 +48,7 @@ import java.awt.image.BufferedImage
 import java.awt.{Graphics2D, Color, BasicStroke, Polygon}
 import scala.runtime.RichDouble
 import scala.util.Random
+import java.util
 
 object Tools {
 
@@ -67,7 +68,7 @@ object Tools {
 
   implicit def lambdaToItearationListener[T <: NDimPoint](funk: CC[T] => Unit): IterationListener[T] = {
     new IterationListener[T]() {
-      def IterationDone(a: CC[T]) {
+      def IterationDone(a: util.List[_ <: Cluster[T]]) {
         funk(a)
       }
     }
