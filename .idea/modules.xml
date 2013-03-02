@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/GMSImages/GMSImages.iml" filepath="$PROJECT_DIR$/GMSImages/GMSImages.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GeneralMeanShift/GeneralMeanShift.iml" filepath="$PROJECT_DIR$/GeneralMeanShift/GeneralMeanShift.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libs/Savarese-Kdtrees/Savarese-Kdtrees.iml" filepath="$PROJECT_DIR$/libs/Savarese-Kdtrees/Savarese-Kdtrees.iml" />
+      <module fileurl="file://$PROJECT_DIR$/utls/ScalaRunner/ScalaRunner.iml" filepath="$PROJECT_DIR$/utls/ScalaRunner/ScalaRunner.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aiphial.iml" filepath="$PROJECT_DIR$/aiphial.iml" />
+      <module fileurl="file://$PROJECT_DIR$/utls/aiphial-cmd/aiphial-cmd.iml" filepath="$PROJECT_DIR$/utls/aiphial-cmd/aiphial-cmd.iml" />
+    </modules>
+  </component>
+</project>
+
