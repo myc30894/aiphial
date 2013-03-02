@@ -21,9 +21,6 @@
 
 package me.uits.aiphial.general.aglomerative;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -31,8 +28,6 @@ import me.uits.aiphial.general.basic.Bof;
 import me.uits.aiphial.general.basic.Cluster;
 import me.uits.aiphial.general.basic.Clusterer;
 import me.uits.aiphial.general.dataStore.DataStore;
-import me.uits.aiphial.general.dataStore.DataStoreFactory;
-import me.uits.aiphial.general.dataStore.DefaultDataStoreFactory;
 import me.uits.aiphial.general.dataStore.NDimPoint;
 
 /**
@@ -143,7 +138,7 @@ public class AglomerativeClustererStack<T extends NDimPoint> extends AbstractAgl
 
     IterationListener extendinglistener = new IterationListener(){
 
-        public void IterationDone(Collection clusters)
+        public void IterationDone(List clusters)
         {
             AglomerativeClustererStack.this.fireIterationDone(getClustersOfInitialPoints(clusters));
         }

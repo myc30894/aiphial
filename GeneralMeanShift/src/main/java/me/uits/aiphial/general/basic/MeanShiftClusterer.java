@@ -135,7 +135,7 @@ public class MeanShiftClusterer<T extends NDimPoint> implements IMeanShiftCluste
     protected  NDimPoint calkBofA(NDimPoint nDimPoint)
     {
 
-        int i = 100;
+        int i = 1000;
 
 
         NDimPoint shiftedPoint = nDimPoint;

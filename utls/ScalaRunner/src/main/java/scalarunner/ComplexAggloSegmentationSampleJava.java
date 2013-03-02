@@ -26,14 +26,13 @@ package scalarunner;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
+import java.util.List;
 import javax.imageio.ImageIO;
 import me.uits.aiphial.general.aglomerative.AglomerativeClustererStack;
 import me.uits.aiphial.general.aglomerative.AglomerativeMeanShift;
 import me.uits.aiphial.general.aglomerative.IterationListener;
 import me.uits.aiphial.general.basic.Cluster;
 import me.uits.aiphial.general.basic.MeanShiftClusterer;
-import me.uits.aiphial.general.dataStore.KdTreeDataStore;
 import me.uits.aiphial.general.dataStore.NDimPoint;
 import me.uits.aiphial.imaging.*;
 
@@ -84,7 +83,7 @@ public class ComplexAggloSegmentationSampleJava
 
             int s = 0;
 
-            public void IterationDone(Collection<? extends Cluster<LuvPoint>> a)
+            public void IterationDone(List<? extends Cluster<LuvPoint>> a)
             {
                 try
                 {

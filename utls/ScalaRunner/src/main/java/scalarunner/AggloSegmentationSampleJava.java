@@ -23,7 +23,7 @@ package scalarunner;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
+import java.util.List;
 import javax.imageio.ImageIO;
 import me.uits.aiphial.general.aglomerative.AglomerativeMeanShift;
 import me.uits.aiphial.general.aglomerative.IterationListener;
@@ -82,7 +82,7 @@ public class AggloSegmentationSampleJava
         {            
             int s = 0;
             
-            public void IterationDone(Collection<? extends Cluster<LuvPoint>> a)
+            public void IterationDone(List<? extends Cluster<LuvPoint>> a)
             {
                 try
                 {

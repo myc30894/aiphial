@@ -21,19 +21,15 @@
 
 package me.uits.aiphial.general.aglomerative;
 
-import me.uits.aiphial.general.aglomerative.IterationListener;
 import me.uits.aiphial.general.basic.*;
-import me.uits.aiphial.general.aglomerative.AglomerativeMeanShift;
 import me.uits.aiphial.general.basic.SimpleBandwidthSelector;
 import me.uits.aiphial.general.basic.MeanShiftClusterer;
 import me.uits.aiphial.general.basic.Cluster;
 import me.uits.aiphial.general.basic.IMeanShiftClusterer;
-import java.util.Collection;
+
 import java.util.List;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
 import me.uits.aiphial.general.dataStore.DataStore;
 import me.uits.aiphial.general.dataStore.MultiDimMapDataStore;
 import me.uits.aiphial.general.dataStore.NDimPoint;
@@ -114,7 +110,7 @@ public class AglomerativeMeanShiftTest extends AbstractMeanShiftClustererTest
         instance.addIterationListener(new IterationListener<NDimPoint>()
         {
 
-            public void IterationDone(Collection<? extends Cluster<NDimPoint>> clusters)
+            public void IterationDone(List<? extends Cluster<NDimPoint>> clusters)
             {
                 System.out.println(System.currentTimeMillis()-startime+" cc=" + clusters.size());
             }
